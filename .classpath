@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry excluding="Employee/src/|tar1_primitives/src/" kind="src" path=""/>
+	<classpathentry kind="src" path="tar1_primitives/src"/>
+	<classpathentry kind="output" path="tar1_primitives/bin"/>
+</classpath>
