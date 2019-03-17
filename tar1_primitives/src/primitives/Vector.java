@@ -16,11 +16,16 @@ public class Vector {
 		// TODO Auto-generated constructor stub
 	}
 	public Vector vectorUnitDet() {
-		Double distnce=this.
-		vectorUnit= Point3D(this.vectorPoint.x._coord/vectorPoint.distance(nullCoordinate),
+		Double distnce = this.
+		vectorUnit = Point3D(this.vectorPoint.x._coord/vectorPoint.distance(nullCoordinate),
 				this.vectorUnit=vectorPoint.y._coord/vectorPoint.distance(nullCoordinate),
 				this.vectorUn it=vectorPoint.z._coord/vectorPoint.distance(nullCoordinate))
 	}
-	public Vector vectorUnitDet(Vector otherVec) {}
+	public Vector vectorUnitDet(Vector otherVec) {
+		Double distance = this.vectorPoint.distance(otherVec.vectorPoint);
+		return new Vector(new Point3D(this.vectorPoint.x._coord/distance,
+				vectorPoint.y._coord/distance,
+				vectorPoint.z._coord/distance));
+	}
 
 }
