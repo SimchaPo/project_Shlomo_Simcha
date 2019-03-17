@@ -19,7 +19,7 @@ public class Vector {
 	}
 	public Vector vectorUnitDet() {
 		Double distnace = this.vectorPoint.distance(nullCoordinate);
-		 return vectorUnit = new Vector(new Point3D(this.vectorPoint.x._coord/distnace,
+		 return new Vector(new Point3D(this.vectorPoint.x._coord/distnace,
 				this.vectorPoint.y._coord/distnace,
 				this.vectorPoint.z._coord/distnace));
 	}
