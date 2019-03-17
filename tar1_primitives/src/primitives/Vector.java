@@ -18,18 +18,10 @@ public class Vector {
 		// TODO Auto-generated constructor stub
 	}
 	public Vector vectorUnitDet() {
-<<<<<<< HEAD
-		Double distnce = this.
-		vectorUnit = Point3D(this.vectorPoint.x._coord/vectorPoint.distance(nullCoordinate),
-				this.vectorUnit=vectorPoint.y._coord/vectorPoint.distance(nullCoordinate),
-				this.vectorUn it=vectorPoint.z._coord/vectorPoint.distance(nullCoordinate))
-=======
-		Double distnce=this.vectorPoint.distance(nullCoordinate);
-		 return vectorUnit=new Vector((new Point3D(this.vectorPoint.x._coord/distnce,
-				this.vectorPoint.y._coord/distnce,
-				this.vectorPoint.z._coord/distnce)));
-		
->>>>>>> branch 'master' of https://github.com/SimchaPo/project_Shlomo_Simcha.git
+		Double distnace = this.vectorPoint.distance(nullCoordinate);
+		 return vectorUnit = new Vector(new Point3D(this.vectorPoint.x._coord/distnace,
+				this.vectorPoint.y._coord/distnace,
+				this.vectorPoint.z._coord/distnace));
 	}
 	public Vector vectorUnitDet(Vector otherVec) {
 		Double distance = this.vectorPoint.distance(otherVec.vectorPoint);
