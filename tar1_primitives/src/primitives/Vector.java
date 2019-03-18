@@ -1,8 +1,6 @@
 package primitives;
-import javax.tools.Diagnostic;
 
 import primitives.Point3D;
-
 
 public class Vector {
 	Point3D vectorPoint;
