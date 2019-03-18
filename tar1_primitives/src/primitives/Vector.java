@@ -108,7 +108,7 @@ public class Vector {
 	/**
 	 * Vector X Vector Function
 	 * 
-	 * @param otherVector
+	 * @param otherVector 
 	 * @return
 	 */
 	public Vector vectrsCrossProduct(Vector otherVector) {
