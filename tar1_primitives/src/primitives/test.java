@@ -18,5 +18,4 @@ public class test {
 	public boolean isObtuseAngle(Vector vec1, Vector vec2) {
 		return getAngle(vec1, vec2) > 90;
 	}
-	
 }
