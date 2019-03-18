@@ -1,5 +1,8 @@
 package primitives;
 
-public class Ray {
+import primitives.Vector;
 
+public class Ray {
+	Vector rayVector;
+	Point3D rayPoint;
 }
