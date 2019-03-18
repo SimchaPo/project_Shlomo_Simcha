@@ -1,14 +1,17 @@
 package primitives;
 
+import static primitives.Util.usubtract;
+
 import primitives.Point3D;
 
 public class Vector {
-	double vecLenth = 0.0;
-	Point3D vectorPoint;
-	Vector vectorUnit;
+	protected double vecLength = 0.0;
+	protected Point3D vectorPoint;
+	protected Vector vectorUnit;
 
 	static Point3D nullCoordinate = new Point3D();
 
+	/********** Constructors ***********/
 	/**
 	 * constructor with two points
 	 * 
@@ -17,8 +20,8 @@ public class Vector {
 	 */
 	public Vector(Point3D pnt, Point3D beginPnt) {
 		vectorPoint = pnt;
-		vecLenth = pnt.distance(beginPnt);
-		if (this.vecLenth == 1) {
+		vecLength = pnt.distance(beginPnt);
+		if (this.vecLength == 1) {
 			vectorUnit = this;
 		} else
 			vectorUnit.setVectorUnitDet(beginPnt);
@@ -29,28 +32,16 @@ public class Vector {
 	 * 
 	 * @param pnt
 	 */
-
 	public Vector(Point3D pnt) {
-
 		this(pnt, nullCoordinate);
-		if (this.vecLenth == 1) {
-			vectorUnit = this;
-		} else
-			vectorUnit.setVectorUnitDet();
-
-		vectorPoint = pnt;
-		if (pnt.distance(nullCoordinate) != 1) {
-
-		}
 	}
 
+	// ***************** Getters/Setters ********************** //
 	/**
 	 * the unit vector setting function from nullCoordinate
 	 */
 	public void setVectorUnitDet() {
-		Double distnce = this.vectorPoint.distance(nullCoordinate);
-		vectorUnit = new Vector((new Point3D(this.vectorPoint.x._coord / distnce, this.vectorPoint.y._coord / distnce,
-				this.vectorPoint.z._coord / distnce)));
+		setVectorUnitDet(nullCoordinate);
 	}
 
 	/**
@@ -64,10 +55,24 @@ public class Vector {
 				this.vectorPoint.z._coord / distnce)));
 	}
 
-	public Vector vectorUnitDet() {
-		Double distnace = this.vectorPoint.distance(nullCoordinate);
-		return new Vector(new Point3D(this.vectorPoint.x._coord / distnace, this.vectorPoint.y._coord / distnace,
-				this.vectorPoint.z._coord / distnace));
+	public Vector getVectorUnitDet() {
+		return new Vector(vectorUnit.vectorPoint);
+	}
+
+	/*************** Admin *****************/
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) return true;
+		if (obj == null) return false;
+		if (!(obj instanceof Vector)) return false;
+		return usubtract(vectorPoint.x._coord, ((Vector)obj).vectorPoint.x._coord) == 0.0
+				&& usubtract(vectorPoint.y._coord, ((Vector)obj).vectorPoint.y._coord) == 0.0
+				&& usubtract(vectorPoint.z._coord, ((Vector)obj).vectorPoint.z._coord) == 0.0;
+	}
+
+	@Override
+	public String toString() {
+		return vectorPoint.toString();
 	}
 
 	/**
@@ -82,6 +87,7 @@ public class Vector {
 				this.vectorPoint.z._coord + otherVector.vectorPoint.z._coord), this.vectorPoint);
 	}
 
+	/************** Operations ***************/
 	/**
 	 * substruction Vector Function
 	 * 
@@ -89,7 +95,9 @@ public class Vector {
 	 * @return
 	 */
 	public Vector vectorSub(Vector otherVector) {
-		return this.vectorAdd(otherVector).vecProductByScalar(-1);
+		Vector vec = new Vector(this.vectorAdd(otherVector).vectorPoint);
+		vec.vecProductByScalar(-1);
+		return vec;
 	}
 
 	/**
@@ -132,5 +140,5 @@ public class Vector {
 				this.vectorPoint.x._coord * otherVector.vectorPoint.y._coord
 						- this.vectorPoint.y._coord * otherVector.vectorPoint.x._coord));
 	}
-	
+
 }
