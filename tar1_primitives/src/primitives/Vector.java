@@ -39,11 +39,10 @@ public class Vector {
 			vectorUnit.setVectorUnitDet();
 
 		vectorPoint = pnt;
-		if (pnt.distance(nullCoordinate)!=1) {
+		if (pnt.distance(nullCoordinate) != 1) {
 
 		}
 	}
-
 
 	/**
 	 * the unit vector setting function from nullCoordinate
@@ -52,7 +51,7 @@ public class Vector {
 		Double distnce = this.vectorPoint.distance(nullCoordinate);
 		vectorUnit = new Vector((new Point3D(this.vectorPoint.x._coord / distnce, this.vectorPoint.y._coord / distnce,
 				this.vectorPoint.z._coord / distnce)));
-		}
+	}
 
 	/**
 	 * the unit vector setting function from begin point
@@ -64,13 +63,12 @@ public class Vector {
 		vectorUnit = new Vector((new Point3D(this.vectorPoint.x._coord / distnce, this.vectorPoint.y._coord / distnce,
 				this.vectorPoint.z._coord / distnce)));
 	}
-	public Vector vectorUnitDet() {		
-		Double distnace = this.vectorPoint.distance(nullCoordinate);
-		 return new Vector(new Point3D(this.vectorPoint.x._coord/distnace,
-				this.vectorPoint.y._coord/distnace,
-				this.vectorPoint.z._coord/distnace));		 
-	}
 
+	public Vector vectorUnitDet() {
+		Double distnace = this.vectorPoint.distance(nullCoordinate);
+		return new Vector(new Point3D(this.vectorPoint.x._coord / distnace, this.vectorPoint.y._coord / distnace,
+				this.vectorPoint.z._coord / distnace));
+	}
 
 	/**
 	 * add Vector Function
@@ -96,12 +94,14 @@ public class Vector {
 
 	/**
 	 * vector *scalar Function
+	 * 
 	 * @param scalar
 	 * @return
 	 */
-	public Vector vecProductByScalar(double scalar) {
-		return new Vector(new Point3D(this.vectorPoint.x._coord * scalar, this.vectorPoint.y._coord * scalar,
-				this.vectorPoint.z._coord * scalar));
+	public void vecProductByScalar(double scalar) {
+		this.vectorPoint.x._coord *= scalar;
+		this.vectorPoint.y._coord *= scalar;
+		this.vectorPoint.z._coord *= scalar;
 	}
 
 	/**
@@ -110,7 +110,7 @@ public class Vector {
 	 * @param otherVector
 	 * @return
 	 */
-	public double vectrsDotProduct(Vector otherVector) {
+	public double vectorsDotProduct(Vector otherVector) {
 		// add orto. check
 		return this.vectorPoint.x._coord * otherVector.vectorPoint.x._coord
 				+ this.vectorPoint.y._coord * otherVector.vectorPoint.y._coord
@@ -120,19 +120,17 @@ public class Vector {
 	/**
 	 * Vector X Vector Function
 	 * 
-	 * @param otherVector 
+	 * @param otherVector
 	 * @return
 	 */
 	public Vector vectrsCrossProduct(Vector otherVector) {
 		return new Vector(new Point3D(
 				this.vectorPoint.y._coord * otherVector.vectorPoint.z._coord
 						- this.vectorPoint.z._coord * otherVector.vectorPoint.y._coord,
-				this.vectorPoint.x._coord * otherVector.vectorPoint.z._coord
-						- this.vectorPoint.z._coord * otherVector.vectorPoint.x._coord,
+				-(this.vectorPoint.x._coord * otherVector.vectorPoint.z._coord
+						- this.vectorPoint.z._coord * otherVector.vectorPoint.x._coord),
 				this.vectorPoint.x._coord * otherVector.vectorPoint.y._coord
 						- this.vectorPoint.y._coord * otherVector.vectorPoint.x._coord));
-	
-
-
 	}
+	
 }
