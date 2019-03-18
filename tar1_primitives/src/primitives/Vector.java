@@ -1,9 +1,4 @@
 package primitives;
-<<<<<<< HEAD
-
-//import javax.tools.Diagnostic;
-=======
->>>>>>> refs/remotes/origin/master
 
 import primitives.Point3D;
 
@@ -11,7 +6,7 @@ public class Vector {
 	double vecLenth = 0.0;
 	Point3D vectorPoint;
 	Vector vectorUnit;
-<<<<<<< HEAD
+
 	static Point3D nullCoordinate = new Point3D();
 
 	/**
@@ -34,24 +29,21 @@ public class Vector {
 	 * 
 	 * @param pnt
 	 */
-=======
-	static Point3D nullCoordinate= new Point3D();
->>>>>>> refs/remotes/origin/master
+
 	public Vector(Point3D pnt) {
-<<<<<<< HEAD
+
 		this(pnt, nullCoordinate);
 		if (this.vecLenth == 1) {
 			vectorUnit = this;
 		} else
 			vectorUnit.setVectorUnitDet();
-=======
+
 		vectorPoint = pnt;
 		if (pnt.distance(nullCoordinate)!=1) {
-			
+
 		}
->>>>>>> refs/remotes/origin/master
 	}
-<<<<<<< HEAD
+
 
 	/**
 	 * the unit vector setting function from nullCoordinate
@@ -60,13 +52,7 @@ public class Vector {
 		Double distnce = this.vectorPoint.distance(nullCoordinate);
 		vectorUnit = new Vector((new Point3D(this.vectorPoint.x._coord / distnce, this.vectorPoint.y._coord / distnce,
 				this.vectorPoint.z._coord / distnce)));
-
-=======
-	public Vector(Point3D pnt1, Point3D pnt2) {
-		vectorPoint = pnt1.substruct(pnt2).vectorPoint;
->>>>>>> refs/remotes/origin/master
-	}
-<<<<<<< HEAD
+		}
 
 	/**
 	 * the unit vector setting function from begin point
@@ -77,15 +63,14 @@ public class Vector {
 		Double distnce = this.vectorPoint.distance(otherVecPnt);
 		vectorUnit = new Vector((new Point3D(this.vectorPoint.x._coord / distnce, this.vectorPoint.y._coord / distnce,
 				this.vectorPoint.z._coord / distnce)));
-=======
+	}
 	public Vector vectorUnitDet() {		
 		Double distnace = this.vectorPoint.distance(nullCoordinate);
 		 return new Vector(new Point3D(this.vectorPoint.x._coord/distnace,
 				this.vectorPoint.y._coord/distnace,
 				this.vectorPoint.z._coord/distnace));		 
->>>>>>> refs/remotes/origin/master
 	}
-<<<<<<< HEAD
+
 
 	/**
 	 * add Vector Function
