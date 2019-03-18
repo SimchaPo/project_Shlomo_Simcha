@@ -83,7 +83,6 @@ public class Vector {
 
 	/**
 	 * vector *scalar Function
-	 * 
 	 * @param scalar
 	 * @return
 	 */
