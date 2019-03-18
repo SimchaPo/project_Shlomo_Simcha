@@ -111,7 +111,7 @@ public class Vector {
 	 * @return
 	 */
 	public double vectorsDotProduct(Vector otherVector) {
-		// add orto. check
+		// add orto check
 		return this.vectorPoint.x._coord * otherVector.vectorPoint.x._coord
 				+ this.vectorPoint.y._coord * otherVector.vectorPoint.y._coord
 				+ this.vectorPoint.z._coord * otherVector.vectorPoint.z._coord;
