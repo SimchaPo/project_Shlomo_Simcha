@@ -19,12 +19,12 @@ public class CoordinateTest extends TestCase {
 	}
 
 	public void testEqualsObject() {
-	
+
 		Coordinate a = new Coordinate(6.5);
 		Coordinate b = new Coordinate(6.0);
 		boolean bool = a.equals(b);
 		assertEquals("false", true, bool);
-		
+
 	}
 
 	public void testToString() {
