@@ -45,9 +45,6 @@ public class Point3D {
 		this(other.x, other.y, other.z);
 	}
 	
-	// ***************** Getters/Setters ********************** //
-
-	
 	
 	/*************** Admin *****************/
 	@Override
