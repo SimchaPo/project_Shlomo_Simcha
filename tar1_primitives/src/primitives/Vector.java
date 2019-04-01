@@ -18,11 +18,18 @@ public class Vector {
 	 * @param pnt
 	 */
 	public Vector(Point3D pnt) {
-		vectorPoint = pnt;
+		try {
+			preventNullVector(pnt);
+			vectorPoint = pnt;
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+
 	}
 
 	/**
-	 * constructor gets 3 double 
+	 * constructor gets 3 double
+	 * 
 	 * @param x
 	 * @param y
 	 * @param z
@@ -38,6 +45,20 @@ public class Vector {
 	 */
 	public Vector(Vector vec) {
 		this(vec.vectorPoint);
+	}
+	
+	
+	/**
+	 * function calculate and return the Unit Vector
+	 * @param _vec
+	 * @return
+	 */
+	Vector vectorUnit(Vector _vec) {
+		double vecLen=_vec.vectorPoint.distance(new Point3D(0,0,0));
+		double x = _vec.vectorPoint.x._coord/vecLen;
+		double y = _vec.vectorPoint.y._coord/vecLen;
+		double z = _vec.vectorPoint.z._coord/vecLen;
+		return new Vector(x, y, z);
 	}
 
 	/*************** Admin *****************/
@@ -92,6 +113,7 @@ public class Vector {
 
 	/**
 	 * Vector * Vector Function
+	 * 
 	 * @param otherVector
 	 * @return
 	 */
@@ -118,4 +140,15 @@ public class Vector {
 						.subtract(vectorPoint.y.multiply(otherVector.vectorPoint.x))));
 	}
 
+	/**
+	 * function return true if point equal to zero
+	 * 
+	 * @param _pnt
+	 * @return
+	 */
+	public void preventNullVector(Point3D _pnt) {
+		if (_pnt.equals(new Point3D(0.0, 0.0, 0.0))) {
+			throw new IllegalArgumentException("ERROR!!! /n Vector Zero does not defined !");
+		}
+	}
 }
