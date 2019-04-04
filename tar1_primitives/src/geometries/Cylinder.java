@@ -1,6 +1,6 @@
 package geometries;
 
-import java.util.function.ToDoubleBiFunction;
+//import java.util.function.ToDoubleBiFunction;
 
 import primitives.Point3D;
 import primitives.Ray;
