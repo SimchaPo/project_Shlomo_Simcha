@@ -132,10 +132,10 @@ public class Vector {
 	 */
 	public Vector vectorUnit() {
 		double vecLen = this.vectorPoint.distance(new Point3D(0,0,0));
-		double x = this.vectorPoint.x._coord/vecLen;
-		double y = this.vectorPoint.y._coord/vecLen;
-		double z = this.vectorPoint.z._coord/vecLen;
-		return new Vector(x, y, z);
+		Coordinate x = this.vectorPoint.x.scale(1/vecLen);
+		Coordinate y = this.vectorPoint.y.scale(1/vecLen);
+		Coordinate z = this.vectorPoint.z.scale(1/vecLen);
+		return new Vector(new Point3D(x, y, z));
 	}
 	/**
 	 * function return true if point equal to zero
