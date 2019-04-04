@@ -1,13 +1,35 @@
 package geometries;
 
+import primitives.Point3D;
 import primitives.Ray;
+import primitives.Vector;
 
-public class Tube {
+/**
+ * Tube is build by ray and radius
+ * 
+ * @author OWNER
+ *
+ */
+public class Tube extends RadialGeometry {
 	protected Ray tubeRay;
-	
-	public Tube(Ray _tRay) {
-		tubeRay=_tRay;
-		
+
+	/**
+	 * Constructor of tube
+	 * 
+	 * @param _tRay
+	 * @param rad
+	 */
+	public Tube(Ray _tRay, double rad) {
+		super(rad);
+		tubeRay = _tRay;
 	}
 
+	@Override
+	public Vector getNormal(Point3D pnt) {
+		Vector rayVec = tubeRay.getRayVector();
+		Point3D rayPoint = tubeRay.getRayPoint();
+		Vector vecPnt = rayPoint.subtract(pnt);
+		double lenRay = vecPnt.vectorsDotProduct(rayVec);
+		return new Vector((pnt.subtract(rayPoint.addVec(rayVec.vecProductByScalar(lenRay)))).vectorUnit());
+	}
 }

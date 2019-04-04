@@ -1,6 +1,11 @@
 package geometries;
 
-public abstract class RadialGeometry {
+/**
+ * super class for radius
+ * @author OWNER
+ *
+ */
+public abstract class RadialGeometry implements Geometry {
 	protected double _radius;
 	
 	/**
@@ -8,15 +13,7 @@ public abstract class RadialGeometry {
 	 * @param rad
 	 */
 	public RadialGeometry(double rad) {
-		_radius=rad;
-	}
-	
-	/**
-	 * Copy Constructor
-	 * @param _otherRad
-	 */
-	public RadialGeometry(RadialGeometry _otherRad) {
-		this(_otherRad._radius);
+		_radius = rad;
 	}
 	
 	/**

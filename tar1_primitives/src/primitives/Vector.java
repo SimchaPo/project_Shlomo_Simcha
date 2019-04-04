@@ -24,7 +24,6 @@ public class Vector {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-
 	}
 
 	/**
@@ -45,20 +44,6 @@ public class Vector {
 	 */
 	public Vector(Vector vec) {
 		this(vec.vectorPoint);
-	}
-	
-	
-	/**
-	 * function calculate and return the Unit Vector
-	 * @param _vec
-	 * @return
-	 */
-	Vector vectorUnit(Vector _vec) {
-		double vecLen=_vec.vectorPoint.distance(new Point3D(0,0,0));
-		double x = _vec.vectorPoint.x._coord/vecLen;
-		double y = _vec.vectorPoint.y._coord/vecLen;
-		double z = _vec.vectorPoint.z._coord/vecLen;
-		return new Vector(x, y, z);
 	}
 
 	/*************** Admin *****************/
@@ -139,7 +124,19 @@ public class Vector {
 				(vectorPoint.x.multiply(otherVector.vectorPoint.y))
 						.subtract(vectorPoint.y.multiply(otherVector.vectorPoint.x))));
 	}
-
+	
+	/**
+	 * function calculate and return the Unit Vector
+	 * @param _vec
+	 * @return
+	 */
+	public Vector vectorUnit() {
+		double vecLen = this.vectorPoint.distance(new Point3D(0,0,0));
+		double x = this.vectorPoint.x._coord/vecLen;
+		double y = this.vectorPoint.y._coord/vecLen;
+		double z = this.vectorPoint.z._coord/vecLen;
+		return new Vector(x, y, z);
+	}
 	/**
 	 * function return true if point equal to zero
 	 * 

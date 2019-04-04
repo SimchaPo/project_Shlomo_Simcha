@@ -1,10 +1,12 @@
 package primitives;
 
+import java.io.ObjectInputStream.GetField;
+
 import primitives.Vector;
 
 public class Ray {
-	Vector rayVector;
-	Point3D rayPoint;
+	protected Vector rayVector;
+	protected Point3D rayPoint;
 /**
  * Constructor
  * @param _pnt
@@ -21,5 +23,13 @@ public class Ray {
 	 */
 	public Ray(Ray _otherRay) {
 		this(_otherRay.rayPoint, _otherRay.rayVector);
+	}
+	
+	public Vector getRayVector() {
+		return new Vector(rayVector.vectorUnit());
+	}
+	
+	public Point3D getRayPoint() {
+		return new Point3D(rayPoint);
 	}
 }
