@@ -11,7 +11,7 @@ import primitives.Vector;
  *
  */
 public class Tube extends RadialGeometry {
-	protected Ray tubeRay;
+	protected Ray ray;
 
 	/**
 	 * Constructor of tube
@@ -21,15 +21,20 @@ public class Tube extends RadialGeometry {
 	 */
 	public Tube(Ray _tRay, double rad) {
 		super(rad);
-		tubeRay = _tRay;
+		ray =new Ray(_tRay);
 	}
 
 	@Override
 	public Vector getNormal(Point3D pnt) {
-		Vector rayVec = tubeRay.getVector();
-		Point3D rayPoint = tubeRay.getPoint();
-		Vector vecPnt = rayPoint.subtract(pnt);
-		double lenRay = vecPnt.vectorsDotProduct(rayVec);
-		return new Vector((pnt.subtract(rayPoint.addVec(rayVec.scale(lenRay)))).normalize());
+		
+		Vector rayVec = new Vector(ray.getVector());
+		Point3D rayPoint =new Point3D(ray.getPoint()); 
+		Vector vecPnt = rayPoint.subtract(pnt); //vector from rey_Begining_point to pnt
+		double lenRay = vecPnt.vectorsDotProduct(rayVec);// lengtn of vecPnt projection on rayVec
+		/**
+		 * math calculating of vector ray<->pnt
+		 * Vector (pnt-(rayPoint+(rayVec*lenRay))) normalized
+		 */
+		return  (pnt.subtract(rayPoint.addVec(rayVec.scale(lenRay)))).normalize();
 	}
 }

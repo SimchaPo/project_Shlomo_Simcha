@@ -7,7 +7,8 @@ import primitives.Ray;
 import primitives.Vector;
 
 /**
- * Cylinder build by point and radius
+ * This Class define Cylinder extends Tube class Cylinder build by point and
+ * radius
  * 
  * @author OWNER
  *
@@ -38,19 +39,19 @@ public class Cylinder extends Tube {
 
 	@Override
 	public Vector getNormal(Point3D pnt) {
-		Vector rayVec = this.tubeRay.getVector();
-		Vector pntVec = this.tubeRay.getPoint().subtract(pnt);
-		double dotProdRes = rayVec.vectorsDotProduct(pntVec);
+		Vector rayVec = new Vector(this.ray.getVector());
+		Vector pntVec = this.ray.getPoint().subtract(pnt);
+		double length = rayVec.vectorsDotProduct(pntVec);// length of pntVec projection on rayVec
 
-		if (dotProdRes > this.hight) {
+		if (length > this.hight) {// point not in cylinder case
 			throw new IllegalArgumentException("ERROR!!! '\n' The point not on cylinder!");
 		}
-		if (dotProdRes == 0) {
-			return new Vector(rayVec.scale(-1));
-		} else if (dotProdRes == hight) {
-			return new Vector(rayVec);
+		if (length == 0) { // point on cylinder bottom
+			return rayVec.scale(-1);
+		} else if (length == hight) {// point on cylinder top
+			return rayVec;
 		}
-		return super.getNormal(pnt);
+		return super.getNormal(pnt);// point on cylinder sides
 
 	}
 }
