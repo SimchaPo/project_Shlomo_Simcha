@@ -11,7 +11,7 @@ import primitives.Point3D;
  */
 public class Vector {
 
-	protected Point3D vectorPoint;
+	private Point3D point;
 
 	/********** Constructors ***********/
 	/**
@@ -20,7 +20,7 @@ public class Vector {
 	 * @param pnt
 	 */
 	public Vector(Point3D pnt) {
-		this(pnt.getX().get(), pnt.getY().get(), pnt.getZ().get()));
+		this(pnt.getX().get(), pnt.getY().get(), pnt.getZ().get());
 	}
 
 	/**
@@ -31,8 +31,8 @@ public class Vector {
 	 * @param z
 	 */
 	public Vector(double x, double y, double z) {
-		vectorPoint = new Point3D(x, y, z);
-		if (Point3D.ZERO.equals(vectorPoint))
+		point = new Point3D(x, y, z);
+		if (Point3D.ZERO.equals(point))
 			throw new IllegalArgumentException("ERROR!!! /n Vector Zero does not defined !");
 	}
 
@@ -42,7 +42,7 @@ public class Vector {
 	 * @param vec
 	 */
 	public Vector(Vector vec) {
-		this(vec.vectorPoint);
+		this(vec.point);
 	}
 
 	/*************** Admin *****************/
@@ -54,12 +54,12 @@ public class Vector {
 			return false;
 		if (!(obj instanceof Vector))
 			return false;
-		return vectorPoint.equals(((Vector) obj).vectorPoint);
+		return point.equals(((Vector) obj).point);
 	}
 
 	@Override
 	public String toString() {
-		return vectorPoint.toString();
+		return point.toString();
 	}
 
 	/**
@@ -69,7 +69,7 @@ public class Vector {
 	 * @return a new Vector
 	 */
 	public Vector vectorAdd(Vector otherVector) {
-		return new Vector(this.vectorPoint.addVec(otherVector));
+		return new Vector(this.point.addVec(otherVector));
 	}
 
 	/************** Operations ***************/
@@ -80,7 +80,7 @@ public class Vector {
 	 * @return a new Vector
 	 */
 	public Vector vectorSub(Vector otherVector) {
-		return new Vector(vectorPoint.subtract(otherVector.vectorPoint));
+		return point.subtract(otherVector.point);
 	}
 
 	/**
@@ -90,50 +90,68 @@ public class Vector {
 	 * @return a new vector Multiplied by the scalar
 	 */
 	public Vector scale(double scalar) {
-		return new Vector(new Point3D(vectorPoint.getX().scale(scalar), vectorPoint.getY().scale(scalar),
-				vectorPoint.getZ().scale(scalar)));
+		return new Vector(point.getX().scale(scalar)._coord, point.getY().scale(scalar)._coord,
+				point.getZ().scale(scalar)._coord);
 	}
 
 	/**
 	 * Vector * Vector Function
 	 * 
 	 * @param otherVector
-	 * @return
+	 * @return result of vector dot product
 	 */
 	public double vectorsDotProduct(Vector otherVector) {
-		Coordinate newx = vectorPoint.getX().multiply(otherVector.vectorPoint.getX());
-		Coordinate newy = vectorPoint.getY().multiply(otherVector.vectorPoint.getY());
-		Coordinate newz = vectorPoint.getZ().multiply(otherVector.vectorPoint.getZ());
-		return newx._coord + newy._coord + newz._coord;
+		double x = point.getX()._coord * otherVector.point.getX()._coord;
+		double y = point.getY()._coord * otherVector.point.getY()._coord;
+		double z = point.getZ()._coord * otherVector.point.getZ()._coord;
+		return x + y + z;
+	}
+
+	/**
+	 * function for calculate vector length
+	 * @return double length 
+	 */
+	public double length() {
+		return point.distance(Point3D.ZERO);
 	}
 
 	/**
 	 * Vector X Vector Function
 	 * 
 	 * @param otherVector
-	 * @return
+	 * @return new vector result of cross vector product
 	 */
 	public Vector vectrsCrossProduct(Vector otherVector) {
-		return new Vector(new Point3D(
-				(vectorPoint.getX().multiply(otherVector.vectorPoint.getZ()))
-						.subtract(vectorPoint.getZ().multiply(otherVector.vectorPoint.getY())),
-				(vectorPoint.getZ().multiply(otherVector.vectorPoint.getX()))
-						.subtract(vectorPoint.getX().multiply(otherVector.vectorPoint.getZ())),
-				(vectorPoint.getX().multiply(otherVector.vectorPoint.getY()))
-						.subtract(vectorPoint.getY().multiply(otherVector.vectorPoint.getX()))));
+		return new Vector(
+				(point.getX().multiply(otherVector.point.getZ()))
+						.subtract(point.getZ().multiply(otherVector.point.getY()))._coord,
+				(point.getZ().multiply(otherVector.point.getX()))
+						.subtract(point.getX().multiply(otherVector.point.getZ()))._coord,
+				(point.getX().multiply(otherVector.point.getY()))
+						.subtract(point.getY().multiply(otherVector.point.getX()))._coord);
 	}
 
 	/**
 	 * function calculate and return the Unit Vector
 	 * 
 	 * @param _vec
-	 * @return
+	 * @return new vector normalized 
 	 */
-	public Vector vectorUnit() {
-		double devider = 1/this.vectorPoint.distance(new Point3D(0, 0, 0));
-		Coordinate x = this.vectorPoint.getX().scale(devider);
-		Coordinate y = this.vectorPoint.getY().scale(devider);
-		Coordinate z = this.vectorPoint.getZ().scale(devider);
+	public Vector normalize() {
+		double devider = 1 / this.length();
+		Coordinate x = this.point.getX().scale(devider);
+		Coordinate y = this.point.getY().scale(devider);
+		Coordinate z = this.point.getZ().scale(devider);
 		return new Vector(x._coord, y._coord, z._coord);
 	}
+
+	/**
+	 * Getter point of the vector
+	 * 
+	 * @return point !!! DON`T CHANGE!!! USE THE COPY
+	 */
+	public Point3D getPoint() {
+		return point;
+	}
+
 }

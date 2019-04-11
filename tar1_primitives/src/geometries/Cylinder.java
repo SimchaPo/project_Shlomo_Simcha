@@ -27,22 +27,28 @@ public class Cylinder extends Tube {
 		hight = hgt;
 	}
 
+	/**
+	 * Getter
+	 * 
+	 * @return hight
+	 */
+	public double getHight() {
+		return hight;
+	}
+
 	@Override
 	public Vector getNormal(Point3D pnt) {
-		Vector rayVec = this.tubeRay.getRayVector();
-		Vector pntVec = this.tubeRay.getRayPoint().subtract(pnt);
+		Vector rayVec = this.tubeRay.getVector();
+		Vector pntVec = this.tubeRay.getPoint().subtract(pnt);
 		double dotProdRes = rayVec.vectorsDotProduct(pntVec);
-		try {
-			if (dotProdRes > this.hight)
-				throw new IllegalAccessException("ERROR!!! '\n' The point not on cylinder!");
-			if (dotProdRes == 0) {
-				return new Vector(rayVec.vecProductByScalar(-1));
-			} else if (dotProdRes == hight) {
-				return new Vector(rayVec);
-			}
 
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
+		if (dotProdRes > this.hight) {
+			throw new IllegalArgumentException("ERROR!!! '\n' The point not on cylinder!");
+		}
+		if (dotProdRes == 0) {
+			return new Vector(rayVec.scale(-1));
+		} else if (dotProdRes == hight) {
+			return new Vector(rayVec);
 		}
 		return super.getNormal(pnt);
 

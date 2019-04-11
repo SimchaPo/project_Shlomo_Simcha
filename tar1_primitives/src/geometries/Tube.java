@@ -26,10 +26,10 @@ public class Tube extends RadialGeometry {
 
 	@Override
 	public Vector getNormal(Point3D pnt) {
-		Vector rayVec = tubeRay.getRayVector();
-		Point3D rayPoint = tubeRay.getRayPoint();
+		Vector rayVec = tubeRay.getVector();
+		Point3D rayPoint = tubeRay.getPoint();
 		Vector vecPnt = rayPoint.subtract(pnt);
 		double lenRay = vecPnt.vectorsDotProduct(rayVec);
-		return new Vector((pnt.subtract(rayPoint.addVec(rayVec.vecProductByScalar(lenRay)))).vectorUnit());
+		return new Vector((pnt.subtract(rayPoint.addVec(rayVec.scale(lenRay)))).normalize());
 	}
 }

@@ -2,34 +2,49 @@ package primitives;
 
 //import java.io.ObjectInputStream.GetField;
 
+
+/**
+ * the Class define the ray in 3d space
+ */
 import primitives.Vector;
 
 public class Ray {
-	protected Vector rayVector;
-	protected Point3D rayPoint;
-/**
- * Constructor
- * @param _pnt
- * @param _vec
- */
+	private Vector vector;
+	private Point3D point;
+
+	/**
+	 * Constructor
+	 * 
+	 * @param _pnt
+	 * @param _vec
+	 */
 	public Ray(Point3D _pnt, Vector _vec) {
-		rayPoint = new Point3D(_pnt);
-		rayVector = _vec.vectorUnit();
+		point = new Point3D(_pnt);
+		vector = _vec.normalize();
 	}
 
 	/**
 	 * copy Constructor
+	 * 
 	 * @param _otherRay
 	 */
 	public Ray(Ray _otherRay) {
-		this(_otherRay.rayPoint, _otherRay.rayVector);
+		this(_otherRay.point, _otherRay.vector);
 	}
-	
-	public Vector getRayVector() {
-		return rayVector;
+
+	/**
+	 * 
+	 * @return ray vector !!!DON`T CHANGE!!!
+	 */
+	public Vector getVector() {
+		return vector;
 	}
-	
-	public Point3D getRayPoint() {
-		return rayPoint;
+
+	/**
+	 * 
+	 * @return ray point !!!DON`T CHANGE!!!
+	 */
+	public Point3D getPoint() {
+		return point;
 	}
 }

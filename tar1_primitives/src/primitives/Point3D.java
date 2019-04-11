@@ -7,11 +7,12 @@ import java.lang.Math;
 
 /**
  * The class define the point in 3d space
+ * 
  * @author shlomo, simcha Point3D is a point with 3 @Coordinate
  */
 public class Point3D {
-	public static final Point3D ZERO = new Point3D(0,0,0);
-	
+	public static final Point3D ZERO = new Point3D(0, 0, 0);
+
 	private Coordinate x;
 	private Coordinate y;
 	private Coordinate z;
@@ -70,6 +71,7 @@ public class Point3D {
 	/************** Operations ***************/
 	/**
 	 * subtract gets another point
+	 * 
 	 * @param otherPoint
 	 * @return a new vector between the 2 points
 	 */
@@ -80,15 +82,17 @@ public class Point3D {
 
 	/**
 	 * adds a vector to the point
+	 * 
 	 * @param vec
 	 * @return the new point
 	 */
 	public Point3D addVec(Vector vec) {
-		return new Point3D(this.x.add(vec.vectorPoint.x), this.y.add(vec.vectorPoint.y), this.z.add(vec.vectorPoint.z));
+		return new Point3D(this.x.add(vec.getPoint().x), this.y.add(vec.getPoint().y), this.z.add(vec.getPoint().z));
 	}
 
 	/**
 	 * distance^2 between 2 points
+	 * 
 	 * @param otherPoint
 	 * @return a double number
 	 */
@@ -101,6 +105,7 @@ public class Point3D {
 
 	/**
 	 * distance between 2 points
+	 * 
 	 * @param _otherPoint
 	 * @return a double number
 	 */
@@ -110,22 +115,25 @@ public class Point3D {
 
 	/**
 	 * get X
+	 * 
 	 * @return coordinate X, don't change
 	 */
 	public Coordinate getX() {
 		return x;
 	}
-	
+
 	/**
 	 * get Y
+	 * 
 	 * @return coordinate Y, don't change
 	 */
 	public Coordinate getY() {
 		return y;
 	}
-	
+
 	/**
 	 * get Z
+	 * 
 	 * @return coordinate Z, don't change
 	 */
 	public Coordinate getZ() {

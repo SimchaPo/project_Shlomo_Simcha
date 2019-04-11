@@ -9,13 +9,13 @@ import primitives.Point3D;
 
 import primitives.Vector;
 /**
- * Plane is build by point and normal
+ * This Class define Plane in 3d space
  * @author OWNER
- *
+ *Plane is build by point and normal
  */
 public class Plane implements Geometry {
-	Point3D planePoint;
-	Vector normalPlaneVector;
+	protected Point3D point;
+	protected Vector normalVector;
 
 	/********** Constructors ***********/
 	/**
@@ -24,21 +24,23 @@ public class Plane implements Geometry {
 	 * @param _vec
 	 */
 	public Plane(Point3D _pnt, Vector _vec) {
-		planePoint = _pnt;
-		normalPlaneVector = _vec;
+		point =new Point3D(_pnt);
+		normalVector = _vec.normalize();
 	}
-
+/**
+ * constructor receive three point3D
+ * @param pnt1
+ * @param pnt2
+ * @param pnt3
+ */
 	public Plane(Point3D pnt1, Point3D pnt2, Point3D pnt3) {
-		this(pnt1, (pnt1.subtract(pnt2)).vectrsCrossProduct(pnt2.subtract(pnt3)).vectorUnit());
+		this(pnt1, (pnt1.subtract(pnt2)).vectrsCrossProduct(pnt2.subtract(pnt3)).normalize());
 	}
 	
 	/*************** Admin *****************/
 	@Override
 	public Vector getNormal(Point3D pnt) {
-		return normalPlaneVector;
+		return normalVector;
 	}
 
-//	public void isOnPlane(Plane _plane) {
-//		double xPlnpoint=_plane.planePoint.
-//	}
 }

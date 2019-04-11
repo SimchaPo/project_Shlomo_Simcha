@@ -24,7 +24,7 @@ public class VectorTest extends TestCase {
 	public void testVectorUnit() {
 		Point3D pnt = new Point3D(5.2, 2.4, 1.4);
 		Vector vec = new Vector(pnt);
-		Vector result = vec.vectorUnit();
+		Vector result = vec.normalize();
 		double dis = pnt.distance(new Point3D(0.0,0.0,0.0));
 		double a = Util.uscale(5.2, 1/dis);
 		double b = Util.uscale(2.4, 1/dis);
