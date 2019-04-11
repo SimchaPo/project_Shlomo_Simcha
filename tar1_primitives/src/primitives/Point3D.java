@@ -70,18 +70,16 @@ public class Point3D {
 	/************** Operations ***************/
 	/**
 	 * subtract gets another point
-	 * 
 	 * @param otherPoint
 	 * @return a new vector between the 2 points
 	 */
 	public Vector subtract(Point3D otherPoint) {
-		return new Vector(new Point3D(this.x.subtract(otherPoint.x), this.y.subtract(otherPoint.y),
-				this.z.subtract(otherPoint.z)));
+		return new Vector(this.x.subtract(otherPoint.x)._coord, this.y.subtract(otherPoint.y)._coord,
+				this.z.subtract(otherPoint.z)._coord);
 	}
 
 	/**
 	 * adds a vector to the point
-	 * 
 	 * @param vec
 	 * @return the new point
 	 */
@@ -91,9 +89,8 @@ public class Point3D {
 
 	/**
 	 * distance^2 between 2 points
-	 * 
 	 * @param otherPoint
-	 * @return
+	 * @return a double number
 	 */
 	public double distancePow(Point3D otherPoint) {
 		Coordinate newx = x.subtract(otherPoint.x);
@@ -104,27 +101,34 @@ public class Point3D {
 
 	/**
 	 * distance between 2 points
-	 * 
 	 * @param _otherPoint
-	 * @return
+	 * @return a double number
 	 */
 	public double distance(Point3D _otherPoint) {
 		return Math.sqrt(this.distancePow(_otherPoint));
 	}
+
 	/**
-	 * Getters
+	 * get X
+	 * @return coordinate X, don't change
 	 */
 	public Coordinate getX() {
 		return x;
 	}
-
+	
+	/**
+	 * get Y
+	 * @return coordinate Y, don't change
+	 */
 	public Coordinate getY() {
 		return y;
 	}
-
+	
+	/**
+	 * get Z
+	 * @return coordinate Z, don't change
+	 */
 	public Coordinate getZ() {
 		return z;
 	}
-	
-
 }
