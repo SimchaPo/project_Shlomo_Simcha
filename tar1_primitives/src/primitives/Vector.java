@@ -5,6 +5,7 @@ package primitives;
 import primitives.Point3D;
 
 /**
+ * This class define vector & function those calculate mathematical  
  * @author shlomo, simcha vector is with @Point3D
  */
 public class Vector {
@@ -18,12 +19,7 @@ public class Vector {
 	 * @param pnt
 	 */
 	public Vector(Point3D pnt) {
-		try {
-			preventNullVector(pnt);
-			vectorPoint = pnt;
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
+		this(pnt.getX().get(), pnt.getY().get(), pnt.getZ().get()));
 	}
 
 	/**
@@ -34,7 +30,9 @@ public class Vector {
 	 * @param z
 	 */
 	public Vector(double x, double y, double z) {
-		this(new Point3D(x, y, z));
+		vectorPoint = new Point3D(x, y, z);
+		if (Point3D.ZERO.equals(vectorPoint))
+			throw new IllegalArgumentException("ERROR!!! /n Vector Zero does not defined !");
 	}
 
 	/**
@@ -136,16 +134,5 @@ public class Vector {
 		Coordinate y = this.vectorPoint.y.scale(1/vecLen);
 		Coordinate z = this.vectorPoint.z.scale(1/vecLen);
 		return new Vector(new Point3D(x, y, z));
-	}
-	/**
-	 * function return true if point equal to zero
-	 * 
-	 * @param _pnt
-	 * @return
-	 */
-	public void preventNullVector(Point3D _pnt) {
-		if (_pnt.equals(new Point3D(0.0, 0.0, 0.0))) {
-			throw new IllegalArgumentException("ERROR!!! /n Vector Zero does not defined !");
-		}
 	}
 }

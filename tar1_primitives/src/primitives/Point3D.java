@@ -6,13 +6,15 @@ import primitives.Vector;
 import java.lang.Math;
 
 /**
+ * The class define the point in 3d space
  * @author shlomo, simcha Point3D is a point with 3 @Coordinate
  */
 public class Point3D {
-
-	public Coordinate x;
-	protected Coordinate y;
-	protected Coordinate z;
+	public static final Point3D ZERO = new Point3D(0,0,0);
+	
+	private Coordinate x;
+	private Coordinate y;
+	private Coordinate z;
 
 	/********** Constructors ***********/
 	/**
@@ -109,5 +111,20 @@ public class Point3D {
 	public double distance(Point3D _otherPoint) {
 		return Math.sqrt(this.distancePow(_otherPoint));
 	}
+	/**
+	 * Getters
+	 */
+	public Coordinate getX() {
+		return x;
+	}
+
+	public Coordinate getY() {
+		return y;
+	}
+
+	public Coordinate getZ() {
+		return z;
+	}
+	
 
 }

@@ -25,6 +25,7 @@ public class Sphere extends RadialGeometry {
 
 	@Override
 	public Vector getNormal(Point3D pnt) {
+		// 
 		return (sphereCenter.subtract(pnt)).vectorUnit();
 	}
 

@@ -13,8 +13,8 @@ public class Ray {
  * @param _vec
  */
 	public Ray(Point3D _pnt, Vector _vec) {
-		rayPoint = _pnt;
-		rayVector = _vec;
+		rayPoint = new Point3D(_pnt);
+		rayVector = _vec.vectorUnit();
 	}
 
 	/**
@@ -26,10 +26,10 @@ public class Ray {
 	}
 	
 	public Vector getRayVector() {
-		return new Vector(rayVector.vectorUnit());
+		return rayVector;
 	}
 	
 	public Point3D getRayPoint() {
-		return new Point3D(rayPoint);
+		return rayPoint;
 	}
 }
