@@ -1,6 +1,9 @@
 package geometries;
 
+import java.util.List;
+
 import primitives.Point3D;
+import primitives.Ray;
 import primitives.Vector;
 
 /**
@@ -14,6 +17,7 @@ public class Sphere extends RadialGeometry {
 
 	/**
 	 * constructor for Sphere
+	 * 
 	 * @param _pnt
 	 * @param rad
 	 */
@@ -26,6 +30,12 @@ public class Sphere extends RadialGeometry {
 	public Vector getNormal(Point3D pnt) {
 		//
 		return (sphereCenter.subtract(pnt)).normalize();
+	}
+
+	@Override
+	public List<Point3D> findIntersections(Ray _ray) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

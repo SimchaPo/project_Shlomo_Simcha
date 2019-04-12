@@ -5,8 +5,10 @@ package geometries;
  *
  */
 
-import primitives.Point3D;
+import java.util.List;
 
+import primitives.Point3D;
+import primitives.Ray;
 import primitives.Vector;
 /**
  * This Class define Plane in 3d space
@@ -41,6 +43,11 @@ public class Plane implements Geometry {
 	@Override
 	public Vector getNormal(Point3D pnt) {
 		return normalVector;
+	}
+	@Override
+	public List<Point3D> findIntersections(Ray _ray) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
