@@ -14,7 +14,6 @@ public class Sphere extends RadialGeometry {
 
 	/**
 	 * constructor for Sphere
-	 * 
 	 * @param _pnt
 	 * @param rad
 	 */
@@ -25,7 +24,7 @@ public class Sphere extends RadialGeometry {
 
 	@Override
 	public Vector getNormal(Point3D pnt) {
-		// 
+		//
 		return (sphereCenter.subtract(pnt)).normalize();
 	}
 
