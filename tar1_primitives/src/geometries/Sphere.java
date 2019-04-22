@@ -80,6 +80,8 @@ public class Sphere extends RadialGeometry {
 			double revD = Math.sqrt(((Math.pow(disRevP_O, 2) - Math.pow(rev_tm, 2))));
 			double th = Math.sqrt((Math.pow(rad, 2) - Math.pow(revD, 2)));
 			Point3D p1 = revRayPnt.addVec(revRayVec.scale(rev_tm - th));
+			sphereLst.add(0, p1);
+			return sphereLst;
 		}
 	}
 
