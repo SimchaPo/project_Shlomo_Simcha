@@ -13,7 +13,5 @@ import primitives.Ray;
  *
  */
 public interface Intersectable {
-	List<Point3D> findIntersections(Ray _ray);  
-	
-	
+	List<Point3D> findIntersections(Ray _ray);
 }
