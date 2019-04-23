@@ -53,7 +53,7 @@ public class Sphere extends RadialGeometry {
 			} else if (d == rad) {// then the ray tangent to the sphere
 				Point3D p1 = rayPnt.addVec(rayVec.scale(_tm));
 				sphereLst.add(0, p1);
-				return sphereLst;
+				//return sphereLst;
 			} else {
 				double th = Math.sqrt((Math.pow(rad, 2) - Math.pow(d, 2)));// distance from first ray<->sphere
 																			// intersection point to the point
@@ -63,13 +63,13 @@ public class Sphere extends RadialGeometry {
 				Point3D p2 = rayPnt.addVec(rayVec.scale(_tm + th));
 				sphereLst.add(0, p1);
 				sphereLst.add(0, p2);
-				return sphereLst;
+				//return sphereLst;
 			}
 		} else if (disP_O == rad) {
 			if (vecP_O.vectorsDotProduct(rayVec) != 0) {
 				Point3D p1 = rayPnt.addVec(rayVec.scale(_tm + _tm));
-			} else {
-				return sphereLst;
+				sphereLst.add(0, p1);
+				//return sphereLst;
 			}
 		} else if (disP_O < rad) {
 			Point3D revRayPnt = rayPnt.addVec(rayVec);
@@ -81,8 +81,9 @@ public class Sphere extends RadialGeometry {
 			double th = Math.sqrt((Math.pow(rad, 2) - Math.pow(revD, 2)));
 			Point3D p1 = revRayPnt.addVec(revRayVec.scale(rev_tm - th));
 			sphereLst.add(0, p1);
-			return sphereLst;
+			//return sphereLst;
 		}
+		return sphereLst;
 	}
 
 }
