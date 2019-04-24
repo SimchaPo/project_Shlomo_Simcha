@@ -1,13 +1,13 @@
 package geometries;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+//import java.util.Iterator;
 import java.util.List;
 
 import primitives.Point3D;
 import primitives.Ray;
-import tar1_primitives.src.geometries.Intersectable;
-import geometries.Geometry;
+//import geometries.Geometry;
+import geometries.Intersectable;
 
 public class Geometries implements Intersectable {
 	List<Intersectable> _geometries;
