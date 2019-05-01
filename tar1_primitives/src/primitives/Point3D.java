@@ -100,7 +100,7 @@ public class Point3D {
 		Coordinate newx = x.subtract(otherPoint.x);
 		Coordinate newy = y.subtract(otherPoint.y);
 		Coordinate newz = z.subtract(otherPoint.z);
-		return (newx.multiply(newx))._coord + (newy.multiply(newy))._coord + (newz.multiply(newz))._coord;
+		return (newx.multiply(newx)).add(newy.multiply(newy)).add(newz.multiply(newz))._coord;
 	}
 
 	/**
