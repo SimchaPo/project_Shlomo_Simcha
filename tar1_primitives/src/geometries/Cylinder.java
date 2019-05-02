@@ -31,7 +31,7 @@ public class Cylinder extends Tube {
 	/**
 	 * Getter
 	 * 
-	 * @return hight
+	 * @return height
 	 */
 	public double getHight() {
 		return hight;
@@ -40,18 +40,20 @@ public class Cylinder extends Tube {
 	@Override
 	public Vector getNormal(Point3D pnt) {
 		Vector rayVec = new Vector(this.ray.getVector());
-		Vector pntVec = this.ray.getPoint().subtract(pnt);
-		double length = rayVec.vectorsDotProduct(pntVec);// length of pntVec projection on rayVec
-
-		if (length > this.hight) {// point not in cylinder case
-			throw new IllegalArgumentException("ERROR!!! '\n' The point not on cylinder!");
-		}
-		if (length == 0) { // point on cylinder bottom
+		if (pnt.equals(ray.getPoint())) {
 			return rayVec.scale(-1);
-		} else if (length == hight) {// point on cylinder top
+		}
+		Vector pntVec = pnt.subtract(this.ray.getPoint());
+		double len = rayVec.vectorsDotProduct(pntVec);
+		if (len > 0 && len < hight) {
+			return pnt.subtract(ray.getPoint().addVec(rayVec.scale(len))).normalize();
+		} else if (len == 0) {
+			return rayVec.scale(-1);
+		} else if (len == hight) {
 			return rayVec;
 		}
-		return super.getNormal(pnt);// point on cylinder sides
-
+		else {
+			throw new IllegalArgumentException("point isn't on cylinder");
+		}
 	}
 }

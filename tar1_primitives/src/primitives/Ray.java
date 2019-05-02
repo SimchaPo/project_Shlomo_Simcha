@@ -1,13 +1,10 @@
 package primitives;
 
-//import java.io.ObjectInputStream.GetField;
-
+import primitives.Vector;
 
 /**
  * the Class define the ray in 3d space
  */
-import primitives.Vector;
-
 public class Ray {
 	private Vector vector;
 	private Point3D point;

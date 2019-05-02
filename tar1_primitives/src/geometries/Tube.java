@@ -23,21 +23,15 @@ public class Tube extends RadialGeometry {
 	 */
 	public Tube(Ray _tRay, double rad) {
 		super(rad);
-		ray =new Ray(_tRay);
+		ray = new Ray(_tRay);
 	}
 
 	@Override
 	public Vector getNormal(Point3D pnt) {
-		
-		Vector rayVec = new Vector(ray.getVector());
-		Point3D rayPoint =new Point3D(ray.getPoint()); 
-		Vector vecPnt = rayPoint.subtract(pnt); //vector from rey_Begining_point to pnt
-		double lenRay = vecPnt.vectorsDotProduct(rayVec);// lengtn of vecPnt projection on rayVec
-		/**
-		 * math calculating of vector ray<->pnt
-		 * Vector (pnt-(rayPoint+(rayVec*lenRay))) normalized
-		 */
-		return  (pnt.subtract(rayPoint.addVec(rayVec.scale(lenRay)))).normalize();
+		Vector rayVec = new Vector(this.ray.getVector());
+		Vector pntVec = pnt.subtract(this.ray.getPoint());
+		double len = rayVec.vectorsDotProduct(pntVec);
+		return pnt.subtract(ray.getPoint().addVec(rayVec.scale(len))).normalize();
 	}
 
 	@Override

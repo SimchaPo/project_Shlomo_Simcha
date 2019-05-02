@@ -14,8 +14,8 @@ import primitives.Vector;
 
 /**
  * This Class define Plane in 3d space
- * 
- * @author OWNER Plane is build by point and normal
+ * Plane is build by point and normal
+ * @author OWNER
  */
 public class Plane implements Geometry {
 	protected Point3D point;
