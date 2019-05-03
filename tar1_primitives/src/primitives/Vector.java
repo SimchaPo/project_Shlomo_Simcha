@@ -123,7 +123,7 @@ public class Vector {
 	 */
 	public Vector vectrsCrossProduct(Vector otherVector) {
 		return new Vector(
-				(point.getX().multiply(otherVector.point.getZ()))
+				(point.getY().multiply(otherVector.point.getZ()))
 						.subtract(point.getZ().multiply(otherVector.point.getY()))._coord,
 				(point.getZ().multiply(otherVector.point.getX()))
 						.subtract(point.getX().multiply(otherVector.point.getZ()))._coord,

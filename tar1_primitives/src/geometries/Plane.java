@@ -10,11 +10,12 @@ import java.util.List;
 
 import primitives.Point3D;
 import primitives.Ray;
+import primitives.Util;
 import primitives.Vector;
 
 /**
- * This Class define Plane in 3d space
- * Plane is build by point and normal
+ * This Class define Plane in 3d space Plane is build by point and normal
+ * 
  * @author OWNER
  */
 public class Plane implements Geometry {
@@ -52,23 +53,28 @@ public class Plane implements Geometry {
 
 	@Override
 	public List<Point3D> findIntersections(Ray _ray) {
-		List<Point3D> planeLst = new ArrayList<Point3D>(null);
+		List<Point3D> planeLst = new ArrayList<Point3D>();
 		Point3D rayPnt = _ray.getPoint();
 		Vector rayVec = _ray.getVector();
-		Point3D plnPnt = this.point;
-		Vector plnVec = this.normalVector;
-		Vector reyPlnVec = plnPnt.subtract(rayPnt);
-		if (reyPlnVec.vectorsDotProduct(plnVec) == 0) {
-			if (rayVec.vectorsDotProduct(plnVec) == 0) {
-				Point3D p1 = rayPnt.addVec(rayVec);
-				planeLst.add(0, p1);
-			}
-		} else {
-			double t = plnVec.vectorsDotProduct(reyPlnVec) / plnVec.vectorsDotProduct(rayVec);
-			if (t >= 0) {
-				Point3D p1 = rayPnt.addVec(rayVec.scale(t));
-				planeLst.add(0, p1);
-			}
+		if (rayPnt.equals(point)) {
+			planeLst.add(point);
+			return planeLst;
+		}
+		Vector pq = point.subtract(rayPnt);
+		double pqProDotNormal = pq.vectorsDotProduct(normalVector);
+		if(Util.isZero(pqProDotNormal)) {
+			planeLst.add(rayPnt);
+			return planeLst;
+		}
+		double rayVecDotProNormal = rayVec.vectorsDotProduct(normalVector);
+		if (Util.isZero(rayVecDotProNormal)) {
+			return planeLst;
+		}
+		double t = Util.uscale(pqProDotNormal, 1 / rayVecDotProNormal);
+		if (t > 0) {
+			planeLst.add(rayPnt.addVec(rayVec.scale(t)));
+		} else if (t == 0) {
+			planeLst.add(rayPnt);
 		}
 		return planeLst;
 	}
