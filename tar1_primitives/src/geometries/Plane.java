@@ -42,7 +42,7 @@ public class Plane implements Geometry {
 	 * @param pnt3
 	 */
 	public Plane(Point3D pnt1, Point3D pnt2, Point3D pnt3) {
-		this(pnt1, (pnt1.subtract(pnt2)).vectrsCrossProduct(pnt2.subtract(pnt3)).normalize());
+		this(pnt1, (pnt1.subtract(pnt2)).vecotrsCrossProduct(pnt2.subtract(pnt3)).normalize());
 	}
 
 	/*************** Admin *****************/

@@ -19,7 +19,7 @@ public class PlaneTest extends TestCase {
 		Vector result = pl.getNormal(new Point3D(1, 0, 0));
 		Vector exp = new Vector(0, 0, 1);
 		try {
-			result.vectrsCrossProduct(exp);
+			result.vecotrsCrossProduct(exp);
 			fail("problem with normal");
 		} catch (IllegalArgumentException e) {
 			assertTrue(true);

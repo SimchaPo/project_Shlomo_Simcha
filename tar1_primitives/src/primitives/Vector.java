@@ -121,7 +121,7 @@ public class Vector {
 	 * @param otherVector
 	 * @return new vector result of cross vector product
 	 */
-	public Vector vectrsCrossProduct(Vector otherVector) {
+	public Vector vecotrsCrossProduct(Vector otherVector) {
 		return new Vector(
 				(point.getY().multiply(otherVector.point.getZ()))
 						.subtract(point.getZ().multiply(otherVector.point.getY()))._coord,

@@ -101,7 +101,7 @@ public class VectorTest extends TestCase {
 		Vector vec1 = new Vector(3,4,5);
 		Vector vec2 = new Vector(6,2,3);
 		Vector exp = new Vector(2, 21, -18);
-		Vector result = vec1.vectrsCrossProduct(vec2);
+		Vector result = vec1.vecotrsCrossProduct(vec2);
 		assertEquals("problem with subtracting", exp, result);
 	}
 
@@ -112,7 +112,7 @@ public class VectorTest extends TestCase {
 		Vector vec1 = new Vector(1, 1, 1);
 		Vector vec2 = new Vector(-1, -1, -1);
 		try {
-			vec1.vectrsCrossProduct(vec2);
+			vec1.vecotrsCrossProduct(vec2);
 			fail("problem with cross of when parallel");
 		} catch (IllegalArgumentException e) {
 			assertTrue(true);
