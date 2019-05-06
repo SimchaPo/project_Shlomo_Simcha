@@ -56,14 +56,14 @@ public class Sphere extends RadialGeometry {
 		double t1 = _tm + _th;
 		double t2 = _tm - _th;
 		if (t2 >= 0) {
-			if (t2 == 0) {
+			if (Util.isZero(t2)) {
 				sphereLst.add(rayPnt);
 			} else {
 				sphereLst.add(rayPnt.addVec(rayVec.scale(t2)));
 			}
 			sphereLst.add(rayPnt.addVec(rayVec.scale(t1)));
 		} else if (t1 >= 0) {
-			if (t1 == 0) {
+			if (Util.isZero(t1)) {
 				sphereLst.add(rayPnt);
 			} else {
 				sphereLst.add(rayPnt.addVec(rayVec.scale(t1)));
@@ -71,5 +71,4 @@ public class Sphere extends RadialGeometry {
 		}
 		return sphereLst;
 	}
-
 }
