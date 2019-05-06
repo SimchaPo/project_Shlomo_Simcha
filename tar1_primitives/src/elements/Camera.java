@@ -15,7 +15,7 @@ public class Camera {
 		_vUp = _vecUp.normalize();
 		_vTo = _vecTo.normalize();
 		if (_vUp.vectorsDotProduct(_vTo) == 0) {
-			_vRight = _vTo.vectrsCrossProduct(_vUp).normalize();
+			_vRight = _vTo.vecotrsCrossProduct(_vUp).normalize();
 		} else {
 			throw new IllegalArgumentException("Error!!! The vectors vUp vTo is not ortogonal vectors!");
 		}

@@ -5,6 +5,7 @@ import java.util.List;
 
 import primitives.Point3D;
 import primitives.Ray;
+import primitives.Util;
 import primitives.Vector;
 import java.lang.Math;
 
@@ -35,63 +36,37 @@ public class Sphere extends RadialGeometry {
 
 	@Override
 	public List<Point3D> findIntersections(Ray _ray) {
-		List<Point3D> sphereLst = new ArrayList<Point3D>(null);
-
+		List<Point3D> sphereLst = new ArrayList<Point3D>();
 		Point3D rayPnt = _ray.getPoint();
 		Vector rayVec = _ray.getVector();
-		Point3D sphCntr = this.sphereCenter;
-		Vector vecP_O = sphCntr.subtract(rayPnt);
-		double rad = this._radius;
+		if (rayPnt.equals(sphereCenter)) {
+			sphereLst.add(sphereCenter.addVec(rayVec.scale(_radius)));
+			return sphereLst;
+		}
+		Vector vecP_O = sphereCenter.subtract(rayPnt);
 		double disP_O = vecP_O.length();
-		double _tm = rayVec.vectorsDotProduct(vecP_O);// length of ray to the point meeting radius ortogonal
+		double _tm = rayVec.vectorsDotProduct(vecP_O);// length of ray to the point meeting radius orthogonal
 		// to the ray
-		double d = Math.sqrt(((Math.pow(disP_O, 2) - Math.pow(_tm, 2)))); // distance from sphere center to the
-																			// ray
-		boolean scndPnt = false;// second intersection point
-		Point3D rPntPVec = rayPnt.addVec(rayVec); // rayPnt+rayVec
-		double rPPVDist = sphCntr.distance(rPntPVec);// check distance (rayPnt+rayVec) to sphere center to check if
-														// rayVec go to the sphere or not
-		if (rPPVDist < disP_O) {
-			Point3D p1=new Point3D(0.0,0.0,0.0);
-			Point3D p2=new Point3D(0.0,0.0,0.0);
-			if (disP_O > rad) {
-				if (d > rad) {
-					return sphereLst;
-				} else if (d == rad) {// then the ray tangent to the sphere
-					p1 = rayPnt.addVec(rayVec.scale(_tm));
-					// sphereLst.add(0, p1);
-					// return sphereLst;
-				} else {
-					double th = Math.sqrt((Math.pow(rad, 2) - Math.pow(d, 2)));// distance from first ray<->sphere
-																				// intersection point to the point
-																				// meeting radius ortogonal to the
-																				// ray
-					p1 = rayPnt.addVec(rayVec.scale(_tm - th));
-					p2 = rayPnt.addVec(rayVec.scale(_tm + th));
-					scndPnt = true;
-					// return sphereLst;
-				}
-			} else if (disP_O == rad) {
-				if (vecP_O.vectorsDotProduct(rayVec) != 0) {
-					p1 = rayPnt.addVec(rayVec.scale(_tm + _tm));
-					// sphereLst.add(0, p1);
-					// return sphereLst;
-				}
-			} else if (disP_O < rad) {
-				Point3D revRayPnt = rayPnt.addVec(rayVec);
-				Vector revRayVec = revRayPnt.subtract(rayPnt);
-				Vector revP_O = sphCntr.subtract(revRayPnt);
-				double disRevP_O = revP_O.length();
-				double rev_tm = revRayVec.vectorsDotProduct(revP_O);
-				double revD = Math.sqrt(((Math.pow(disRevP_O, 2) - Math.pow(rev_tm, 2))));
-				double th = Math.sqrt((Math.pow(rad, 2) - Math.pow(revD, 2)));
-				p1 = revRayPnt.addVec(revRayVec.scale(rev_tm - th));
-
-				// return sphereLst;
+		double powD = Util.uscale(disP_O, disP_O) - Util.uscale(_tm, _tm);
+		double d = Math.sqrt(powD); // distance from sphere center to the ray
+		if (d > _radius) {
+			return sphereLst;
+		}
+		double _th = Math.sqrt(Util.uscale(_radius, _radius) - powD);
+		double t1 = _tm + _th;
+		double t2 = _tm - _th;
+		if (t2 >= 0) {
+			if (t2 == 0) {
+				sphereLst.add(rayPnt);
+			} else {
+				sphereLst.add(rayPnt.addVec(rayVec.scale(t2)));
 			}
-			sphereLst.add(0, p1);
-			if (scndPnt) {
-				sphereLst.add(1, p2);
+			sphereLst.add(rayPnt.addVec(rayVec.scale(t1)));
+		} else if (t1 >= 0) {
+			if (t1 == 0) {
+				sphereLst.add(rayPnt);
+			} else {
+				sphereLst.add(rayPnt.addVec(rayVec.scale(t1)));
 			}
 		}
 		return sphereLst;

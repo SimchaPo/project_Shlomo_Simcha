@@ -1,5 +1,6 @@
-package elements;
+package unittests;
 
+import elements.Camera;
 import junit.framework.TestCase;
 import primitives.Point3D;
 import primitives.Ray;
