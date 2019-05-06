@@ -147,9 +147,41 @@ public class TriangleTest extends TestCase {
 	 */
 	public void testFindIntersections12() {
 		Triangle tr = new Triangle(new Point3D(0, 0, 0), new Point3D(-4, 0, 0), new Point3D(0, 4, 0));
-		List<Point3D> result = tr.findIntersections(new Ray(new Point3D(-1, 1, 0), new Vector(-1, 0, 0)));
+		List<Point3D> result = tr.findIntersections(new Ray(new Point3D(-1,1,0), new Vector(-1, 0, 0)));
 		List<Point3D> exp = new ArrayList<Point3D>();
-		exp.add(new Point3D(-3, 1, 0));
+		exp.add(new Point3D(-1,1,0));
+		assertEquals("problem with intersections", exp, result);
+	}
+	
+	/**
+	 * test for case ray is an plane and starts at triangle side
+	 */
+	public void testFindIntersections13() {
+		Triangle tr = new Triangle(new Point3D(0, 0, 0), new Point3D(-4, 0, 0), new Point3D(0, 4, 0));
+		List<Point3D> result = tr.findIntersections(new Ray(new Point3D(0,2,0), new Vector(1, 0, 0)));
+		List<Point3D> exp = new ArrayList<Point3D>();
+		exp.add(new Point3D(0,2,0));
+		assertEquals("problem with intersections", exp, result);
+	}
+	
+	/**
+	 * test for case ray isn't an plane but starts in plane inside triangle
+	 */
+	public void testFindIntersections14() {
+		Triangle tr = new Triangle(new Point3D(0, 0, 0), new Point3D(-4, 0, 0), new Point3D(0, 4, 0));
+		List<Point3D> result = tr.findIntersections(new Ray(new Point3D(-1,2,0), new Vector(1, 0, 3)));
+		List<Point3D> exp = new ArrayList<Point3D>();
+		exp.add(new Point3D(-1,2,0));
+		assertEquals("problem with intersections", exp, result);
+	}
+	
+	/**
+	 * test for case ray isn't an plane but starts in plane outside triangle
+	 */
+	public void testFindIntersections15() {
+		Triangle tr = new Triangle(new Point3D(0, 0, 0), new Point3D(-4, 0, 0), new Point3D(0, 4, 0));
+		List<Point3D> result = tr.findIntersections(new Ray(new Point3D(5,2,0), new Vector(1, 0, 3)));
+		List<Point3D> exp = new ArrayList<Point3D>();
 		assertEquals("problem with intersections", exp, result);
 	}
 }

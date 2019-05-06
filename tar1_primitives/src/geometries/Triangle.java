@@ -1,6 +1,5 @@
 package geometries;
 
-import java.util.ArrayList;
 import java.util.List;
 
 //import java.lang.reflect.Constructor;
@@ -46,13 +45,14 @@ public class Triangle extends Plane {
 	@Override
 	public List<Point3D> findIntersections(Ray _ray) {
 		List<Point3D> trnglLst = super.findIntersections(_ray);
-		if (trnglLst.isEmpty()) {
-			return trnglLst;
+		if (trnglLst.isEmpty()) { // if ray dosn't cut plane return empty
+			return EMPTY_LIST;
 		}
 		Point3D rayPnt = _ray.getPoint();
 		Vector rayVec = _ray.getVector();
 		Point3D trnglLstPnt = trnglLst.get(0);
-		if (!(trnglLstPnt.equals(rayPnt))) {
+		if (!(trnglLstPnt.equals(rayPnt))) { // if ray cuts plane and dosen't start at plane check if it cuts plane
+												// inside triangle
 			Vector v1 = trianPoints[0].subtract(rayPnt);
 			Vector v2 = trianPoints[1].subtract(rayPnt);
 			Vector v3 = trianPoints[2].subtract(rayPnt);
@@ -73,13 +73,13 @@ public class Triangle extends Plane {
 			}
 			return trnglLst;
 		}
-		for (Point3D p : trianPoints) {
+		for (Point3D p : trianPoints) { // if ray starts at one of triangle corners return point
 			if (rayPnt.equals(p)) {
 				return trnglLst;
 			}
 		}
-		if (Util.isZero(normalVector.vectorsDotProduct(rayVec))) { // case ray is include in plane
-			trnglLst.clear();
+		trnglLst.clear();
+		if (Util.isZero(normalVector.vectorsDotProduct(rayVec))) { // if ray is include in plane check if cuts triangle
 			Plane ab = new Plane(trianPoints[0], trianPoints[1], trianPoints[0].addVec(normalVector));
 			Plane bc = new Plane(trianPoints[1], trianPoints[2], trianPoints[1].addVec(normalVector));
 			Plane ca = new Plane(trianPoints[2], trianPoints[0], trianPoints[2].addVec(normalVector));
@@ -88,7 +88,7 @@ public class Triangle extends Plane {
 			List<Point3D> pointsCA = ca.findIntersections(_ray);
 			Point3D pnt0 = null, pnt1 = null, pnt2 = null;
 			if (!pointsAB.isEmpty()) {
-				pnt0 = new Point3D(pointsAB.get(0));
+				pnt0 = pointsAB.get(0);
 				for (Point3D p : trianPoints) {
 					if (pnt0.equals(p)) {
 						pnt1 = new Point3D(pnt0);
@@ -102,7 +102,7 @@ public class Triangle extends Plane {
 				}
 			}
 			if (!pointsBC.isEmpty()) {
-				pnt0 = new Point3D(pointsBC.get(0));
+				pnt0 = pointsBC.get(0);
 				for (Point3D p : trianPoints) {
 					if (pnt0.equals(p)) {
 						if (pnt1 == null) {
@@ -124,7 +124,7 @@ public class Triangle extends Plane {
 				}
 			}
 			if (!pointsCA.isEmpty()) {
-				pnt0 = new Point3D(pointsCA.get(0));
+				pnt0 = pointsCA.get(0);
 				for (Point3D p : trianPoints) {
 					if (pnt0.equals(p)) {
 						if (pnt1 == null) {
@@ -145,75 +145,30 @@ public class Triangle extends Plane {
 					}
 				}
 			}
-			if (pnt1 != null && pnt2 != null) {
-
-				if (pnt1.subtract(rayPnt).length() < pnt2.subtract(rayPnt).length()) {
-					trnglLst.add(pnt1);
-				} else {
-					trnglLst.add(pnt2);
+			if (pnt1 != null) { // if there is points that ray cuts triangle
+				if (pnt1.equals(rayPnt) || pnt2 != null && pnt2.equals(rayPnt)) {
+					trnglLst.add(rayPnt);
+					return trnglLst;
 				}
-			} else if (pnt1 != null) {
-
-				trnglLst.add(pnt1);
+				if (pnt2 != null) {
+					if (pnt2.subtract(rayPnt).length() < pnt1.subtract(rayPnt).length()) {
+						trnglLst.add(pnt2);
+					} else {
+						trnglLst.add(pnt1);
+					}
+					return trnglLst;
+				}
+				for (Point3D p : trianPoints) {
+					if (pnt1.equals(p)) {
+						trnglLst.add(pnt1);
+						return trnglLst;
+					}
+				}
+				trnglLst.add(rayPnt);
 			}
+		} else { // if ray starts at plane but isn't include in plane
+			trnglLst = findIntersections(new Ray(new Point3D(rayPnt.addVec(rayVec.scale(-1))), rayVec));
 		}
 		return trnglLst;
 	}
-	/*
-	 * @Override public List<Point3D> findIntersections(Ray _ray) { List<Point3D>
-	 * trnglLst = super.findIntersections(_ray); Point3D p = trnglLst.get(0);
-	 * Point3D p0 = _ray.getPoint(); if (p.equals(p0)) { Ray newRay = new
-	 * Ray(p0.addVec(_ray.getVector().scale(-0.00001)), _ray.getVector()); return
-	 * findIntersections(newRay); } try { Vector v1 = trianPoints[0].subtract(p0);
-	 * Vector v2 = trianPoints[1].subtract(p0); Vector v3 =
-	 * trianPoints[2].subtract(p0); Vector N1 =
-	 * v1.vecotrsCrossProduct(v2).normalize(); Vector N2 =
-	 * v2.vecotrsCrossProduct(v3).normalize(); Vector N3 =
-	 * v3.vecotrsCrossProduct(v1).normalize(); double num1 =
-	 * p.subtract(p0).vectorsDotProduct(N1); double num2 =
-	 * p.subtract(p0).vectorsDotProduct(N2); double num3 =
-	 * p.subtract(p0).vectorsDotProduct(N3); if (Util.isZero(num1) ||
-	 * Util.isZero(num2) || Util.isZero(num1)) { return EMPTY_LIST; } if ((num1 > 0
-	 * && num2 > 0 && num3 > 0) || (num1 < 0 && num2 < 0 && num3 < 0)) { return
-	 * trnglLst; } } catch (NumberFormatException e) { return EMPTY_LIST; } return
-	 * EMPTY_LIST; }
-	 */
-
-	/*
-	 * public List<Point3D> findIntersections(Ray parm) { List<Point3D> list =
-	 * super.findIntersections(parm); // Get intersections with plane. Point3D
-	 * startOfRayPoint = parm.getPoint(); System.out.println(list); if
-	 * (list.isEmpty()) { System.out.println("0"); return list; } Point3D currPoint
-	 * = list.get(0); // If the intersection point is one from triangle points. if
-	 * (currPoint.equals(trianPoints[0]) || currPoint.equals(trianPoints[1]) ||
-	 * currPoint.equals(trianPoints[2])) { System.out.println("1"); return list; }
-	 * // Create direction points between triangle points and currPoint Vector u1 =
-	 * trianPoints[0].subtract(currPoint).normalize(); Vector u2 =
-	 * trianPoints[1].subtract(currPoint).normalize(); Vector u3 =
-	 * trianPoints[2].subtract(currPoint).normalize(); Vector n1 = null, n2 = null,
-	 * n3 = null; try { n1 = (u1.vecotrsCrossProduct(u2)).normalize();
-	 * System.out.println("3"); } catch (IllegalArgumentException e) { // If
-	 * currPint is on the line A - B if ((u1.equals(u2.scale(-1)))) {
-	 * System.out.println("4"); return list; } else { System.out.println("5");
-	 * return EMPTY_LIST; } } try { n2 = (u2.vecotrsCrossProduct(u3)).normalize();
-	 * System.out.println("6"); } catch (IllegalArgumentException e) { // If
-	 * currPint is on the line B - C if ((u2.equals(u3.scale(-1)))) {
-	 * System.out.println("7"); return list; } else { System.out.println("8");
-	 * return EMPTY_LIST; } } try { n3 = (u3.vecotrsCrossProduct(u1)).normalize();
-	 * System.out.println("9"); } catch (IllegalArgumentException e) { // If
-	 * currPint is on the line A - C if ((u1.equals(u3.scale(-1)))) {
-	 * System.out.println("10"); return list; } else { System.out.println("11");
-	 * return EMPTY_LIST; } } Vector directionToPVector = null; try {
-	 * directionToPVector = currPoint.subtract(startOfRayPoint);
-	 * System.out.println("12"); } catch (IllegalArgumentException e) { // If P0 is
-	 * P Ray ray = new Ray(parm.getPoint().addVec(parm.getVector().scale(-0.00001)),
-	 * parm.getVector()); System.out.println(ray.getPoint() + " " +
-	 * ray.getVector()); return findIntersections(ray); } double a =
-	 * n1.vectorsDotProduct(directionToPVector), b =
-	 * n2.vectorsDotProduct(directionToPVector), c =
-	 * n3.vectorsDotProduct(directionToPVector); // If all with the same sign if ((a
-	 * > 0 && b > 0 && c > 0) || (a < 0 && b < 0 && c < 0)) {
-	 * System.out.println("14"); return list; } System.out.println("15"); return
-	 * EMPTY_LIST; }
-	 */
 }
