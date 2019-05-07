@@ -3,6 +3,7 @@ package geometries;
 import java.util.ArrayList;
 import java.util.List;
 
+import primitives.Coordinate;
 import primitives.Point3D;
 import primitives.Ray;
 import primitives.Util;
@@ -53,21 +54,13 @@ public class Sphere extends RadialGeometry {
 			return sphereLst;
 		}
 		double _th = Math.sqrt(Util.uscale(_radius, _radius) - powD);
-		double t1 = _tm + _th;
-		double t2 = _tm - _th;
-		if (t2 >= 0) {
-			if (Util.isZero(t2)) {
-				sphereLst.add(rayPnt);
-			} else {
-				sphereLst.add(rayPnt.addVec(rayVec.scale(t2)));
-			}
-			sphereLst.add(rayPnt.addVec(rayVec.scale(t1)));
-		} else if (t1 >= 0) {
-			if (Util.isZero(t1)) {
-				sphereLst.add(rayPnt);
-			} else {
-				sphereLst.add(rayPnt.addVec(rayVec.scale(t1)));
-			}
+		double t1 = Util.usubtract(_tm, -_th);
+		double t2 = Util.usubtract(_tm, _th);
+		if (Util.isZero(t2) || t2 > 0) {
+			sphereLst.add(Util.isZero(t2) ?  rayPnt : rayPnt.addVec(rayVec.scale(t2)));
+		}
+		if (Util.isZero(t1) || t1 >= 0) {
+				sphereLst.add(Util.isZero(t1) ?  rayPnt : rayPnt.addVec(rayVec.scale(t1)));
 		}
 		return sphereLst;
 	}
