@@ -14,6 +14,7 @@ public class SceneXmlParser {
 	private XMLReader xmlReader;
 	private SAXParser saxParser;
 	private SAXParserFactory spf;
+
 	public SceneXmlParser(String systemId) throws ParserConfigurationException, SAXException, IOException {
 		spf = SAXParserFactory.newInstance();
 		saxParser = spf.newSAXParser();
@@ -22,5 +23,6 @@ public class SceneXmlParser {
 		xmlReader.setContentHandler(handler);
 		xmlReader.parse(systemId);
 	}
-	SceneDescriptor _sceneD=handler.getSceneDescriptor();
+
+	SceneDescriptor _sceneD = handler.getSceneDescriptor();
 }
