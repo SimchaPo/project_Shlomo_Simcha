@@ -1,6 +1,7 @@
 package geometries;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 //import java.util.Iterator;
 import java.util.List;
 
@@ -10,10 +11,14 @@ import primitives.Ray;
 import geometries.Intersectable;
 
 public class Geometries implements Intersectable {
-	List<Intersectable> _geometries;
+	private List<Intersectable> _geometries;
+
+	public List<Intersectable> get_geometries() {
+		return _geometries;
+	}
 
 	public Geometries(Intersectable... geometries) {
-		_geometries = new ArrayList<Intersectable>(null);
+		_geometries = new ArrayList<Intersectable>();
 		add(geometries);
 	}
 
@@ -24,26 +29,32 @@ public class Geometries implements Intersectable {
 	 * @param geometries - list of figures
 	 */
 	public void add(Intersectable... geometries) {
-		int LIndex = this._geometries.size() + 1;
 		for (Intersectable intersectable : geometries) {
-			_geometries.add(LIndex, intersectable);
-			LIndex++;
+			_geometries.add(intersectable);
 		}
 	}
 
 	@Override
 	public List<Point3D> findIntersections(Ray _ray) {
-		List<Point3D> gmtriesIntrsctnsLst = new ArrayList<Point3D>(null);
-		int count = 0;
+		List<Point3D> gmtriesIntrsctnsLst = new ArrayList<Point3D>();
 		for (Intersectable _intrscble : _geometries) {
-			List<Point3D> tmpLst = new ArrayList<Point3D>(null);
-			tmpLst.addAll(0, _intrscble.findIntersections(_ray));
-			for (Point3D point3d : tmpLst) {
-				gmtriesIntrsctnsLst.add(count, point3d);
-				count++;
-			}
+			gmtriesIntrsctnsLst.addAll(_intrscble.findIntersections(_ray));
 		}
 		return gmtriesIntrsctnsLst;
 	}
+	
+	public Iterator<Intersectable> getGeometriesIterator()
+	{
+		return _geometries.iterator();
 
+	}
+
+	@Override
+	public String toString() {
+		String str = "";
+		for (Intersectable geo : _geometries) {
+			str += geo + "\n";
+		}
+		return str;
+	}
 }

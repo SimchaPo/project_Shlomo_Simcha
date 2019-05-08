@@ -79,4 +79,8 @@ public class Plane implements Geometry {
 		return planeLst;
 	}
 
+	@Override
+	public String toString() {
+		return "point on plane: " + point + " noemal: " + normalVector;
+	}
 }
