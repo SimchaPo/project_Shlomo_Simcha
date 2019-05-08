@@ -2,18 +2,29 @@ package elements;
 
 import primitives.Color;
 
+/**
+ * 
+ * @author OWNER this class sets the amount of light the color needs to get at
+ *         point
+ */
 public class AmbientLight {
 	private Color _color;
-	double Ka;
+	private double Ka;
+
+	public Color get_color() {
+		return _color;
+	}
+
+	public double getKa() {
+		return Ka;
+	}
 
 	public AmbientLight(Color _Ia, double _Ka) {
-		_color=_Ia;
-		Ka=_Ka;
+		_color = new Color(_Ia);
+		Ka = _Ka;
 	}
 
 	public Color getIntensity() {
-		Color _colorAL = new Color(this._color.getColor().getRed() / 255, this._color.getColor().getGreen() / 255,
-				this._color.getColor().getBlue() / 255).scale(this.Ka);
-		return _colorAL;
+		return new Color(_color.scale(Ka));
 	}
 }

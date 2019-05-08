@@ -59,7 +59,7 @@ public class Vector {
 
 	@Override
 	public String toString() {
-		return point.toString();
+		return "vector direction: " + point.toString();
 	}
 
 	/**

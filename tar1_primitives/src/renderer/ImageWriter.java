@@ -8,6 +8,11 @@ import java.io.IOException;
 import javax.imageio.*;
 import javax.imageio.stream.*;
 
+/**
+ * 
+ * @author OWNER
+ *
+ */
 public class ImageWriter {
 
 	private double _imageWidth, _imageHeight;

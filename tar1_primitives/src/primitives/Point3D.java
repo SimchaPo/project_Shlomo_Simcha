@@ -65,7 +65,7 @@ public class Point3D {
 
 	@Override
 	public String toString() {
-		return "(" + x._coord + "," + y._coord + "," + z._coord + ")";
+		return "point3D: (" + x._coord + "," + y._coord + "," + z._coord + ")";
 	}
 
 	/************** Operations ***************/
