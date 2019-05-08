@@ -1,7 +1,5 @@
 package elements;
 
-import java.util.List;
-
 import primitives.Point3D;
 import primitives.Ray;
 import primitives.Util;

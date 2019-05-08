@@ -3,12 +3,10 @@ package geometries;
 import java.util.ArrayList;
 import java.util.List;
 
-import primitives.Coordinate;
 import primitives.Point3D;
 import primitives.Ray;
 import primitives.Util;
 import primitives.Vector;
-import java.lang.Math;
 
 /**
  * This class define geometric 3D figure "Sphere"
@@ -57,10 +55,10 @@ public class Sphere extends RadialGeometry {
 		double t1 = Util.usubtract(_tm, -_th);
 		double t2 = Util.usubtract(_tm, _th);
 		if (Util.isZero(t2) || t2 > 0) {
-			sphereLst.add(Util.isZero(t2) ?  rayPnt : rayPnt.addVec(rayVec.scale(t2)));
+			sphereLst.add(Util.isZero(t2) ? rayPnt : rayPnt.addVec(rayVec.scale(t2)));
 		}
 		if (Util.isZero(t1) || t1 >= 0) {
-				sphereLst.add(Util.isZero(t1) ?  rayPnt : rayPnt.addVec(rayVec.scale(t1)));
+			sphereLst.add(Util.isZero(t1) ? rayPnt : rayPnt.addVec(rayVec.scale(t1)));
 		}
 		return sphereLst;
 	}

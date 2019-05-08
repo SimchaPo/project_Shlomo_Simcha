@@ -9,7 +9,6 @@ import geometries.Sphere;
 import geometries.Triangle;
 import junit.framework.TestCase;
 import primitives.Point3D;
-import primitives.Ray;
 import primitives.Vector;
 
 public class CameraTest extends TestCase {
