@@ -10,10 +10,10 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 public class SceneXmlParser {
-	private Sax_handler handler;
-	private XMLReader xmlReader;
-	private SAXParser saxParser;
-	private SAXParserFactory spf;
+	public Sax_handler handler;
+	public XMLReader xmlReader;
+	public SAXParser saxParser;
+	public SAXParserFactory spf;
 
 	public SceneXmlParser() throws ParserConfigurationException, SAXException, IOException {
 		spf = SAXParserFactory.newInstance();
@@ -24,5 +24,5 @@ public class SceneXmlParser {
 		xmlReader.parse("D:\\mavoLehandasatTohna\\XML\\testFile.xml");
 	}
 
-	SceneDescriptor _sceneD = handler.getSceneDescriptor();
+	public SceneDescriptor _sceneD = handler.getSceneDescriptor();
 }

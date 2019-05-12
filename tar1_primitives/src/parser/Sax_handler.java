@@ -111,12 +111,12 @@ public class Sax_handler extends DefaultHandler {
 	public void endElement(String _nameSpace, String _localName, String _qName) throws SAXException {
 		switch (_qName) {
 		case SPHERE:
-			int spheresCount = _fromXML._spheres.size();
-			_fromXML._spheres.add(spheresCount, _sphereMap);
+			//int spheresCount = _fromXML._spheres.size();
+			_fromXML._spheres.add(_sphereMap);
 			break;
 		case TRIANGLE:
-			int trianglesCount = _fromXML._triangles.size();
-			_fromXML._triangles.add(trianglesCount, _triangleMap);
+			//int trianglesCount = _fromXML._triangles.size();
+			_fromXML._triangles.add(_triangleMap);
 			break;
 		default:
 			break;
