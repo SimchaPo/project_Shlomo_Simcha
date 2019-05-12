@@ -10,18 +10,21 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 public class SceneXmlParser {
-	Sax_handler handler = new Sax_handler();
+	private SceneDescriptor parserDescriptor = SceneDescriptor.EMPTY_Descriptor;
 
 	public void parserInit() throws ParserConfigurationException, SAXException, IOException {
 		SAXParserFactory spf = SAXParserFactory.newInstance();
 		SAXParser saxParser = spf.newSAXParser();
+		Sax_handler handler = new Sax_handler();
+	
 		XMLReader xmlReader = saxParser.getXMLReader();
 		xmlReader.setContentHandler(handler);
 		xmlReader.parse("D:\\mavoLehandasatTohna\\XML\\testFile.xml");
+		parserDescriptor = handler.getTmp();
 	}
 
-	public Sax_handler getHandler() {
-		return handler;
+	public SceneDescriptor getParserDescriptor() {
+		return parserDescriptor;
 	}
 
 }

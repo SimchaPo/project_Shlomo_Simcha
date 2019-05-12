@@ -1,6 +1,8 @@
 package parser;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +11,11 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 public class SceneDescriptor {
+	public static final String EMPTY_STRING = "";
+	public static final Map<String, String> EMPTY_MAP = new HashMap<String, String>();
+	public static final List<Map<String, String>> EMPTY_LIST = new ArrayList<Map<String, String>>();
+	public static final SceneDescriptor EMPTY_Descriptor = new SceneDescriptor(EMPTY_MAP, EMPTY_MAP, EMPTY_MAP,
+			EMPTY_LIST, EMPTY_LIST);
 	Map<String, String> _sceneAttributes;
 	Map<String, String> _cameraAttributes;
 	Map<String, String> _ambientLightAttributes;
@@ -39,7 +46,7 @@ public class SceneDescriptor {
 
 	public SceneDescriptor InitializeFromXMLstring() throws IOException, SAXException, ParserConfigurationException {
 		SceneXmlParser doc = new SceneXmlParser();
-		SceneDescriptor _sceneD = new SceneDescriptor(doc.handler.getTmp());
+		SceneDescriptor _sceneD = new SceneDescriptor(doc.getParserDescriptor());
 		return _sceneD;
 	}
 
