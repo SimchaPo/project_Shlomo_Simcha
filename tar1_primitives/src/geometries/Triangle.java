@@ -171,9 +171,10 @@ public class Triangle extends Plane {
 		}
 		return trnglLst;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "triangle points: " + trianPoints[0] + " " + trianPoints[1] + " " + trianPoints[2] + " normal: " + normalVector;
+		return "triangle points: " + trianPoints[0] + " " + trianPoints[1] + " " + trianPoints[2] + " normal: "
+				+ normalVector;
 	}
 }

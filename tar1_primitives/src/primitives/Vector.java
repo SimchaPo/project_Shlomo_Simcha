@@ -109,7 +109,8 @@ public class Vector {
 
 	/**
 	 * function for calculate vector length
-	 * @return double length 
+	 * 
+	 * @return double length
 	 */
 	public double length() {
 		return point.distance(Point3D.ZERO);
@@ -135,10 +136,10 @@ public class Vector {
 	 * function calculate and return the Unit Vector
 	 * 
 	 * @param _vec
-	 * @return new vector normalized 
+	 * @return new vector normalized
 	 */
 	public Vector normalize() {
-		double devider = 1/this.length();
+		double devider = 1 / this.length();
 		Coordinate x = this.point.getX().scale(devider);
 		Coordinate y = this.point.getY().scale(devider);
 		Coordinate z = this.point.getZ().scale(devider);

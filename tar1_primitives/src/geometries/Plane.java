@@ -62,7 +62,7 @@ public class Plane implements Geometry {
 		}
 		Vector pq = point.subtract(rayPnt);
 		double pqProDotNormal = pq.vectorsDotProduct(normalVector);
-		if(Util.isZero(pqProDotNormal)) {
+		if (Util.isZero(pqProDotNormal)) {
 			planeLst.add(rayPnt);
 			return planeLst;
 		}

@@ -26,7 +26,7 @@ public class Scene {
 		_scene = name;
 		_geometries = new Geometries();
 	}
-	
+
 	// ****** Getters/Setters *******//
 	public void set_background(Color _background) {
 		this._background = _background;

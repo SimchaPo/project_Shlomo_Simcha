@@ -51,8 +51,7 @@ public class Cylinder extends Tube {
 			return rayVec.scale(-1);
 		} else if (len == hight) {
 			return rayVec;
-		}
-		else {
+		} else {
 			throw new IllegalArgumentException("point isn't on cylinder");
 		}
 	}

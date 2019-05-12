@@ -6,8 +6,11 @@ import primitives.Color;
 import primitives.Point3D;
 import primitives.Ray;
 import scene.Scene;
+
 /**
- * Render class gets scene and image writer and sets everything together to in image
+ * Render class gets scene and image writer and sets everything together to in
+ * image
+ * 
  * @author OWNER
  *
  */
@@ -50,7 +53,7 @@ public class Render {
 
 	public void printGrid(int size, java.awt.Color... opt) {
 		java.awt.Color _color = opt.length > 0 ? opt[0] : java.awt.Color.white;
-		for (int i = 0; i < _imageWriter.getNx(); i += _imageWriter.getNx()/size) {
+		for (int i = 0; i < _imageWriter.getNx(); i += _imageWriter.getNx() / size) {
 			for (int j = 0; j < _imageWriter.getNy(); ++j) {
 				_imageWriter.writePixel(i, j, _color);
 				_imageWriter.writePixel(j, i, _color);

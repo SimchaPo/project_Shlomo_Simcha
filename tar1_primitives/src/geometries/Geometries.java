@@ -42,9 +42,8 @@ public class Geometries implements Intersectable {
 		}
 		return gmtriesIntrsctnsLst;
 	}
-	
-	public Iterator<Intersectable> getGeometriesIterator()
-	{
+
+	public Iterator<Intersectable> getGeometriesIterator() {
 		return _geometries.iterator();
 
 	}

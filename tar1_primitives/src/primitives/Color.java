@@ -33,8 +33,7 @@ public class Color {
 	 */
 	public Color(double r, double g, double b) {
 		if (r < 0 || g < 0 || b < 0)
-			throw new IllegalArgumentException(
-					"Negative color component is illegal");
+			throw new IllegalArgumentException("Negative color component is illegal");
 		_r = r;
 		_g = g;
 		_b = b;
@@ -85,8 +84,7 @@ public class Color {
 	 */
 	public Color setColor(double r, double g, double b) {
 		if (r < 0 || g < 0 || b < 0)
-			throw new IllegalArgumentException(
-					"Negative color component is illegal");
+			throw new IllegalArgumentException("Negative color component is illegal");
 		_r = r;
 		_g = g;
 		_b = b;
@@ -154,8 +152,7 @@ public class Color {
 	 */
 	public Color scale(double k) {
 		if (k < 0)
-			throw new IllegalArgumentException(
-					"Can't scale a color by a negative number");
+			throw new IllegalArgumentException("Can't scale a color by a negative number");
 		double r = _r * k;
 		double g = _g * k;
 		double b = _b * k;

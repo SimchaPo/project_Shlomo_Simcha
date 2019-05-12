@@ -98,8 +98,8 @@ public class VectorTest extends TestCase {
 	 * test for cross product
 	 */
 	public void testVectrsCrossProduct1() {
-		Vector vec1 = new Vector(3,4,5);
-		Vector vec2 = new Vector(6,2,3);
+		Vector vec1 = new Vector(3, 4, 5);
+		Vector vec2 = new Vector(6, 2, 3);
 		Vector exp = new Vector(2, 21, -18);
 		Vector result = vec1.vecotrsCrossProduct(vec2);
 		assertEquals("problem with subtracting", exp, result);

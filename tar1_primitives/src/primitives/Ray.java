@@ -44,7 +44,7 @@ public class Ray {
 	public Point3D getPoint() {
 		return point;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "ray: " + point.toString() + vector.toString();

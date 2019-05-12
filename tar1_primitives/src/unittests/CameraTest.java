@@ -170,7 +170,7 @@ public class CameraTest extends TestCase {
 		Vector vecTo = new Vector(0, 0, -1);
 		Vector vecUp = new Vector(0, 1, 0);
 		Camera cam = new Camera(pnt, vecUp, vecTo);
-		Plane pl = new Plane(new Point3D(0, 5, -5), new Vector(1,1,1));
+		Plane pl = new Plane(new Point3D(0, 5, -5), new Vector(1, 1, 1));
 		List<Point3D> result = new ArrayList<Point3D>();
 		int exp = 9;
 		int Nx = 3, Ny = 3;
@@ -182,7 +182,7 @@ public class CameraTest extends TestCase {
 		}
 		assertEquals("problem with camera", exp, result.size());
 	}
-	
+
 	/**
 	 * test for case they are 6 intersections when camera is before plane and plane
 	 * isn't orthogonal to Vto
@@ -192,7 +192,7 @@ public class CameraTest extends TestCase {
 		Vector vecTo = new Vector(0, 0, -1);
 		Vector vecUp = new Vector(0, 1, 0);
 		Camera cam = new Camera(pnt, vecUp, vecTo);
-		Plane pl = new Plane(new Point3D(0, 5, -5), new Vector(0, 1,3));
+		Plane pl = new Plane(new Point3D(0, 5, -5), new Vector(0, 1, 3));
 		List<Point3D> result = new ArrayList<Point3D>();
 		int exp = 6;
 		int Nx = 3, Ny = 3;
@@ -204,7 +204,7 @@ public class CameraTest extends TestCase {
 		}
 		assertEquals("problem with camera", exp, result.size());
 	}
-	
+
 	/**
 	 * test for case they is 1 intersections when camera is before triangle
 	 */
@@ -213,7 +213,7 @@ public class CameraTest extends TestCase {
 		Vector vecTo = new Vector(0, 0, -1);
 		Vector vecUp = new Vector(0, 1, 0);
 		Camera cam = new Camera(pnt, vecUp, vecTo);
-		Triangle tr = new Triangle(new Point3D(0, -1, -2), new Point3D(-1,1,-2), new Point3D(1,1,-2));
+		Triangle tr = new Triangle(new Point3D(0, -1, -2), new Point3D(-1, 1, -2), new Point3D(1, 1, -2));
 		List<Point3D> result = new ArrayList<Point3D>();
 		int exp = 1;
 		int Nx = 3, Ny = 3;
@@ -225,7 +225,7 @@ public class CameraTest extends TestCase {
 		}
 		assertEquals("problem with camera", exp, result.size());
 	}
-	
+
 	/**
 	 * test for case they are 2 intersections when camera is before triangle
 	 */
@@ -234,7 +234,7 @@ public class CameraTest extends TestCase {
 		Vector vecTo = new Vector(0, 0, -1);
 		Vector vecUp = new Vector(0, 1, 0);
 		Camera cam = new Camera(pnt, vecUp, vecTo);
-		Triangle tr = new Triangle(new Point3D(0, -20, -2), new Point3D(-1,1,-2), new Point3D(1,1,-2));
+		Triangle tr = new Triangle(new Point3D(0, -20, -2), new Point3D(-1, 1, -2), new Point3D(1, 1, -2));
 		List<Point3D> result = new ArrayList<Point3D>();
 		int exp = 2;
 		int Nx = 3, Ny = 3;
