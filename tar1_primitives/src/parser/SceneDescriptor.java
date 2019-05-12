@@ -35,8 +35,8 @@ public class SceneDescriptor {
 		_triangles = _obj._sceneD._triangles;
 	}
 
-	void InitializeFromXMLstring(String xmlPath) throws IOException, SAXException, ParserConfigurationException {
-		SceneXmlParser doc = new SceneXmlParser(xmlPath);
+	void InitializeFromXMLstring() throws IOException, SAXException, ParserConfigurationException {
+		SceneXmlParser doc = new SceneXmlParser();
 		this._sceneAttributes = doc._sceneD._sceneAttributes;
 		this._cameraAttributes = doc._sceneD._cameraAttributes;
 		this._ambientLightAttributes = doc._sceneD._ambientLightAttributes;
