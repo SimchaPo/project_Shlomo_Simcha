@@ -38,7 +38,7 @@ public class RenderTest extends TestCase {
 		ImageWriter im = new ImageWriter("sim", 500, 500, 500, 500);
 		Render ren = new Render(scene, im);
 		ren.renderImage();
-		ren.printGrid(10, java.awt.Color.green);
+		ren.printGrid(10, java.awt.Color.red);
 		ren.get_imageWriter().writeToimage();
 	}
 
