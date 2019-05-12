@@ -123,7 +123,7 @@ public class Sax_handler extends DefaultHandler {
 		}
 	}
 
-	SceneDescriptor getSceneDescriptor() {
+	public SceneDescriptor getSceneDescriptor() {
 		return _fromXML;
 	}
 }

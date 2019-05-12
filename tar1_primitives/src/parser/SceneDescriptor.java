@@ -35,7 +35,7 @@ public class SceneDescriptor {
 		_triangles = _obj._sceneD._triangles;
 	}
 
-	void InitializeFromXMLstring() throws IOException, SAXException, ParserConfigurationException {
+	public void InitializeFromXMLstring() throws IOException, SAXException, ParserConfigurationException {
 		SceneXmlParser doc = new SceneXmlParser();
 		this._sceneAttributes = doc._sceneD._sceneAttributes;
 		this._cameraAttributes = doc._sceneD._cameraAttributes;
@@ -43,4 +43,25 @@ public class SceneDescriptor {
 		this._spheres = doc._sceneD._spheres;
 		this._triangles = doc._sceneD._triangles;
 	}
+
+	public Map<String, String> get_sceneAttributes() {
+		return _sceneAttributes;
+	}
+
+	public Map<String, String> get_cameraAttributes() {
+		return _cameraAttributes;
+	}
+
+	public Map<String, String> get_ambientLightAttributes() {
+		return _ambientLightAttributes;
+	}
+
+	public List<Map<String, String>> get_spheres() {
+		return _spheres;
+	}
+
+	public List<Map<String, String>> get_triangles() {
+		return _triangles;
+	}
+	
 }
