@@ -18,8 +18,11 @@ public class ParserTest extends TestCase {
 	public Map<String, String> tmpMap = new HashMap<String, String>();
 
 	public void testInitializeFromXMLstring() throws SAXException, ParserConfigurationException, IOException {
+		tmpMap.putAll(parserT.getHandler().get_sceneMap());
+		String str1 = tmpMap.values().toString();
+		System.out.println(str1);
 		test1.InitializeFromXMLstring();
-		tmpMap.putAll(parserT.handler.getSceneDescriptor().get_sceneAttributes());
+
 		assertEquals(tmpMap, test1.get_sceneAttributes());
 	}
 

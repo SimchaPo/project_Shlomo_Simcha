@@ -1,6 +1,8 @@
 package parser;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.xml.sax.Attributes;
@@ -15,7 +17,6 @@ import org.xml.sax.helpers.DefaultHandler;
  *
  */
 public class Sax_handler extends DefaultHandler {
-	SceneDescriptor _fromXML = new SceneDescriptor();
 	static final String SCENE = "scene";
 	static final String AMBIENT_LIGHT = "ambient-light";
 	static final String CAMERA = "camera";
@@ -35,53 +36,66 @@ public class Sax_handler extends DefaultHandler {
 	static final String P0 = "p0";
 	static final String P1 = "p1";
 	static final String P2 = "p2";
-	Map<String, String> _sphereMap = new HashMap<String, String>();
-	Map<String, String> _triangleMap = new HashMap<String, String>();
+	private Map<String, String> _sphereMap;
+	private Map<String, String> _triangleMap;
+	private Map<String, String> _sceneMap;
+	private Map<String, String> _cameraMap;
+	private Map<String, String> _ambientLightMap;
+	private List<Map<String, String>> _sphereLst = null;
+	private List<Map<String, String>> _triangleLst = null;
 	private String currentElm = null;
-	private String currentFigure = null;
+	SceneDescriptor tmp = null;
+	// private String currentFigure = null;
+	// int count = 0;
 
 	public void startDocument() throws SAXException {
 		System.out.println("Parsing started...");
 	}
 
-	public void endDocument() throws SAXException {
-		System.out.println("Parsing ended...");
-	}
-
 	public void startElement(String _nameSpace, String _localName, String _qName, Attributes atts) throws SAXException {
 		currentElm = _qName;
+
 		switch (currentElm) {
 		case SCENE:
-			_fromXML._sceneAttributes.put(BACKGRAUND_COLOR, atts.getValue(BACKGRAUND_COLOR));
-			_fromXML._sceneAttributes.put(SCREEN_WIDTH, atts.getValue(SCREEN_WIDTH));
-			_fromXML._sceneAttributes.put(SCREEN_HEIGHT, atts.getValue(SCREEN_HEIGHT));
-			_fromXML._sceneAttributes.put(SCREEN_DIST, atts.getValue(SCREEN_DIST));
+			_sceneMap = new HashMap<String, String>();
+
+			_sceneMap.put(BACKGRAUND_COLOR, atts.getValue(BACKGRAUND_COLOR));
+
+			_sceneMap.put(SCREEN_WIDTH, atts.getValue(SCREEN_WIDTH));
+
+			_sceneMap.put(SCREEN_HEIGHT, atts.getValue(SCREEN_HEIGHT));
+
+			_sceneMap.put(SCREEN_DIST, atts.getValue(SCREEN_DIST));
+
 			break;
 		case CAMERA:
-			_fromXML._cameraAttributes.put(P_0, atts.getValue(P_0));
-			_fromXML._cameraAttributes.put(V_TO, atts.getValue(V_TO));
-			_fromXML._cameraAttributes.put(V_UP, atts.getValue(V_UP));
+			_cameraMap = new HashMap<String, String>();
+			_cameraMap.put(P_0, atts.getValue(P_0));
+
+			_cameraMap.put(V_TO, atts.getValue(V_TO));
+
+			_cameraMap.put(V_UP, atts.getValue(V_UP));
+
 			break;
 		case AMBIENT_LIGHT:
-			_fromXML._ambientLightAttributes.put(COLOR, atts.getValue(COLOR));
+			_ambientLightMap = new HashMap<String, String>();
+			_ambientLightMap.put(COLOR, atts.getValue(COLOR));
 			break;
-		case GEOMETRIES:
-			if (currentFigure == null) {
-				return;
-			}
-			switch (currentFigure) {
-			case SPHERE:
-				_sphereMap.put(CENTER, atts.getValue(CENTER));
-				_sphereMap.put(RADIUS, atts.getValue(RADIUS));
-				break;
-			case TRIANGLE:
-				_triangleMap.put(P0, atts.getValue(P0));
-				_triangleMap.put(P1, atts.getValue(P1));
-				_triangleMap.put(P2, atts.getValue(P2));
-				break;
-			default:
-				break;
-			}
+
+		case SPHERE:
+			_sphereMap = new HashMap<String, String>();
+			_sphereMap.put(CENTER, atts.getValue(CENTER));
+			_sphereMap.put(RADIUS, atts.getValue(RADIUS));
+
+			break;
+		case TRIANGLE:
+			_triangleMap = new HashMap<String, String>();
+			_triangleMap.put(P0, atts.getValue(P0));
+
+			_triangleMap.put(P1, atts.getValue(P1));
+
+			_triangleMap.put(P2, atts.getValue(P2));
+
 			break;
 
 		default:
@@ -90,40 +104,47 @@ public class Sax_handler extends DefaultHandler {
 
 	}
 
-//	public void characters(char[] ch, int start, int length) throws SAXException {
-//		String text=new String(ch, start, length)
-//		if (text.contains("<")||currentElm==null) {
-//			return;
-//		}
-//		switch (currentElm) {
-//		
-//		case BACKGRAUND_COLOR:
-//			_sceneA.put(BACKGRAUND_COLOR,attri);
-//			break;
-//		case TRIANGLE:
-//
-//			break;
-//		default:
-//			break;
-//		}
-//	}
+	public void characters(char[] ch, int start, int length) throws SAXException {
+		String text = new String(ch, start, length);
+		if (text.contains("<") || currentElm == null) {
+			return;
+		}
+
+	}
 
 	public void endElement(String _nameSpace, String _localName, String _qName) throws SAXException {
 		switch (_qName) {
+		case SCENE:
+			tmp = new SceneDescriptor(_sceneMap, _cameraMap, _ambientLightMap, _sphereLst, _triangleLst);
+			System.out.println(_sceneMap.keySet().toString());
+		case CAMERA:
+			System.out.println(_cameraMap.keySet().toString());
 		case SPHERE:
-			//int spheresCount = _fromXML._spheres.size();
-			_fromXML._spheres.add(_sphereMap);
+			if (_sphereLst == null) {
+				_sphereLst = new ArrayList<Map<String, String>>(null);
+			}
+			_sphereLst.add(_sphereMap);
+			System.out.println(_sphereMap.keySet().toString());
 			break;
 		case TRIANGLE:
-			//int trianglesCount = _fromXML._triangles.size();
-			_fromXML._triangles.add(_triangleMap);
+			if (_triangleLst == null) {
+				_triangleLst = new ArrayList<Map<String, String>>(null);
+			}
+			_triangleLst.add(_triangleMap);
+			System.out.println(_triangleMap.keySet().toString());
 			break;
 		default:
 			break;
 		}
 	}
 
-	public SceneDescriptor getSceneDescriptor() {
-		return _fromXML;
+	@Override
+	public void endDocument() throws SAXException {
+		super.endDocument();
 	}
+
+	public SceneDescriptor getTmp() {
+		return tmp;
+	}
+
 }
