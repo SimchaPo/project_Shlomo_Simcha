@@ -52,15 +52,19 @@ public class Render {
 	}
 
 	public void printGrid(int size, java.awt.Color... opt) {
+		int nX = _imageWriter.getNx(), nY = _imageWriter.getNy();
+		int sizeX = nX % 2 == 0 ? nX / size : nX / size + 1, sizeY = nY % 2 == 0 ? nY / size : nY / size + 1;
 		java.awt.Color _color = opt.length > 0 ? opt[0] : java.awt.Color.white;
-		for (int i = 0; i < _imageWriter.getNx(); i += _imageWriter.getNx() / size) {
-			for (int j = 0; j < _imageWriter.getNy(); ++j) {
+		for (int i = 0; i < nX; i += sizeX) {
+			for (int j = 0; j < nY; ++j) {
 				_imageWriter.writePixel(i, j, _color);
+				_imageWriter.writePixel(nX - 1, j, _color);
 			}
 		}
-		for (int j = 0; j < _imageWriter.getNy(); j += _imageWriter.getNy() / size) {
-			for (int i = 0; i < _imageWriter.getNx(); ++i) {
+		for (int j = 0; j < nY; j += sizeY) {
+			for (int i = 0; i < nX; ++i) {
 				_imageWriter.writePixel(i, j, _color);
+				_imageWriter.writePixel(i, nY - 1, _color);
 			}
 		}
 	}

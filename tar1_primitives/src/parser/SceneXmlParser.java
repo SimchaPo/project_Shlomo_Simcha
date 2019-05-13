@@ -16,7 +16,6 @@ public class SceneXmlParser {
 		SAXParserFactory spf = SAXParserFactory.newInstance();
 		SAXParser saxParser = spf.newSAXParser();
 		Sax_handler handler = new Sax_handler();
-
 		XMLReader xmlReader = saxParser.getXMLReader();
 		xmlReader.setContentHandler(handler);
 		xmlReader.parse("D:\\mavoLehandasatTohna\\XML\\testFile.xml");

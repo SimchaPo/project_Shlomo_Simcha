@@ -12,7 +12,7 @@ import parser.SceneDescriptor;
 import parser.SceneXmlParser;
 
 public class ParserTest extends TestCase {
-	public SceneXmlParser parserT;
+	public SceneXmlParser parserT = new SceneXmlParser();
 
 	public SceneDescriptor test1;
 	public Map<String, String> tmpMap;
