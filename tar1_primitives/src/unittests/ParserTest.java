@@ -1,7 +1,6 @@
 package unittests;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -14,14 +13,18 @@ import parser.SceneXmlParser;
 
 public class ParserTest extends TestCase {
 	public SceneXmlParser parserT;
-	public SceneDescriptor test1 = new SceneDescriptor(SceneDescriptor.EMPTY_Descriptor);
-	public Map<String, String> tmpMap = new HashMap<String, String>(SceneDescriptor.EMPTY_MAP);
+
+	public SceneDescriptor test1;
+	public Map<String, String> tmpMap;
 
 	public void testInitializeFromXMLstring() throws SAXException, ParserConfigurationException, IOException {
-		// tmpMap.putAll(parserT.getParserDescriptor().get_sceneAttributes());
-		String str1 = tmpMap.values().toString();
-		System.out.println(str1);
-		test1.InitializeFromXMLstring();
+		parserT.parserInit();
+		if (parserT.getParserDescriptor() != SceneDescriptor.EMPTY_Descriptor) {
+			tmpMap.putAll(parserT.getParserDescriptor().get_sceneAttributes());
+			String str1 = tmpMap.values().toString();
+			System.out.println(str1);
+			test1.InitializeFromXMLstring();
+		}
 
 		assertEquals(1, 1);
 	}

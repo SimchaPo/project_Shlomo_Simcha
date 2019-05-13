@@ -123,7 +123,7 @@ public class Sax_handler extends DefaultHandler {
 	}
 
 	public SceneDescriptor getTmp() throws SAXException {
-		if (!(tmp.equals(SceneDescriptor.EMPTY_Descriptor))) {
+		if (tmp != SceneDescriptor.EMPTY_Descriptor) {
 			return tmp;
 		} else {
 			return SceneDescriptor.EMPTY_Descriptor;
