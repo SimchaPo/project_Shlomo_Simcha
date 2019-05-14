@@ -29,7 +29,7 @@ public class SceneDescriptor {
 		_spheres = new ArrayList<Map<String, String>>();
 		_triangles = new ArrayList<Map<String, String>>();
 	}
-	
+
 	public SceneDescriptor(SceneDescriptor _otherSceneDescriptor) {
 		this();
 		if (!_otherSceneDescriptor.isEmpty()) {
@@ -48,11 +48,7 @@ public class SceneDescriptor {
 	public SceneDescriptor(Map<String, String> get_sceneMap, Map<String, String> get_cameraMap,
 			Map<String, String> get_ambientLightMap, List<Map<String, String>> get_sphereLst,
 			List<Map<String, String>> get_triangleLst) {
-		_sceneAttributes = new HashMap<String, String>();
-		_cameraAttributes = new HashMap<String, String>();
-		_ambientLightAttributes = new HashMap<String, String>();
-		_spheres = new ArrayList<Map<String, String>>();
-		_triangles = new ArrayList<Map<String, String>>();
+		this();
 		if (get_sceneMap != EMPTY_MAP || get_cameraMap != EMPTY_MAP || get_ambientLightMap != EMPTY_MAP) {
 			_sceneAttributes.putAll(get_sceneMap);
 			_cameraAttributes.putAll(get_cameraMap);
