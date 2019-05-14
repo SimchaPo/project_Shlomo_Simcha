@@ -15,7 +15,7 @@ import parser.SceneXmlParser;
 public class ParserTest extends TestCase {
 	public SceneXmlParser parserT = new SceneXmlParser();
 
-	public SceneDescriptor test1 = new SceneDescriptor(SceneDescriptor.EMPTY_Descriptor);
+	public SceneDescriptor test1 = new SceneDescriptor();
 	public Map<String, String> tmpMap = new HashMap<String, String>();
 
 	public void testInitializeFromXMLstring() throws SAXException, ParserConfigurationException, IOException {

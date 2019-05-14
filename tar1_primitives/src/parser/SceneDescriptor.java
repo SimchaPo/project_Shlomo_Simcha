@@ -22,12 +22,16 @@ public class SceneDescriptor {
 	List<Map<String, String>> _spheres;
 	List<Map<String, String>> _triangles;
 
-	public SceneDescriptor(SceneDescriptor _otherSceneDescriptor) {
+	public SceneDescriptor() {
 		_sceneAttributes = new HashMap<String, String>();
 		_cameraAttributes = new HashMap<String, String>();
 		_ambientLightAttributes = new HashMap<String, String>();
 		_spheres = new ArrayList<Map<String, String>>();
 		_triangles = new ArrayList<Map<String, String>>();
+	}
+	
+	public SceneDescriptor(SceneDescriptor _otherSceneDescriptor) {
+		this();
 		if (!_otherSceneDescriptor.isEmpty()) {
 			_sceneAttributes.putAll(_otherSceneDescriptor._sceneAttributes);
 			_cameraAttributes.putAll(_otherSceneDescriptor._cameraAttributes);
