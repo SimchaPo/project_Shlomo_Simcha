@@ -13,6 +13,10 @@ import org.xml.sax.XMLReader;
 public class SceneXmlParser {
 	private SceneDescriptor parserDescriptor;
 
+	public SceneXmlParser() {
+		this.parserDescriptor = new SceneDescriptor();
+	}
+
 	public void parserInit() throws ParserConfigurationException, SAXException, IOException {
 		SAXParserFactory spf = SAXParserFactory.newInstance();
 		SAXParser saxParser = spf.newSAXParser();
