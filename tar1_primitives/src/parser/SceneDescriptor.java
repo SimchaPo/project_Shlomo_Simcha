@@ -23,18 +23,17 @@ public class SceneDescriptor {
 	List<Map<String, String>> _triangles;
 
 	public SceneDescriptor(SceneDescriptor _otherSceneDescriptor) {
+		_sceneAttributes = new HashMap<String, String>();
+		_cameraAttributes = new HashMap<String, String>();
+		_ambientLightAttributes = new HashMap<String, String>();
+		_spheres = new ArrayList<Map<String, String>>();
+		_triangles = new ArrayList<Map<String, String>>();
 		if (!_otherSceneDescriptor.isEmpty()) {
 			_sceneAttributes.putAll(_otherSceneDescriptor._sceneAttributes);
 			_cameraAttributes.putAll(_otherSceneDescriptor._cameraAttributes);
 			_ambientLightAttributes.putAll(_otherSceneDescriptor._ambientLightAttributes);
 			_spheres.addAll(_otherSceneDescriptor._spheres);
 			_triangles.addAll(_otherSceneDescriptor._triangles);
-		} else {
-			_sceneAttributes = new HashMap<String, String>();
-			_cameraAttributes = new HashMap<String, String>();
-			_ambientLightAttributes = new HashMap<String, String>();
-			_spheres = new ArrayList<Map<String, String>>();
-			_triangles = new ArrayList<Map<String, String>>();
 		}
 	}
 
@@ -45,20 +44,18 @@ public class SceneDescriptor {
 	public SceneDescriptor(Map<String, String> get_sceneMap, Map<String, String> get_cameraMap,
 			Map<String, String> get_ambientLightMap, List<Map<String, String>> get_sphereLst,
 			List<Map<String, String>> get_triangleLst) {
+		_sceneAttributes = new HashMap<String, String>();
+		_cameraAttributes = new HashMap<String, String>();
+		_ambientLightAttributes = new HashMap<String, String>();
+		_spheres = new ArrayList<Map<String, String>>();
+		_triangles = new ArrayList<Map<String, String>>();
 		if (get_sceneMap != EMPTY_MAP || get_cameraMap != EMPTY_MAP || get_ambientLightMap != EMPTY_MAP) {
 			_sceneAttributes.putAll(get_sceneMap);
 			_cameraAttributes.putAll(get_cameraMap);
 			_ambientLightAttributes.putAll(get_ambientLightMap);
 			_spheres.addAll(get_sphereLst);
 			_triangles.addAll(get_triangleLst);
-		} else {
-			_sceneAttributes = new HashMap<String, String>();
-			_cameraAttributes = new HashMap<String, String>();
-			_ambientLightAttributes = new HashMap<String, String>();
-			_spheres = new ArrayList<Map<String, String>>();
-			_triangles = new ArrayList<Map<String, String>>();
 		}
-
 	}
 
 	public SceneDescriptor InitializeFromXMLstring() throws IOException, SAXException, ParserConfigurationException {

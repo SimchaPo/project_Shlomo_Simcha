@@ -1,6 +1,8 @@
 package parser;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -18,7 +20,8 @@ public class SceneXmlParser {
 		Sax_handler handler = new Sax_handler();
 		XMLReader xmlReader = saxParser.getXMLReader();
 		xmlReader.setContentHandler(handler);
-		xmlReader.parse("D:\\mavoLehandasatTohna\\XML\\testFile.xml");
+		File fXmlFile = new File("testFile.xml");
+		xmlReader.parse("file:\\".concat(fXmlFile.getAbsolutePath()));
 		parserDescriptor = new SceneDescriptor(handler.getTmp());
 	}
 
@@ -28,7 +31,5 @@ public class SceneXmlParser {
 		} else {
 			return SceneDescriptor.EMPTY_Descriptor;
 		}
-
 	}
-
 }
