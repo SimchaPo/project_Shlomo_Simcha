@@ -13,14 +13,14 @@ import org.xml.sax.XMLReader;
 public class SceneXmlParser {
 	private SceneDescriptor parserDescriptor;
 
-	public void parserInit() throws ParserConfigurationException, SAXException, IOException {
+	public void parserInit(File _file) throws ParserConfigurationException, SAXException, IOException {
 		SAXParserFactory spf = SAXParserFactory.newInstance();
 		SAXParser saxParser = spf.newSAXParser();
 		Sax_handler handler = new Sax_handler();
 		XMLReader xmlReader = saxParser.getXMLReader();
 		xmlReader.setContentHandler(handler);
-		File fXmlFile = new File("testFile.xml");
-		xmlReader.parse("file:\\".concat(fXmlFile.getAbsolutePath()));
+		//File fXmlFile = new File("testFile.xml");
+		xmlReader.parse("file:\\".concat(_file.getAbsolutePath()));
 		parserDescriptor = new SceneDescriptor(handler.getTmp());
 	}
 
