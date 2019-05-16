@@ -20,12 +20,12 @@ public class ParserTest extends TestCase {
 
 	public void testInitializeFromXMLstring() throws SAXException, ParserConfigurationException, IOException {
 		parserT.parserInit();
-		//if (parserT.getParserDescriptor() != SceneDescriptor.EMPTY_Descriptor) {
-			tmpMap.putAll(parserT.getParserDescriptor().get_sceneAttributes());
-			String str1 = tmpMap.values().toString();
-			System.out.println(str1);
-			test1.InitializeFromXMLstring();
-	//	}
+		// if (parserT.getParserDescriptor() != SceneDescriptor.EMPTY_Descriptor) {
+		tmpMap.putAll(parserT.getParserDescriptor().get_sceneAttributes());
+		String str1 = tmpMap.values().toString();
+		System.out.println(str1 + tmpMap.keySet().toString());
+		test1.InitializeFromXMLstring();
+		// }
 		assertTrue(true);
 	}
 }

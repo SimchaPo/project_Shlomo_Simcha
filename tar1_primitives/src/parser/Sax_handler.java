@@ -119,7 +119,7 @@ public class Sax_handler extends DefaultHandler {
 
 	@Override
 	public void endDocument() throws SAXException {
-		System.out.println("endDokument");
+		System.out.println("endDocument");
 	}
 
 	public SceneDescriptor getTmp() throws SAXException {
