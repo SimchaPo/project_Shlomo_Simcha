@@ -15,11 +15,20 @@ import org.xml.sax.SAXException;
 public class XMLBuilder {
 //	XMLOutputFactory _outFactory;
 //	XMLStreamWriter _fileWriter;
+	public String fileName;
 
-	public void WriteToFile() throws TransformerException, ParserConfigurationException, SAXException, IOException,
-			FileNotFoundException, XMLStreamException {
+	public XMLBuilder() {
+		fileName = "NewXMLFile.xml";
+	}
+
+	public XMLBuilder(String str) {
+		fileName = str;
+	}
+
+	public void WriteToFile(String fName) throws TransformerException, ParserConfigurationException, SAXException,
+			IOException, FileNotFoundException, XMLStreamException {
 		XMLOutputFactory _outFactory = XMLOutputFactory.newFactory();
-		XMLStreamWriter _fileWriter = _outFactory.createXMLStreamWriter(new FileOutputStream("NewXMLFile.xml"));
+		XMLStreamWriter _fileWriter = _outFactory.createXMLStreamWriter(new FileOutputStream(fName));
 		_fileWriter.writeStartDocument();
 		// public static void WriteToFile() {
 		_fileWriter.writeStartElement("scene");

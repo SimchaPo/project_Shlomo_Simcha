@@ -1,0 +1,27 @@
+package unittests;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.transform.TransformerException;
+
+import org.xml.sax.SAXException;
+
+import junit.framework.TestCase;
+import parser.XMLBuilder;
+
+public class XmlBuilderTest extends TestCase {
+	File expFile = new File("testFile.xml");
+	XMLBuilder testXml = new XMLBuilder("newTestXML.xml");
+
+	public void testWriteToFile() throws FileNotFoundException, TransformerException, ParserConfigurationException,
+			SAXException, IOException, XMLStreamException {
+		testXml.WriteToFile(testXml.fileName);
+		File tXMLFile = new File(testXml.fileName);
+		assertEquals(expFile, tXMLFile);
+	}
+
+}
