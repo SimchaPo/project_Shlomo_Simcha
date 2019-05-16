@@ -106,7 +106,6 @@ public class TriangleTest extends TestCase {
 		Triangle tr = new Triangle(new Point3D(0, 0, 0), new Point3D(-4, 0, 0), new Point3D(0, 4, 0));
 		List<Point3D> result = tr.findIntersections(new Ray(new Point3D(1, -1, 0), new Vector(-1, 1, 0)));
 		List<Point3D> exp = new ArrayList<Point3D>();
-		exp.add(new Point3D(0, 0, 0));
 		assertEquals("problem with intersections", exp, result);
 	}
 
@@ -128,7 +127,6 @@ public class TriangleTest extends TestCase {
 		Triangle tr = new Triangle(new Point3D(0, 0, 0), new Point3D(-4, 0, 0), new Point3D(0, 4, 0));
 		List<Point3D> result = tr.findIntersections(new Ray(new Point3D(-4, 2, 0), new Vector(1, 0, 0)));
 		List<Point3D> exp = new ArrayList<Point3D>();
-		exp.add(new Point3D(-2, 2, 0));
 		assertEquals("problem with intersections", exp, result);
 	}
 
@@ -149,7 +147,6 @@ public class TriangleTest extends TestCase {
 		Triangle tr = new Triangle(new Point3D(0, 0, 0), new Point3D(-4, 0, 0), new Point3D(0, 4, 0));
 		List<Point3D> result = tr.findIntersections(new Ray(new Point3D(-1, 1, 0), new Vector(-1, 0, 0)));
 		List<Point3D> exp = new ArrayList<Point3D>();
-		exp.add(new Point3D(-1, 1, 0));
 		assertEquals("problem with intersections", exp, result);
 	}
 
@@ -160,7 +157,6 @@ public class TriangleTest extends TestCase {
 		Triangle tr = new Triangle(new Point3D(0, 0, 0), new Point3D(-4, 0, 0), new Point3D(0, 4, 0));
 		List<Point3D> result = tr.findIntersections(new Ray(new Point3D(0, 2, 0), new Vector(1, 0, 0)));
 		List<Point3D> exp = new ArrayList<Point3D>();
-		exp.add(new Point3D(0, 2, 0));
 		assertEquals("problem with intersections", exp, result);
 	}
 

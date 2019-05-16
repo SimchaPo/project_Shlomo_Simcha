@@ -33,7 +33,6 @@ public class PlaneTest extends TestCase {
 		Plane pl = new Plane(new Point3D(0, 0, 0), new Vector(0, 0, 1));
 		List<Point3D> result = pl.findIntersections(new Ray(new Point3D(0, 0, 0), new Vector(0, 1, 0)));
 		List<Point3D> exp = new ArrayList<Point3D>();
-		exp.add(new Point3D(0, 0, 0));
 		assertEquals("problem with intersections", exp, result);
 	}
 
@@ -44,7 +43,6 @@ public class PlaneTest extends TestCase {
 		Plane pl = new Plane(new Point3D(0, 0, 0), new Vector(0, 0, 1));
 		List<Point3D> result = pl.findIntersections(new Ray(new Point3D(0, 2, 0), new Vector(0, 1, 0)));
 		List<Point3D> exp = new ArrayList<Point3D>();
-		exp.add(new Point3D(0, 2, 0));
 		assertEquals("problem with intersections", exp, result);
 	}
 

@@ -53,6 +53,9 @@ public class Plane implements Geometry {
 
 	@Override
 	public List<Point3D> findIntersections(Ray _ray) {
+		if(Util.isZero(_ray.getVector().vectorsDotProduct(normalVector))) {
+			return EMPTY_LIST;
+		}
 		List<Point3D> planeLst = new ArrayList<Point3D>();
 		Point3D rayPnt = _ray.getPoint();
 		Vector rayVec = _ray.getVector();
