@@ -9,22 +9,22 @@ import primitives.Color;
  */
 public class AmbientLight {
 	private Color _color;
-	private double Ka;
+	private double _ka;
 
 	public Color get_color() {
 		return _color;
 	}
 
-	public double getKa() {
-		return Ka;
+	public double get_ka() {
+		return _ka;
 	}
 
-	public AmbientLight(Color _Ia, double _Ka) {
-		_color = new Color(_Ia);
-		Ka = _Ka;
+	public AmbientLight(Color ia, double ka) {
+		_color = ia.scale(ka);
+		_ka = ka;
 	}
 
 	public Color getIntensity() {
-		return new Color(_color.scale(Ka));
+		return _color;
 	}
 }

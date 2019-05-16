@@ -83,9 +83,11 @@ public class Render {
 		Point3D rayPnt = _scene.get_camera().getP0();
 		Point3D closestPoint = intersectionsPoints.get(0);
 		double minDistancePow = rayPnt.distancePow(closestPoint);
+		double disPow;
 		for (Point3D p : intersectionsPoints) {
-			if (rayPnt.distancePow(p) < minDistancePow) {
-				minDistancePow = rayPnt.distancePow(p);
+			disPow = rayPnt.distancePow(p);
+			if (disPow < minDistancePow) {
+				minDistancePow = disPow;
 				closestPoint = p;
 			}
 		}
