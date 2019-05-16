@@ -11,17 +11,25 @@ import javax.xml.transform.TransformerException;
 import org.xml.sax.SAXException;
 
 import junit.framework.TestCase;
+import parser.SceneDescriptor;
 import parser.XMLBuilder;
 
 public class XmlBuilderTest extends TestCase {
 	File expFile = new File("testFile.xml");
 	XMLBuilder testXml = new XMLBuilder("newTestXML.xml");
+	SceneDescriptor exp = new SceneDescriptor();
+	SceneDescriptor res = new SceneDescriptor();
 
 	public void testWriteToFile() throws FileNotFoundException, TransformerException, ParserConfigurationException,
 			SAXException, IOException, XMLStreamException {
 		testXml.WriteToFile(testXml.fileName);
 		File tXMLFile = new File(testXml.fileName);
-		assertEquals(expFile, tXMLFile);
+		exp.InitializeFromXMLstring(expFile);
+		res.InitializeFromXMLstring(tXMLFile);
+		String expstr = exp.get_sceneAttributes().toString();
+		String resstr = res.get_sceneAttributes().toString();
+
+		assertEquals(expstr, resstr);
 	}
 
 }
