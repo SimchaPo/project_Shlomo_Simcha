@@ -39,7 +39,7 @@ public class Render {
 		for (int i = 0; i < _imageWriter.getNx(); ++i) {
 			for (int j = 0; j < _imageWriter.getNy(); ++j) {
 				Ray ray = _scene.get_camera().constructRayThroughPixel(_imageWriter.getNx(), _imageWriter.getNy(), i, j,
-						_scene.getScreenDistance(), _imageWriter.getWidth(), _imageWriter.getHeight());
+						_scene.get_screenDistance(), _imageWriter.getWidth(), _imageWriter.getHeight());
 				List<Point3D> intersectionsPoints = _scene.get_geometries().findIntersections(ray);
 				if (intersectionsPoints.isEmpty()) {
 					_imageWriter.writePixel(i, j, _scene.get_background().getColor());

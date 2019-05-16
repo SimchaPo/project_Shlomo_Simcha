@@ -1,16 +1,12 @@
 package geometries;
-/**
- * this class define the plane in the 3D coordinate system
- * @author meerz
- *
- */
+
 
 import java.util.ArrayList;
 import java.util.List;
 
 import primitives.Point3D;
 import primitives.Ray;
-import primitives.Util;
+import static primitives.Util.*;
 import primitives.Vector;
 
 /**
@@ -53,30 +49,23 @@ public class Plane implements Geometry {
 
 	@Override
 	public List<Point3D> findIntersections(Ray _ray) {
-		if(Util.isZero(_ray.getVector().vectorsDotProduct(normalVector))) {
+		Vector rayVec = _ray.getVector();
+		double rayVecDotProNormal = rayVec.vectorsDotProduct(normalVector);
+		if(isZero(rayVecDotProNormal)) {
 			return EMPTY_LIST;
 		}
 		List<Point3D> planeLst = new ArrayList<Point3D>();
 		Point3D rayPnt = _ray.getPoint();
-		Vector rayVec = _ray.getVector();
 		if (rayPnt.equals(point)) {
 			planeLst.add(point);
 			return planeLst;
 		}
 		Vector pq = point.subtract(rayPnt);
 		double pqProDotNormal = pq.vectorsDotProduct(normalVector);
-		if (Util.isZero(pqProDotNormal)) {
-			planeLst.add(rayPnt);
-			return planeLst;
-		}
-		double rayVecDotProNormal = rayVec.vectorsDotProduct(normalVector);
-		if (Util.isZero(rayVecDotProNormal)) {
-			return planeLst;
-		}
-		double t = Util.uscale(pqProDotNormal, 1 / rayVecDotProNormal);
+		double t = alignZero(pqProDotNormal / rayVecDotProNormal);
 		if (t > 0) {
 			planeLst.add(rayPnt.addVec(rayVec.scale(t)));
-		} else if (t == 0) {
+		} else if (isZero(t)) {
 			planeLst.add(rayPnt);
 		}
 		return planeLst;

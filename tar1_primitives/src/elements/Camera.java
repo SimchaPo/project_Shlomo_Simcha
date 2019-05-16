@@ -59,14 +59,14 @@ public class Camera {
 	 */
 	public Ray constructRayThroughPixel(int Nx, int Ny, int i, int j, double screenDistance, double screenWidth,
 			double screenHeight) {
-		Point3D _Pc = this._p0.addVec(_vTo.scale(screenDistance));// _Pc => center of the screen
+		Point3D pc = this._p0.addVec(_vTo.scale(screenDistance));// _Pc => center of the screen
 		double ry = alignZero(screenHeight / Ny);//
 		double rx = alignZero(screenWidth / Nx); // _Ry*_Rx the pixel area
 		// pixel center calculation:
 		// {
 		double yj = alignZero((j - Ny / 2.0) * ry) + ry / 2.0;// offset by axis Y on screen
 		double xi = alignZero((i - Nx / 2.0) * rx) + rx / 2.0;// offset by axis X on screen
-		Point3D pij = _Pc;
+		Point3D pij = pc;
 		if (xi != 0)
 			pij = pij.addVec(this._vRight.scale(xi)); // _Pij=> pixel center calculating
 														// _Pij=_Pij+(_Xi*_vRight-_Yj*_vUp)

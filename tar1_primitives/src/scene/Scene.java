@@ -19,7 +19,7 @@ public class Scene {
 	private AmbientLight _ambientLight;
 	private Geometries _geometries;
 	private Camera _camera;
-	private double screenDistance;
+	private double _screenDistance;
 
 	// ******** Constructor **********//
 	public Scene(String name) {
@@ -38,7 +38,7 @@ public class Scene {
 
 	public void set_camera(Camera _camera, double _screenDistance) {
 		this._camera = _camera;
-		this.screenDistance = _screenDistance;
+		this._screenDistance = _screenDistance;
 	}
 
 	public String get_scene() {
@@ -61,8 +61,8 @@ public class Scene {
 		return _camera;
 	}
 
-	public double getScreenDistance() {
-		return screenDistance;
+	public double get_screenDistance() {
+		return _screenDistance;
 	}
 
 	// ******* Functions *******//

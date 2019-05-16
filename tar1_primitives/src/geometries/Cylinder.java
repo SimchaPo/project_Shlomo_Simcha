@@ -39,14 +39,14 @@ public class Cylinder extends Tube {
 
 	@Override
 	public Vector getNormal(Point3D pnt) {
-		Vector rayVec = new Vector(this.ray.getVector());
-		if (pnt.equals(ray.getPoint())) {
+		Vector rayVec = new Vector(this._ray.getVector());
+		if (pnt.equals(_ray.getPoint())) {
 			return rayVec.scale(-1);
 		}
-		Vector pntVec = pnt.subtract(this.ray.getPoint());
+		Vector pntVec = pnt.subtract(this._ray.getPoint());
 		double len = rayVec.vectorsDotProduct(pntVec);
 		if (len > 0 && len < hight) {
-			return pnt.subtract(ray.getPoint().addVec(rayVec.scale(len))).normalize();
+			return pnt.subtract(_ray.getPoint().addVec(rayVec.scale(len))).normalize();
 		} else if (len == 0) {
 			return rayVec.scale(-1);
 		} else if (len == hight) {

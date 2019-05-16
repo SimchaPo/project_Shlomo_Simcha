@@ -1,6 +1,3 @@
-/**
- * 
- */
 package geometries;
 
 import java.util.ArrayList;

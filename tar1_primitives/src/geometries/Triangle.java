@@ -59,11 +59,11 @@ public class Triangle extends Plane {
 			Vector N1 = (v1.vecotrsCrossProduct(v2)).normalize();
 			Vector N2 = (v2.vecotrsCrossProduct(v3)).normalize();
 			Vector N3 = (v3.vecotrsCrossProduct(v1)).normalize();
-			Vector _p_p0 = trnglLstPnt.subtract(rayPnt);
+			Vector pp0 = trnglLstPnt.subtract(rayPnt);
 			double d1, d2, d3;
-			d1 = _p_p0.vectorsDotProduct(N1);
-			d2 = _p_p0.vectorsDotProduct(N2);
-			d3 = _p_p0.vectorsDotProduct(N3);
+			d1 = pp0.vectorsDotProduct(N1);
+			d2 = pp0.vectorsDotProduct(N2);
+			d3 = pp0.vectorsDotProduct(N3);
 			double s1, s2, s3;
 			s1 = Math.signum(d1);
 			s2 = Math.signum(d2);

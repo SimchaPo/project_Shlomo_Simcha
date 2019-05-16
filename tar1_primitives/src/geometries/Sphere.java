@@ -2,10 +2,9 @@ package geometries;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import static primitives.Util.*;
 import primitives.Point3D;
 import primitives.Ray;
-import primitives.Util;
 import primitives.Vector;
 
 /**
@@ -15,22 +14,22 @@ import primitives.Vector;
  *
  */
 public class Sphere extends RadialGeometry {
-	protected Point3D sphereCenter;
+	protected Point3D _sphereCenter;
 
 	/**
 	 * constructor for Sphere
 	 * 
-	 * @param _pnt
+	 * @param pnt
 	 * @param rad
 	 */
-	public Sphere(Point3D _pnt, double rad) {
+	public Sphere(Point3D pnt, double rad) {
 		super(rad);
-		sphereCenter = _pnt;
+		_sphereCenter = pnt;
 	}
 
 	@Override
 	public Vector getNormal(Point3D pnt) {
-		return (pnt.subtract(sphereCenter)).normalize();
+		return (pnt.subtract(_sphereCenter)).normalize();
 	}
 
 	@Override
@@ -38,33 +37,33 @@ public class Sphere extends RadialGeometry {
 		List<Point3D> sphereLst = new ArrayList<Point3D>();
 		Point3D rayPnt = _ray.getPoint();
 		Vector rayVec = _ray.getVector();
-		if (rayPnt.equals(sphereCenter)) {
-			sphereLst.add(sphereCenter.addVec(rayVec.scale(_radius)));
+		if (rayPnt.equals(_sphereCenter)) {
+			sphereLst.add(_sphereCenter.addVec(rayVec.scale(_radius)));
 			return sphereLst;
 		}
-		Vector vecP_O = sphereCenter.subtract(rayPnt);
-		double disP_O = vecP_O.length();
-		double _tm = rayVec.vectorsDotProduct(vecP_O);// length of ray to the point meeting radius orthogonal
+		Vector vecPO = _sphereCenter.subtract(rayPnt);
+		double disPO = vecPO.length();
+		double tm = rayVec.vectorsDotProduct(vecPO);// length of ray to the point meeting radius orthogonal
 		// to the ray
-		double powD = Util.uscale(disP_O, disP_O) - Util.uscale(_tm, _tm);
+		double powD = alignZero(disPO * disPO) - alignZero(tm * tm);
 		double d = Math.sqrt(powD); // distance from sphere center to the ray
 		if (d > _radius) {
 			return sphereLst;
 		}
-		double _th = Math.sqrt(Util.uscale(_radius, _radius) - powD);
-		double t1 = Util.usubtract(_tm, -_th);
-		double t2 = Util.usubtract(_tm, _th);
-		if (Util.isZero(t2) || t2 > 0) {
-			sphereLst.add(Util.isZero(t2) ? rayPnt : rayPnt.addVec(rayVec.scale(t2)));
+		double th = Math.sqrt(alignZero(_radius * _radius) - powD);
+		double t1 = usubtract(tm, -th);
+		double t2 = usubtract(tm, th);
+		if (isZero(t2) || t2 > 0) {
+			sphereLst.add(isZero(t2) ? rayPnt : rayPnt.addVec(rayVec.scale(t2)));
 		}
-		if (Util.isZero(t1) || t1 >= 0) {
-			sphereLst.add(Util.isZero(t1) ? rayPnt : rayPnt.addVec(rayVec.scale(t1)));
+		if (isZero(t1) || t1 >= 0) {
+			sphereLst.add(isZero(t1) ? rayPnt : rayPnt.addVec(rayVec.scale(t1)));
 		}
 		return sphereLst;
 	}
 
 	@Override
 	public String toString() {
-		return "center: " + sphereCenter + " radius: " + _radius;
+		return "center: " + _sphereCenter + " radius: " + _radius;
 	}
 }
