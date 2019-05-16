@@ -7,6 +7,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
+import elements.AmbientLight;
 import elements.Camera;
 import geometries.Sphere;
 import geometries.Triangle;
@@ -45,11 +46,13 @@ public class SceneBuilder {
 	public Scene loadSceneFromFile(File _file) throws IOException, SAXException, ParserConfigurationException {
 		_sceneDesc.InitializeFromXMLstring(_file);
 		Color _backcolor;
-		Color _ambColor;
+		double imWid,imhig;
+		AmbientLight _ambColor;
 		Camera _cam;
 		Sphere[] _spheres;
 		Triangle[] _triangles;
-
+		
+		
 		return _scene;
 	}
 }
