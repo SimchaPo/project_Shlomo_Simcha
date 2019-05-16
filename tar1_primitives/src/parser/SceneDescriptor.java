@@ -1,5 +1,6 @@
 package parser;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,9 +59,10 @@ public class SceneDescriptor {
 		}
 	}
 
-	public SceneDescriptor InitializeFromXMLstring() throws IOException, SAXException, ParserConfigurationException {
+	public SceneDescriptor InitializeFromXMLstring(File _file)
+			throws IOException, SAXException, ParserConfigurationException {
 		SceneXmlParser doc = new SceneXmlParser();
-		doc.parserInit();
+		doc.parserInit(_file);
 		SceneDescriptor _sceneD = new SceneDescriptor(doc.getParserDescriptor());
 		return _sceneD;
 	}
