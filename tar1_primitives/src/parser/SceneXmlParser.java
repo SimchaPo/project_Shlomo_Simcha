@@ -19,11 +19,11 @@ public class SceneXmlParser {
 		Sax_handler handler = new Sax_handler();
 		XMLReader xmlReader = saxParser.getXMLReader();
 		xmlReader.setContentHandler(handler);
-		//File fXmlFile = new File("testFile.xml");
+		// File fXmlFile = new File("testFile.xml");
 		xmlReader.parse("file:\\".concat(_file.getAbsolutePath()));
 		parserDescriptor = new SceneDescriptor(handler.getTmp());
 	}
-
+//yhfcyfytf
 	public SceneDescriptor getParserDescriptor() {
 		if (parserDescriptor != SceneDescriptor.EMPTY_Descriptor) {
 			return parserDescriptor;

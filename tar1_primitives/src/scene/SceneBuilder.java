@@ -45,12 +45,13 @@ public class SceneBuilder {
 //	}
 	
 	public Scene loadSceneFromFile(File _file) throws IOException, SAXException, ParserConfigurationException {
-		this._sceneDesc.InitializeFromXMLstring(_file);
+		_sceneDesc.InitializeFromXMLstring(_file);
 		Color _backcolor;
 		Color _ambColor;
 		Camera _cam;
 		Sphere[] _spheres;
 		Triangle[] _triangles;
+		
 		
 		return _scene;
 	}
