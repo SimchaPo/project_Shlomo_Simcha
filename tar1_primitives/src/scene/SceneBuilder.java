@@ -20,8 +20,6 @@ public class SceneBuilder {
 	ImageWriter _imageWriter;
 	String filePath;
 
-
-
 	public SceneBuilder(SceneDescriptor _sD, Scene _s, ImageWriter _imW, String _fPth) {
 		_sceneDesc = _sD;
 		_scene = _s;
@@ -43,7 +41,7 @@ public class SceneBuilder {
 //			obj[i] = _str[i];
 //		}
 //	}
-	
+
 	public Scene loadSceneFromFile(File _file) throws IOException, SAXException, ParserConfigurationException {
 		_sceneDesc.InitializeFromXMLstring(_file);
 		Color _backcolor;
@@ -51,8 +49,7 @@ public class SceneBuilder {
 		Camera _cam;
 		Sphere[] _spheres;
 		Triangle[] _triangles;
-		
-		
+
 		return _scene;
 	}
 }

@@ -23,7 +23,7 @@ public class SceneXmlParser {
 		xmlReader.parse("file:\\".concat(_file.getAbsolutePath()));
 		parserDescriptor = new SceneDescriptor(handler.getTmp());
 	}
-//yhfcyfytf
+
 	public SceneDescriptor getParserDescriptor() {
 		if (parserDescriptor != SceneDescriptor.EMPTY_Descriptor) {
 			return parserDescriptor;

@@ -59,12 +59,16 @@ public class SceneDescriptor {
 		}
 	}
 
-	public SceneDescriptor InitializeFromXMLstring(File _file)
+	public void InitializeFromXMLstring(File _file)
 			throws IOException, SAXException, ParserConfigurationException {
 		SceneXmlParser doc = new SceneXmlParser();
 		doc.parserInit(_file);
 		SceneDescriptor _sceneD = new SceneDescriptor(doc.getParserDescriptor());
-		return _sceneD;
+		this._sceneAttributes.putAll(_sceneD._sceneAttributes);
+		this._ambientLightAttributes.putAll(_sceneD._ambientLightAttributes);
+		this._cameraAttributes.putAll(_sceneD._cameraAttributes);
+		this._spheres.addAll(_sceneD._spheres);
+		this._triangles.addAll(_sceneD._triangles);
 	}
 
 	public boolean isEmpty() {
