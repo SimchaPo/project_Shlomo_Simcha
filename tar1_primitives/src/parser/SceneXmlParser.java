@@ -13,15 +13,7 @@ import org.xml.sax.XMLReader;
 public class SceneXmlParser {
 	private SceneDescriptor parserDescriptor;
 
-<<<<<<< HEAD
 	public void parserInit(File _file) throws ParserConfigurationException, SAXException, IOException {
-=======
-	public SceneXmlParser() {
-		this.parserDescriptor = new SceneDescriptor();
-	}
-
-	public void parserInit() throws ParserConfigurationException, SAXException, IOException {
->>>>>>> refs/remotes/origin/master
 		SAXParserFactory spf = SAXParserFactory.newInstance();
 		SAXParser saxParser = spf.newSAXParser();
 		Sax_handler handler = new Sax_handler();
