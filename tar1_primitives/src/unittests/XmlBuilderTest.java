@@ -16,7 +16,7 @@ import parser.XMLBuilder;
 
 public class XmlBuilderTest extends TestCase {
 	File expFile = new File("testFile.xml");
-	XMLBuilder testXml = new XMLBuilder("newTestXML.xml");
+	XMLBuilder testXml = new XMLBuilder("newTestnewXML.xml");
 	SceneDescriptor exp = new SceneDescriptor();
 	SceneDescriptor res = new SceneDescriptor();
 

@@ -59,8 +59,7 @@ public class SceneDescriptor {
 		}
 	}
 
-	public void InitializeFromXMLstring(File _file)
-			throws IOException, SAXException, ParserConfigurationException {
+	public void InitializeFromXMLstring(File _file) throws IOException, SAXException, ParserConfigurationException {
 		SceneXmlParser doc = new SceneXmlParser();
 		doc.parserInit(_file);
 		SceneDescriptor _sceneD = new SceneDescriptor(doc.getParserDescriptor());

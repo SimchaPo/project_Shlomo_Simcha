@@ -39,6 +39,7 @@ public class XMLBuilder {
 
 		_fileWriter.writeStartElement("ambient-light");
 		_fileWriter.writeAttribute("color", "255 255 255");
+		_fileWriter.writeAttribute("K", "1");
 		_fileWriter.writeEndElement();
 
 		_fileWriter.writeStartElement("camera");
