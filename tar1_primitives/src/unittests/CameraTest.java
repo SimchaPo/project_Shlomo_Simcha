@@ -39,7 +39,7 @@ public class CameraTest extends TestCase {
 		Vector vecTo = new Vector(0, 0, -1);
 		Vector vecUp = new Vector(0, 1, 0);
 		Camera cam = new Camera(pnt, vecUp, vecTo);
-		Sphere sp = new Sphere(new Point3D(0, 0, -3), 1);
+		Sphere sp = new Sphere(new Point3D(0, 0, -3), 1.0);
 		List<Point3D> result = new ArrayList<Point3D>();
 		int exp = 2;
 		int Nx = 3, Ny = 3;
