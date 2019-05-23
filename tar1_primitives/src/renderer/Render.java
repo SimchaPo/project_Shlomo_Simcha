@@ -51,6 +51,12 @@ public class Render {
 		}
 	}
 
+	/**
+	 * prints a grid and in image
+	 * 
+	 * @param size
+	 * @param opt
+	 */
 	public void printGrid(int size, java.awt.Color... opt) {
 		int nX = _imageWriter.getNx(), nY = _imageWriter.getNy();
 		int sizeX = nX % 2 == 0 ? nX / size : nX / size + 1, sizeY = nY % 2 == 0 ? nY / size : nY / size + 1;
@@ -69,6 +75,12 @@ public class Render {
 		}
 	}
 
+	/**
+	 * gets a point and sets its color
+	 * 
+	 * @param pnt
+	 * @return
+	 */
 	private Color calcColor(Point3D pnt) {
 		return _scene.get_ambientLight().getIntensity();
 	}
