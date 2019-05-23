@@ -12,6 +12,7 @@ import primitives.Coordinate;
 import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
+import static geometries.Intersectable.GeoPoint;
 
 public class CameraTest extends TestCase {
 	/**
@@ -40,7 +41,7 @@ public class CameraTest extends TestCase {
 		Vector vecUp = new Vector(0, 1, 0);
 		Camera cam = new Camera(pnt, vecUp, vecTo);
 		Sphere sp = new Sphere(new Point3D(0, 0, -3), 1.0);
-		List<Point3D> result = new ArrayList<Point3D>();
+		List<GeoPoint> result = new ArrayList<GeoPoint>();
 		int exp = 2;
 		int Nx = 3, Ny = 3;
 		double sd = 1, sw = 9, sh = 9;
@@ -61,7 +62,7 @@ public class CameraTest extends TestCase {
 		Vector vecUp = new Vector(0, 1, 0);
 		Camera cam = new Camera(pnt, vecUp, vecTo);
 		Sphere sp = new Sphere(new Point3D(0, 0, -2.5), 2.5);
-		List<Point3D> result = new ArrayList<Point3D>();
+		List<GeoPoint> result = new ArrayList<GeoPoint>();
 		int exp = 18;
 		int Nx = 3, Ny = 3;
 		double sd = 1, sw = 9, sh = 9;
@@ -82,7 +83,7 @@ public class CameraTest extends TestCase {
 		Vector vecUp = new Vector(0, 1, 0);
 		Camera cam = new Camera(pnt, vecUp, vecTo);
 		Sphere sp = new Sphere(new Point3D(0, 0, -2), 2);
-		List<Point3D> result = new ArrayList<Point3D>();
+		List<GeoPoint> result = new ArrayList<GeoPoint>();
 		int exp = 18;
 		int Nx = 3, Ny = 3;
 		double sd = 1, sw = 9, sh = 9;
@@ -103,7 +104,7 @@ public class CameraTest extends TestCase {
 		Vector vecUp = new Vector(0, 1, 0);
 		Camera cam = new Camera(pnt, vecUp, vecTo);
 		Sphere sp = new Sphere(new Point3D(0, 0, -2), 4);
-		List<Point3D> result = new ArrayList<Point3D>();
+		List<GeoPoint> result = new ArrayList<GeoPoint>();
 		int exp = 9;
 		int Nx = 3, Ny = 3;
 		double sd = 1, sw = 9, sh = 9;
@@ -124,7 +125,7 @@ public class CameraTest extends TestCase {
 		Vector vecUp = new Vector(0, 1, 0);
 		Camera cam = new Camera(pnt, vecUp, vecTo);
 		Sphere sp = new Sphere(new Point3D(0, 0, 1), 0.5);
-		List<Point3D> result = new ArrayList<Point3D>();
+		List<GeoPoint> result = new ArrayList<GeoPoint>();
 		int exp = 0;
 		int Nx = 3, Ny = 3;
 		double sd = 1, sw = 9, sh = 9;
@@ -146,7 +147,7 @@ public class CameraTest extends TestCase {
 		Vector vecUp = new Vector(0, 1, 0);
 		Camera cam = new Camera(pnt, vecUp, vecTo);
 		Plane pl = new Plane(new Point3D(0, 0, -4), new Vector(0, 0, 1));
-		List<Point3D> result = new ArrayList<Point3D>();
+		List<GeoPoint> result = new ArrayList<GeoPoint>();
 		int exp = 9;
 		int Nx = 3, Ny = 3;
 		double sd = 1, sw = 9, sh = 9;
@@ -168,7 +169,7 @@ public class CameraTest extends TestCase {
 		Vector vecUp = new Vector(0, 1, 0);
 		Camera cam = new Camera(pnt, vecUp, vecTo);
 		Plane pl = new Plane(new Point3D(0, 0, 4), new Vector(0, 0, 1));
-		List<Point3D> result = new ArrayList<Point3D>();
+		List<GeoPoint> result = new ArrayList<GeoPoint>();
 		int exp = 0;
 		int Nx = 3, Ny = 3;
 		double sd = 1, sw = 9, sh = 9;
@@ -190,7 +191,7 @@ public class CameraTest extends TestCase {
 		Vector vecUp = new Vector(0, 1, 0);
 		Camera cam = new Camera(pnt, vecUp, vecTo);
 		Plane pl = new Plane(new Point3D(0, 5, -5), new Vector(1, 1, 1));
-		List<Point3D> result = new ArrayList<Point3D>();
+		List<GeoPoint> result = new ArrayList<GeoPoint>();
 		int exp = 9;
 		int Nx = 3, Ny = 3;
 		double sd = 1, sw = 9, sh = 9;
@@ -212,7 +213,7 @@ public class CameraTest extends TestCase {
 		Vector vecUp = new Vector(0, 1, 0);
 		Camera cam = new Camera(pnt, vecUp, vecTo);
 		Plane pl = new Plane(new Point3D(0, 5, -5), new Vector(0, 1, 3));
-		List<Point3D> result = new ArrayList<Point3D>();
+		List<GeoPoint> result = new ArrayList<GeoPoint>();
 		int exp = 6;
 		int Nx = 3, Ny = 3;
 		double sd = 1, sw = 9, sh = 9;
@@ -233,7 +234,7 @@ public class CameraTest extends TestCase {
 		Vector vecUp = new Vector(0, 1, 0);
 		Camera cam = new Camera(pnt, vecUp, vecTo);
 		Triangle tr = new Triangle(new Point3D(0, -1, -2), new Point3D(-1, 1, -2), new Point3D(1, 1, -2));
-		List<Point3D> result = new ArrayList<Point3D>();
+		List<GeoPoint> result = new ArrayList<GeoPoint>();
 		int exp = 1;
 		int Nx = 3, Ny = 3;
 		double sd = 1, sw = 9, sh = 9;
@@ -254,7 +255,7 @@ public class CameraTest extends TestCase {
 		Vector vecUp = new Vector(0, 1, 0);
 		Camera cam = new Camera(pnt, vecUp, vecTo);
 		Triangle tr = new Triangle(new Point3D(0, -20, -2), new Point3D(-1, 1, -2), new Point3D(1, 1, -2));
-		List<Point3D> result = new ArrayList<Point3D>();
+		List<GeoPoint> result = new ArrayList<GeoPoint>();
 		int exp = 2;
 		int Nx = 3, Ny = 3;
 		double sd = 1, sw = 9, sh = 9;

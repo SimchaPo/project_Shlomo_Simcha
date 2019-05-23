@@ -3,9 +3,12 @@ package geometries;
 import java.util.ArrayList;
 import java.util.List;
 import static primitives.Util.*;
+
+import primitives.Color;
 import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
+import static geometries.Intersectable.GeoPoint;
 
 /**
  * This class define geometric 3D figure "Sphere"
@@ -23,7 +26,11 @@ public class Sphere extends RadialGeometry {
 	 * @param rad
 	 */
 	public Sphere(Point3D pnt, double rad) {
-		super(rad);
+		this(pnt, rad, Color.BLACK);
+	}
+
+	public Sphere(Point3D pnt, double rad, Color emmission) {
+		super(rad, emmission);
 		_sphereCenter = pnt;
 	}
 
@@ -33,12 +40,12 @@ public class Sphere extends RadialGeometry {
 	}
 
 	@Override
-	public List<Point3D> findIntersections(Ray _ray) {
-		List<Point3D> sphereLst = new ArrayList<Point3D>();
+	public List<GeoPoint> findIntersections(Ray _ray) {
+		List<GeoPoint> sphereLst = new ArrayList<GeoPoint>();
 		Point3D rayPnt = _ray.getPoint();
 		Vector rayVec = _ray.getVector();
 		if (rayPnt.equals(_sphereCenter)) {
-			sphereLst.add(_sphereCenter.addVec(rayVec.scale(_radius)));
+			sphereLst.add(new GeoPoint(this, _sphereCenter.addVec(rayVec.scale(_radius))));
 			return sphereLst;
 		}
 		Vector vecPO = _sphereCenter.subtract(rayPnt);
@@ -54,10 +61,10 @@ public class Sphere extends RadialGeometry {
 		double t1 = usubtract(tm, -th);
 		double t2 = usubtract(tm, th);
 		if (isZero(t2) || t2 > 0) {
-			sphereLst.add(isZero(t2) ? rayPnt : rayPnt.addVec(rayVec.scale(t2)));
+			sphereLst.add(new GeoPoint(this, isZero(t2) ? rayPnt : rayPnt.addVec(rayVec.scale(t2))));
 		}
 		if (isZero(t1) || t1 >= 0) {
-			sphereLst.add(isZero(t1) ? rayPnt : rayPnt.addVec(rayVec.scale(t1)));
+			sphereLst.add(new GeoPoint(this, isZero(t1) ? rayPnt : rayPnt.addVec(rayVec.scale(t1))));
 		}
 		return sphereLst;
 	}

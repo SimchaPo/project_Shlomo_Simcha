@@ -6,7 +6,7 @@ import primitives.Color;
 import primitives.Point3D;
 import primitives.Ray;
 import scene.Scene;
-
+import static geometries.Intersectable.GeoPoint;
 /**
  * Render class gets scene and image writer and sets everything together to in
  * image
@@ -40,11 +40,11 @@ public class Render {
 			for (int j = 0; j < _imageWriter.getNy(); ++j) {
 				Ray ray = _scene.get_camera().constructRayThroughPixel(_imageWriter.getNx(), _imageWriter.getNy(), i, j,
 						_scene.get_screenDistance(), _imageWriter.getWidth(), _imageWriter.getHeight());
-				List<Point3D> intersectionsPoints = _scene.get_geometries().findIntersections(ray);
-				if (intersectionsPoints.isEmpty()) {
+				List<GeoPoint> intersections = _scene.get_geometries().findIntersections(ray);
+				if (intersections.isEmpty()) {
 					_imageWriter.writePixel(i, j, _scene.get_background().getColor());
 				} else {
-					Point3D closestPoint = getClosestPoint(intersectionsPoints);
+					GeoPoint closestPoint = getClosestPoint(intersections);
 					_imageWriter.writePixel(i, j, calcColor(closestPoint).getColor());
 				}
 			}
@@ -78,11 +78,13 @@ public class Render {
 	/**
 	 * gets a point and sets its color
 	 * 
-	 * @param pnt
+	 * @param intersection
 	 * @return
 	 */
-	private Color calcColor(Point3D pnt) {
-		return _scene.get_ambientLight().getIntensity();
+	private Color calcColor(GeoPoint intersection) {
+		Color color = _scene.get_ambientLight().getIntensity();
+		color = color.add(intersection.geometry.getEmmission());
+		return color;
 	}
 
 	/**
@@ -91,13 +93,13 @@ public class Render {
 	 * @param intersectionsPoints
 	 * @return returns the closest point to camera
 	 */
-	private Point3D getClosestPoint(List<Point3D> intersectionsPoints) {
+	private GeoPoint getClosestPoint(List<GeoPoint> intersectionsPoints) {
 		Point3D rayPnt = _scene.get_camera().getP0();
-		Point3D closestPoint = intersectionsPoints.get(0);
-		double minDistancePow = rayPnt.distancePow(closestPoint);
+		GeoPoint closestPoint = intersectionsPoints.get(0);
+		double minDistancePow = rayPnt.distancePow(closestPoint.point);
 		double disPow;
-		for (Point3D p : intersectionsPoints) {
-			disPow = rayPnt.distancePow(p);
+		for (GeoPoint p : intersectionsPoints) {
+			disPow = rayPnt.distancePow(p.point);
 			if (disPow < minDistancePow) {
 				minDistancePow = disPow;
 				closestPoint = p;

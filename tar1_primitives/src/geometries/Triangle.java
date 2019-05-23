@@ -2,11 +2,12 @@ package geometries;
 
 import java.util.List;
 
+import primitives.Color;
+
 //import java.lang.reflect.Constructor;
 
 import primitives.Point3D;
 import primitives.Ray;
-import primitives.Util;
 import primitives.Vector;
 
 /**
@@ -27,7 +28,11 @@ public class Triangle extends Plane {
 	 * @param _pnt3
 	 */
 	public Triangle(Point3D _pnt1, Point3D _pnt2, Point3D _pnt3) {
-		super(_pnt1, _pnt2, _pnt3);
+		this(_pnt1, _pnt2, _pnt3, Color.BLACK);
+	}
+	
+	public Triangle(Point3D _pnt1, Point3D _pnt2, Point3D _pnt3, Color emmission) {
+		super(_pnt1, _pnt2, _pnt3, emmission);
 		trianPoints[0] = _pnt1;
 		trianPoints[1] = _pnt2;
 		trianPoints[2] = _pnt3;
@@ -43,14 +48,14 @@ public class Triangle extends Plane {
 	}
 
 	@Override
-	public List<Point3D> findIntersections(Ray _ray) {
-		List<Point3D> trnglLst = super.findIntersections(_ray);
+	public List<GeoPoint> findIntersections(Ray _ray) {
+		List<GeoPoint> trnglLst = super.findIntersections(_ray);
 		if (trnglLst.isEmpty()) { // if ray dosn't cut plane return empty
 			return EMPTY_LIST;
 		}
 		Point3D rayPnt = _ray.getPoint();
 		Vector rayVec = _ray.getVector();
-		Point3D trnglLstPnt = trnglLst.get(0);
+		Point3D trnglLstPnt = trnglLst.get(0).point;
 		if (!(trnglLstPnt.equals(rayPnt))) { // if ray cuts plane and dosen't start at plane check if it cuts plane
 												// inside triangle
 			Vector v1 = trianPoints[0].subtract(rayPnt);

@@ -3,6 +3,7 @@ package unittests;
 import java.util.ArrayList;
 import java.util.List;
 
+import geometries.Intersectable.GeoPoint;
 import geometries.Sphere;
 import junit.framework.TestCase;
 import primitives.Point3D;
@@ -25,9 +26,9 @@ public class SphereTest extends TestCase {
 	 */
 	public void testFindIntersections1() {
 		Sphere sp = new Sphere(new Point3D(0, 0, 0), 3);
-		List<Point3D> result = sp.findIntersections(new Ray(new Point3D(0, 0, 0), new Vector(0, 0, 1)));
-		List<Point3D> exp = new ArrayList<Point3D>();
-		exp.add(new Point3D(0, 0, 3));
+		List<GeoPoint> result = sp.findIntersections(new Ray(new Point3D(0, 0, 0), new Vector(0, 0, 1)));
+		List<GeoPoint> exp = new ArrayList<GeoPoint>();
+		exp.add(new GeoPoint(sp, new Point3D(0, 0, 3)));
 		assertEquals("problem with intersections", exp, result);
 	}
 
@@ -36,10 +37,10 @@ public class SphereTest extends TestCase {
 	 */
 	public void testFindIntersections2() {
 		Sphere sp = new Sphere(new Point3D(0, 0, 0), 3);
-		List<Point3D> result = sp.findIntersections(new Ray(new Point3D(0, 0, -3), new Vector(0, 0, 1)));
-		List<Point3D> exp = new ArrayList<Point3D>();
-		exp.add(new Point3D(0, 0, -3));
-		exp.add(new Point3D(0, 0, 3));
+		List<GeoPoint> result = sp.findIntersections(new Ray(new Point3D(0, 0, -3), new Vector(0, 0, 1)));
+		List<GeoPoint> exp = new ArrayList<GeoPoint>();
+		exp.add(new GeoPoint(sp, new Point3D(0, 0, -3)));
+		exp.add(new GeoPoint(sp, new Point3D(0, 0, 3)));
 		assertEquals("problem with intersections", exp, result);
 	}
 
@@ -48,10 +49,10 @@ public class SphereTest extends TestCase {
 	 */
 	public void testFindIntersections3() {
 		Sphere sp = new Sphere(new Point3D(0, 0, 0), 3);
-		List<Point3D> result = sp.findIntersections(new Ray(new Point3D(0, 0, -4), new Vector(0, 0, 1)));
-		List<Point3D> exp = new ArrayList<Point3D>();
-		exp.add(new Point3D(0, 0, -3));
-		exp.add(new Point3D(0, 0, 3));
+		List<GeoPoint> result = sp.findIntersections(new Ray(new Point3D(0, 0, -4), new Vector(0, 0, 1)));
+		List<GeoPoint> exp = new ArrayList<GeoPoint>();
+		exp.add(new GeoPoint(sp, new Point3D(0, 0, -3)));
+		exp.add(new GeoPoint(sp, new Point3D(0, 0, 3)));
 		assertEquals("problem with intersections", exp, result);
 	}
 
@@ -60,9 +61,9 @@ public class SphereTest extends TestCase {
 	 */
 	public void testFindIntersections4() {
 		Sphere sp = new Sphere(new Point3D(0, 0, 0), 3);
-		List<Point3D> result = sp.findIntersections(new Ray(new Point3D(0, 0, 3), new Vector(0, 0, 1)));
-		List<Point3D> exp = new ArrayList<Point3D>();
-		exp.add(new Point3D(0, 0, 3));
+		List<GeoPoint> result = sp.findIntersections(new Ray(new Point3D(0, 0, 3), new Vector(0, 0, 1)));
+		List<GeoPoint> exp = new ArrayList<GeoPoint>();
+		exp.add(new GeoPoint(sp, new Point3D(0, 0, 3)));
 		assertEquals("problem with intersections", exp, result);
 	}
 
@@ -71,10 +72,10 @@ public class SphereTest extends TestCase {
 	 */
 	public void testFindIntersections5() {
 		Sphere sp = new Sphere(new Point3D(0, 0, 0), 3);
-		List<Point3D> result = sp.findIntersections(new Ray(new Point3D(-5, -2, 0), new Vector(1, 1, 0)));
-		List<Point3D> exp = new ArrayList<Point3D>();
-		exp.add(new Point3D(-3, 0, 0));
-		exp.add(new Point3D(0, 3, 0));
+		List<GeoPoint> result = sp.findIntersections(new Ray(new Point3D(-5, -2, 0), new Vector(1, 1, 0)));
+		List<GeoPoint> exp = new ArrayList<GeoPoint>();
+		exp.add(new GeoPoint(sp, new Point3D(-3, 0, 0)));	
+		exp.add(new GeoPoint(sp, new Point3D(0, 3, 0)));
 		assertEquals("problem with intersections", exp, result);
 	}
 
@@ -83,8 +84,8 @@ public class SphereTest extends TestCase {
 	 */
 	public void testFindIntersections6() {
 		Sphere sp = new Sphere(new Point3D(0, 0, 0), 3);
-		List<Point3D> result = sp.findIntersections(new Ray(new Point3D(-5, -2, 0), new Vector(0, 0, 1)));
-		List<Point3D> exp = new ArrayList<Point3D>();
+		List<GeoPoint> result = sp.findIntersections(new Ray(new Point3D(-5, -2, 0), new Vector(0, 0, 1)));
+		List<GeoPoint> exp = new ArrayList<GeoPoint>();
 		assertEquals("problem with intersections", exp, result);
 	}
 
@@ -94,8 +95,8 @@ public class SphereTest extends TestCase {
 	 */
 	public void testFindIntersections7() {
 		Sphere sp = new Sphere(new Point3D(0, 0, 0), 3);
-		List<Point3D> result = sp.findIntersections(new Ray(new Point3D(-5, -2, 0), new Vector(-1, -1, 0)));
-		List<Point3D> exp = new ArrayList<Point3D>();
+		List<GeoPoint> result = sp.findIntersections(new Ray(new Point3D(-5, -2, 0), new Vector(-1, -1, 0)));
+		List<GeoPoint> exp = new ArrayList<GeoPoint>();
 		assertEquals("problem with intersections", exp, result);
 	}
 
@@ -104,8 +105,8 @@ public class SphereTest extends TestCase {
 	 */
 	public void testFindIntersections8() {
 		Sphere sp = new Sphere(new Point3D(0, 0, 0), 3);
-		List<Point3D> result = sp.findIntersections(new Ray(new Point3D(0, 0, 4), new Vector(0, 0, 1)));
-		List<Point3D> exp = new ArrayList<Point3D>();
+		List<GeoPoint> result = sp.findIntersections(new Ray(new Point3D(0, 0, 4), new Vector(0, 0, 1)));
+		List<GeoPoint> exp = new ArrayList<GeoPoint>();
 		assertEquals("problem with intersections", exp, result);
 	}
 
@@ -115,10 +116,10 @@ public class SphereTest extends TestCase {
 	 */
 	public void testFindIntersections9() {
 		Sphere sp = new Sphere(new Point3D(0, 0, 0), 3);
-		List<Point3D> result = sp.findIntersections(new Ray(new Point3D(-3, 0, 0), new Vector(1, 1, 0)));
-		List<Point3D> exp = new ArrayList<Point3D>();
-		exp.add(new Point3D(-3, 0, 0));
-		exp.add(new Point3D(0, 3, 0));
+		List<GeoPoint> result = sp.findIntersections(new Ray(new Point3D(-3, 0, 0), new Vector(1, 1, 0)));
+		List<GeoPoint> exp = new ArrayList<GeoPoint>();
+		exp.add(new GeoPoint(sp, new Point3D(-3, 0, 0)));
+		exp.add(new GeoPoint(sp, new Point3D(0, 3, 0)));
 		assertEquals("problem with intersections", exp, result);
 	}
 
@@ -128,9 +129,9 @@ public class SphereTest extends TestCase {
 	 */
 	public void testFindIntersections10() {
 		Sphere sp = new Sphere(new Point3D(0, 0, 0), 3);
-		List<Point3D> result = sp.findIntersections(new Ray(new Point3D(0, 3, 0), new Vector(1, 1, 0)));
-		List<Point3D> exp = new ArrayList<Point3D>();
-		exp.add(new Point3D(0, 3, 0));
+		List<GeoPoint> result = sp.findIntersections(new Ray(new Point3D(0, 3, 0), new Vector(1, 1, 0)));
+		List<GeoPoint> exp = new ArrayList<GeoPoint>();
+		exp.add(new GeoPoint(sp, new Point3D(0, 3, 0)));
 		assertEquals("problem with intersections", exp, result);
 	}
 
@@ -140,8 +141,8 @@ public class SphereTest extends TestCase {
 	 */
 	public void testFindIntersections11() {
 		Sphere sp = new Sphere(new Point3D(0, 0, 0), 3);
-		List<Point3D> result = sp.findIntersections(new Ray(new Point3D(5, 2, 0), new Vector(1, 1, 0)));
-		List<Point3D> exp = new ArrayList<Point3D>();
+		List<GeoPoint> result = sp.findIntersections(new Ray(new Point3D(5, 2, 0), new Vector(1, 1, 0)));
+		List<GeoPoint> exp = new ArrayList<GeoPoint>();
 		assertEquals("problem with intersections", exp, result);
 	}
 
@@ -150,9 +151,9 @@ public class SphereTest extends TestCase {
 	 */
 	public void testFindIntersections12() {
 		Sphere sp = new Sphere(new Point3D(0, 0, 0), 3);
-		List<Point3D> result = sp.findIntersections(new Ray(new Point3D(0, 3, 0), new Vector(0, 1, 0)));
-		List<Point3D> exp = new ArrayList<Point3D>();
-		exp.add(new Point3D(0, 3, 0));
+		List<GeoPoint> result = sp.findIntersections(new Ray(new Point3D(0, 3, 0), new Vector(0, 1, 0)));
+		List<GeoPoint> exp = new ArrayList<GeoPoint>();
+		exp.add(new GeoPoint(sp, new Point3D(0, 3, 0)));
 		assertEquals("problem with intersections", exp, result);
 	}
 
@@ -161,9 +162,9 @@ public class SphereTest extends TestCase {
 	 */
 	public void testFindIntersections13() {
 		Sphere sp = new Sphere(new Point3D(0, 0, 0), 3);
-		List<Point3D> result = sp.findIntersections(new Ray(new Point3D(0, 2, 0), new Vector(0, 1, 0)));
-		List<Point3D> exp = new ArrayList<Point3D>();
-		exp.add(new Point3D(0, 3, 0));
+		List<GeoPoint> result = sp.findIntersections(new Ray(new Point3D(0, 2, 0), new Vector(0, 1, 0)));
+		List<GeoPoint> exp = new ArrayList<GeoPoint>();
+		exp.add(new GeoPoint(sp, new Point3D(0, 3, 0)));
 		assertEquals("problem with intersections", exp, result);
 	}
 
@@ -172,8 +173,8 @@ public class SphereTest extends TestCase {
 	 */
 	public void testFindIntersections14() {
 		Sphere sp = new Sphere(new Point3D(0, 0, 0), 3);
-		List<Point3D> result = sp.findIntersections(new Ray(new Point3D(0, 4, 0), new Vector(0, 1, 0)));
-		List<Point3D> exp = new ArrayList<Point3D>();
+		List<GeoPoint> result = sp.findIntersections(new Ray(new Point3D(0, 4, 0), new Vector(0, 1, 0)));
+		List<GeoPoint> exp = new ArrayList<GeoPoint>();
 		assertEquals("problem with intersections", exp, result);
 	}
 
@@ -182,8 +183,8 @@ public class SphereTest extends TestCase {
 	 */
 	public void testFindIntersections15() {
 		Sphere sp = new Sphere(new Point3D(0, 0, 0), 3);
-		List<Point3D> result = sp.findIntersections(new Ray(new Point3D(0, 4, 0), new Vector(1, 0, 0)));
-		List<Point3D> exp = new ArrayList<Point3D>();
+		List<GeoPoint> result = sp.findIntersections(new Ray(new Point3D(0, 4, 0), new Vector(1, 0, 0)));
+		List<GeoPoint> exp = new ArrayList<GeoPoint>();
 		assertEquals("problem with intersections", exp, result);
 	}
 }

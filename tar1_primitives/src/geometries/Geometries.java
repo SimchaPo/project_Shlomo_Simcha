@@ -5,7 +5,6 @@ import java.util.Iterator;
 //import java.util.Iterator;
 import java.util.List;
 
-import primitives.Point3D;
 import primitives.Ray;
 //import geometries.Geometry;
 import geometries.Intersectable;
@@ -35,8 +34,8 @@ public class Geometries implements Intersectable {
 	}
 
 	@Override
-	public List<Point3D> findIntersections(Ray _ray) {
-		List<Point3D> gmtriesIntrsctnsLst = new ArrayList<Point3D>();
+	public List<GeoPoint> findIntersections(Ray _ray) {
+		List<GeoPoint> gmtriesIntrsctnsLst = new ArrayList<GeoPoint>();
 		for (Intersectable _intrscble : _geometries) {
 			gmtriesIntrsctnsLst.addAll(_intrscble.findIntersections(_ray));
 		}

@@ -1,8 +1,6 @@
 package geometries;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import primitives.Color;
 import primitives.Point3D;
 import primitives.Vector;
 
@@ -12,7 +10,12 @@ import primitives.Vector;
  * @author OWNER
  *
  */
-public interface Geometry extends Intersectable {
-	public Vector getNormal(Point3D pnt);
+public abstract class Geometry implements Intersectable {
+	protected Color _emmission;
 
+	abstract public Vector getNormal(Point3D pnt);
+
+	public Color getEmmission() {
+		return _emmission;
+	}
 }

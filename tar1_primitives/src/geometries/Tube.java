@@ -2,6 +2,7 @@ package geometries;
 
 import java.util.List;
 
+import primitives.Color;
 import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
@@ -21,9 +22,13 @@ public class Tube extends RadialGeometry {
 	 * @param _tRay
 	 * @param rad
 	 */
-	public Tube(Ray _tRay, double rad) {
-		super(rad);
-		_ray = new Ray(_tRay);
+	public Tube(Ray ray, double rad) {
+		this(ray, rad, Color.BLACK);
+	}
+	
+	public Tube(Ray ray, double rad, Color emmission) {
+		super(rad, emmission);
+		_ray = new Ray(ray);
 	}
 
 	@Override
@@ -35,7 +40,7 @@ public class Tube extends RadialGeometry {
 	}
 
 	@Override
-	public List<Point3D> findIntersections(Ray _ray) {
+	public List<GeoPoint> findIntersections(Ray _ray) {
 		// TODO Auto-generated method stub
 		return null;
 	}

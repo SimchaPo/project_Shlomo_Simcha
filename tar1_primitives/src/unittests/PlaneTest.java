@@ -3,6 +3,7 @@ package unittests;
 import java.util.ArrayList;
 import java.util.List;
 
+import geometries.Intersectable.GeoPoint;
 import geometries.Plane;
 import junit.framework.TestCase;
 import primitives.Point3D;
@@ -31,8 +32,8 @@ public class PlaneTest extends TestCase {
 	 */
 	public void testFindIntersections1() {
 		Plane pl = new Plane(new Point3D(0, 0, 0), new Vector(0, 0, 1));
-		List<Point3D> result = pl.findIntersections(new Ray(new Point3D(0, 0, 0), new Vector(0, 1, 0)));
-		List<Point3D> exp = new ArrayList<Point3D>();
+		List<GeoPoint> result = pl.findIntersections(new Ray(new Point3D(0, 0, 0), new Vector(0, 1, 0)));
+		List<GeoPoint> exp = new ArrayList<GeoPoint>();
 		assertEquals("problem with intersections", exp, result);
 	}
 
@@ -41,8 +42,8 @@ public class PlaneTest extends TestCase {
 	 */
 	public void testFindIntersections2() {
 		Plane pl = new Plane(new Point3D(0, 0, 0), new Vector(0, 0, 1));
-		List<Point3D> result = pl.findIntersections(new Ray(new Point3D(0, 2, 0), new Vector(0, 1, 0)));
-		List<Point3D> exp = new ArrayList<Point3D>();
+		List<GeoPoint> result = pl.findIntersections(new Ray(new Point3D(0, 2, 0), new Vector(0, 1, 0)));
+		List<GeoPoint> exp = new ArrayList<GeoPoint>();
 		assertEquals("problem with intersections", exp, result);
 	}
 
@@ -51,9 +52,9 @@ public class PlaneTest extends TestCase {
 	 */
 	public void testFindIntersections3() {
 		Plane pl = new Plane(new Point3D(0, 0, 0), new Vector(0, 0, 1));
-		List<Point3D> result = pl.findIntersections(new Ray(new Point3D(0, 2, 0), new Vector(0, 0, 1)));
-		List<Point3D> exp = new ArrayList<Point3D>();
-		exp.add(new Point3D(0, 2, 0));
+		List<GeoPoint> result = pl.findIntersections(new Ray(new Point3D(0, 2, 0), new Vector(0, 0, 1)));
+		List<GeoPoint> exp = new ArrayList<GeoPoint>();
+		exp.add(new GeoPoint(pl, new Point3D(0, 2, 0)));
 		assertEquals("problem with intersections", exp, result);
 	}
 
@@ -62,9 +63,9 @@ public class PlaneTest extends TestCase {
 	 */
 	public void testFindIntersections4() {
 		Plane pl = new Plane(new Point3D(0, 0, 0), new Vector(0, 0, 1));
-		List<Point3D> result = pl.findIntersections(new Ray(new Point3D(0, 2, 0), new Vector(3, 4, 5)));
-		List<Point3D> exp = new ArrayList<Point3D>();
-		exp.add(new Point3D(0, 2, 0));
+		List<GeoPoint> result = pl.findIntersections(new Ray(new Point3D(0, 2, 0), new Vector(3, 4, 5)));
+		List<GeoPoint> exp = new ArrayList<GeoPoint>();
+		exp.add(new GeoPoint(pl, new Point3D(0, 2, 0)));
 		assertEquals("problem with intersections", exp, result);
 	}
 
@@ -73,9 +74,9 @@ public class PlaneTest extends TestCase {
 	 */
 	public void testFindIntersections5() {
 		Plane pl = new Plane(new Point3D(0, 0, 0), new Vector(0, 0, 1));
-		List<Point3D> result = pl.findIntersections(new Ray(new Point3D(5, 1, -1), new Vector(0, 0, 1)));
-		List<Point3D> exp = new ArrayList<Point3D>();
-		exp.add(new Point3D(5, 1, 0));
+		List<GeoPoint> result = pl.findIntersections(new Ray(new Point3D(5, 1, -1), new Vector(0, 0, 1)));
+		List<GeoPoint> exp = new ArrayList<GeoPoint>();
+		exp.add(new GeoPoint(pl, new Point3D(5, 1, 0)));
 		assertEquals("problem with intersections", exp, result);
 	}
 
@@ -84,9 +85,9 @@ public class PlaneTest extends TestCase {
 	 */
 	public void testFindIntersections6() {
 		Plane pl = new Plane(new Point3D(0, 0, 0), new Vector(0, 0, 1));
-		List<Point3D> result = pl.findIntersections(new Ray(new Point3D(1, 1, -1), new Vector(-1, -1, 1)));
-		List<Point3D> exp = new ArrayList<Point3D>();
-		exp.add(new Point3D(0, 0, 0));
+		List<GeoPoint> result = pl.findIntersections(new Ray(new Point3D(1, 1, -1), new Vector(-1, -1, 1)));
+		List<GeoPoint> exp = new ArrayList<GeoPoint>();
+		exp.add(new GeoPoint(pl, new Point3D(0, 0, 0)));
 		assertEquals("problem with intersections", exp, result);
 	}
 
@@ -95,9 +96,9 @@ public class PlaneTest extends TestCase {
 	 */
 	public void testFindIntersections7() {
 		Plane pl = new Plane(new Point3D(0, 0, 0), new Vector(0, 0, 1));
-		List<Point3D> result = pl.findIntersections(new Ray(new Point3D(1, 1, -1), new Vector(-1, 1, 1)));
-		List<Point3D> exp = new ArrayList<Point3D>();
-		exp.add(new Point3D(0, 2, 0));
+		List<GeoPoint> result = pl.findIntersections(new Ray(new Point3D(1, 1, -1), new Vector(-1, 1, 1)));
+		List<GeoPoint> exp = new ArrayList<GeoPoint>();
+		exp.add(new GeoPoint(pl, new Point3D(0, 2, 0)));
 		assertEquals("problem with intersections", exp, result);
 	}
 
@@ -106,8 +107,8 @@ public class PlaneTest extends TestCase {
 	 */
 	public void testFindIntersections8() {
 		Plane pl = new Plane(new Point3D(0, 0, 0), new Vector(0, 0, 1));
-		List<Point3D> result = pl.findIntersections(new Ray(new Point3D(0, 0, 1), new Vector(0, 1, 0)));
-		List<Point3D> exp = new ArrayList<Point3D>();
+		List<GeoPoint> result = pl.findIntersections(new Ray(new Point3D(0, 0, 1), new Vector(0, 1, 0)));
+		List<GeoPoint> exp = new ArrayList<GeoPoint>();
 		assertEquals("problem with intersections", exp, result);
 	}
 
@@ -117,8 +118,8 @@ public class PlaneTest extends TestCase {
 	 */
 	public void testFindIntersections9() {
 		Plane pl = new Plane(new Point3D(0, 0, 0), new Vector(0, 0, 1));
-		List<Point3D> result = pl.findIntersections(new Ray(new Point3D(1, 1, 2), new Vector(-1, 1, 1)));
-		List<Point3D> exp = new ArrayList<Point3D>();
+		List<GeoPoint> result = pl.findIntersections(new Ray(new Point3D(1, 1, 2), new Vector(-1, 1, 1)));
+		List<GeoPoint> exp = new ArrayList<GeoPoint>();
 		assertEquals("problem with intersections", exp, result);
 	}
 
@@ -127,8 +128,8 @@ public class PlaneTest extends TestCase {
 	 */
 	public void testFindIntersections10() {
 		Plane pl = new Plane(new Point3D(0, 0, 0), new Vector(0, 0, 1));
-		List<Point3D> result = pl.findIntersections(new Ray(new Point3D(5, 1, 1), new Vector(0, 0, 1)));
-		List<Point3D> exp = new ArrayList<Point3D>();
+		List<GeoPoint> result = pl.findIntersections(new Ray(new Point3D(5, 1, 1), new Vector(0, 0, 1)));
+		List<GeoPoint> exp = new ArrayList<GeoPoint>();
 		assertEquals("problem with intersections", exp, result);
 	}
 
