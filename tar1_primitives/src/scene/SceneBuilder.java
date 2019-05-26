@@ -45,14 +45,6 @@ public class SceneBuilder {
 		return todble;
 	}
 
-//	public void fielfInitialeizer(Object obj[], String[] _str) {
-//		int oLen = obj.length;
-//		// int sLen=_str.length;
-//		for (int i = 0; i < oLen; i++) {
-//			obj[i] = _str[i];
-//		}
-//	}
-
 	public Scene loadSceneFromFile(File _file) throws IOException, SAXException, ParserConfigurationException {
 		_sceneDesc.InitializeFromXMLstring(_file);
 		double imWid = 0.0, imhig = 0.0, screenDist = 0.0, k = 0.0, tmp = 0.0;
