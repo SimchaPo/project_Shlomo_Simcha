@@ -59,7 +59,7 @@ public class SceneBuilder {
 		for (Map.Entry<String, String> entry : _sceneDesc.get_sceneAttributes().entrySet()) {
 			if ("background-color" == entry.getKey()) {
 				rgb = stringSplitter(entry.getValue());
-				_scene.set_background(new Color(rgb[0], rgb[0], rgb[3]));
+				_scene.setBackground(new Color(rgb[0], rgb[0], rgb[3]));
 			} else if ("screen-width" == entry.getKey()) {
 				imWid = Double.parseDouble(entry.getValue());
 			} else if ("screen-height" == entry.getKey()) {
@@ -75,7 +75,7 @@ public class SceneBuilder {
 				k = Double.parseDouble(entry.getValue());
 			}
 			_ambColor = new AmbientLight(new Color(rgb[0], rgb[1], rgb[2]), k);
-			_scene.set_ambientLight(_ambColor);
+			_scene.setAmbientLight(_ambColor);
 		}
 		for (Map.Entry<String, String> entry : _sceneDesc.get_cameraAttributes().entrySet()) {
 			if ("p0" == entry.getKey()) {
@@ -89,7 +89,8 @@ public class SceneBuilder {
 				_VUp = new Vector(rgb[0], rgb[1], rgb[2]);
 			}
 		}
-		_scene.set_camera(new Camera(_P0, _VUp, _VTo), screenDist);
+		_scene.setCamera(new Camera(_P0, _VUp, _VTo), screenDist);
+
 		ListIterator<Map<String, String>> geometriesIterator = _sceneDesc.get_spheres().listIterator();
 		while (geometriesIterator.hasNext()) {
 			Map<java.lang.String, java.lang.String> map = (Map<java.lang.String, java.lang.String>) geometriesIterator
@@ -143,6 +144,7 @@ public class SceneBuilder {
 			_scene.addGeometries(triangles);
 			_imageWriter = new ImageWriter(_filePath, imWid, imhig, 500, 500);
 		}
+
 		return _scene;
 	}
 }
