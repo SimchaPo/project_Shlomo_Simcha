@@ -33,6 +33,7 @@ public class Sax_handler extends DefaultHandler {
 	static final String V_UP = "vUp";
 	static final String CENTER = "centre";
 	static final String RADIUS = "radius";
+	static final String EMMISSION = "emmission";
 	static final String P0 = "p0";
 	static final String P1 = "p1";
 	static final String P2 = "p2";
@@ -76,6 +77,9 @@ public class Sax_handler extends DefaultHandler {
 			System.out.println(_qName + " " + "startElement");
 			_sphereMap.put(CENTER, atts.getValue(CENTER));
 			_sphereMap.put(RADIUS, atts.getValue(RADIUS));
+			if(atts.getLength()>2) {
+				_sphereMap.put(EMMISSION, atts.getValue(EMMISSION));
+			}
 		}
 		if (_qName == TRIANGLE) {
 			System.out.println(_qName + " " + "startElement");
