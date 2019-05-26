@@ -19,7 +19,7 @@ public class Scene {
 	private AmbientLight _ambientLight;
 	private Geometries _geometries;
 	private Camera _camera;
-	private double _screenDistance;
+	private double screenDistance;
 
 	// ******** Constructor **********//
 	public Scene(String name) {
@@ -28,41 +28,41 @@ public class Scene {
 	}
 
 	// ****** Getters/Setters *******//
-	public void set_background(Color _background) {
+	public void setBackground(Color _background) {
 		this._background = _background;
 	}
 
-	public void set_ambientLight(AmbientLight _ambientLight) {
+	public void setAmbientLight(AmbientLight _ambientLight) {
 		this._ambientLight = _ambientLight;
 	}
 
-	public void set_camera(Camera _camera, double _screenDistance) {
+	public void setCamera(Camera _camera, double _screenDistance) {
 		this._camera = _camera;
-		this._screenDistance = _screenDistance;
+		this.screenDistance = _screenDistance;
 	}
 
-	public String get_scene() {
+	public String getScene() {
 		return _scene;
 	}
 
-	public Color get_background() {
+	public Color getBackground() {
 		return _background;
 	}
 
-	public AmbientLight get_ambientLight() {
+	public AmbientLight getAmbientLight() {
 		return _ambientLight;
 	}
 
-	public Geometries get_geometries() {
+	public Geometries getGeometries() {
 		return _geometries;
 	}
 
-	public Camera get_camera() {
+	public Camera getCamera() {
 		return _camera;
 	}
 
-	public double get_screenDistance() {
-		return _screenDistance;
+	public double getScreenDistance() {
+		return screenDistance;
 	}
 
 	// ******* Functions *******//

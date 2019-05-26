@@ -38,11 +38,11 @@ public class Render {
 	public void renderImage() {
 		for (int i = 0; i < _imageWriter.getNx(); ++i) {
 			for (int j = 0; j < _imageWriter.getNy(); ++j) {
-				Ray ray = _scene.get_camera().constructRayThroughPixel(_imageWriter.getNx(), _imageWriter.getNy(), i, j,
-						_scene.get_screenDistance(), _imageWriter.getWidth(), _imageWriter.getHeight());
-				List<GeoPoint> intersections = _scene.get_geometries().findIntersections(ray);
+				Ray ray = _scene.getCamera().constructRayThroughPixel(_imageWriter.getNx(), _imageWriter.getNy(), i, j,
+						_scene.getScreenDistance(), _imageWriter.getWidth(), _imageWriter.getHeight());
+				List<GeoPoint> intersections = _scene.getGeometries().findIntersections(ray);
 				if (intersections.isEmpty()) {
-					_imageWriter.writePixel(i, j, _scene.get_background().getColor());
+					_imageWriter.writePixel(i, j, _scene.getBackground().getColor());
 				} else {
 					GeoPoint closestPoint = getClosestPoint(intersections);
 					_imageWriter.writePixel(i, j, calcColor(closestPoint).getColor());
@@ -82,7 +82,7 @@ public class Render {
 	 * @return
 	 */
 	private Color calcColor(GeoPoint intersection) {
-		Color color = _scene.get_ambientLight().getIntensity();
+		Color color = _scene.getAmbientLight().getIntensity();
 		color = color.add(intersection.geometry.getEmmission());
 		return color;
 	}
@@ -94,7 +94,7 @@ public class Render {
 	 * @return returns the closest point to camera
 	 */
 	private GeoPoint getClosestPoint(List<GeoPoint> intersectionsPoints) {
-		Point3D rayPnt = _scene.get_camera().getP0();
+		Point3D rayPnt = _scene.getCamera().getP0();
 		GeoPoint closestPoint = intersectionsPoints.get(0);
 		double minDistancePow = rayPnt.distancePow(closestPoint.point);
 		double disPow;
