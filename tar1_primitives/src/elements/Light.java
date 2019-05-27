@@ -13,5 +13,7 @@ public abstract class Light {
 		return _color;
 	}
 
-	abstract public Color getIntensity();
+	public Color getIntensity() {
+		return _color;
+	}
 }

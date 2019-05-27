@@ -1,6 +1,7 @@
 package geometries;
 
 import primitives.Color;
+import primitives.Material;
 
 //import java.util.function.ToDoubleBiFunction;
 
@@ -26,11 +27,11 @@ public class Cylinder extends Tube {
 	 * @param rad
 	 */
 	public Cylinder(Ray pnt, double rad, double hgt) {
-		this(pnt, rad, hgt, Color.BLACK);
+		this(pnt, rad, hgt, Color.BLACK, new Material());
 	}
 
-	public Cylinder(Ray pnt, double rad, double hgt, Color emmission) {
-		super(pnt, rad, emmission);
+	public Cylinder(Ray pnt, double rad, double hgt, Color emmission, Material material) {
+		super(pnt, rad, emmission, material);
 		hight = hgt;
 	}
 

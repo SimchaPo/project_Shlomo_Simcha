@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import primitives.Color;
+import primitives.Material;
 import primitives.Point3D;
 import primitives.Ray;
 import static primitives.Util.*;
@@ -25,14 +26,15 @@ public class Plane extends Geometry {
 	 * @param _pnt
 	 * @param _vec
 	 */
-	public Plane(Point3D _pnt, Vector _vec, Color emmission) {
+	public Plane(Point3D _pnt, Vector _vec, Color emmission, Material material) {
 		_emmission = emmission;
 		point = new Point3D(_pnt);
+		_material = new Material(material);
 		normalVector = _vec.normalize();
 	}
 
 	public Plane(Point3D _pnt, Vector _vec) {
-		this(_pnt, _vec, Color.BLACK);
+		this(_pnt, _vec, Color.BLACK, new Material());
 	}
 
 	/**
@@ -46,8 +48,8 @@ public class Plane extends Geometry {
 		this(pnt1, (pnt1.subtract(pnt2)).vecotrsCrossProduct(pnt2.subtract(pnt3)).normalize());
 	}
 	
-	public Plane(Point3D pnt1, Point3D pnt2, Point3D pnt3, Color emmission) {
-		this(pnt1, (pnt1.subtract(pnt2)).vecotrsCrossProduct(pnt2.subtract(pnt3)).normalize(), emmission);
+	public Plane(Point3D pnt1, Point3D pnt2, Point3D pnt3, Color emmission, Material material) {
+		this(pnt1, (pnt1.subtract(pnt2)).vecotrsCrossProduct(pnt2.subtract(pnt3)).normalize(), emmission, material);
 	}
 
 	/*************** Admin *****************/

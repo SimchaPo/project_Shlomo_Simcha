@@ -1,10 +1,14 @@
 package scene;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import elements.AmbientLight;
 import elements.Camera;
 import geometries.Geometries;
 import geometries.Intersectable;
 import primitives.Color;
+import elements.LightSource;
 
 /**
  * Scene class has all information for for a image scene
@@ -20,11 +24,18 @@ public class Scene {
 	private Geometries _geometries;
 	private Camera _camera;
 	private double screenDistance;
+	private List<LightSource> _lights;
 
 	// ******** Constructor **********//
 	public Scene(String name) {
 		_scene = name;
 		_geometries = new Geometries();
+		_lights = new ArrayList<LightSource>();
+	}
+
+	public void setLights(LightSource... lights) {
+		for (LightSource light : lights)
+			_lights.add(light);
 	}
 
 	// ****** Getters/Setters *******//
@@ -63,6 +74,10 @@ public class Scene {
 
 	public double getScreenDistance() {
 		return screenDistance;
+	}
+
+	public List<LightSource> getLights() {
+		return _lights;
 	}
 
 	// ******* Functions *******//

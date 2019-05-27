@@ -5,10 +5,10 @@ import java.util.List;
 import static primitives.Util.*;
 
 import primitives.Color;
+import primitives.Material;
 import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
-import static geometries.Intersectable.GeoPoint;
 
 /**
  * This class define geometric 3D figure "Sphere"
@@ -26,11 +26,11 @@ public class Sphere extends RadialGeometry {
 	 * @param rad
 	 */
 	public Sphere(Point3D pnt, double rad) {
-		this(pnt, rad, Color.BLACK);
+		this(pnt, rad, Color.BLACK, new Material());
 	}
 
-	public Sphere(Point3D pnt, double rad, Color emmission) {
-		super(rad, emmission);
+	public Sphere(Point3D pnt, double rad, Color emmission, Material material) {
+		super(rad, emmission, material);
 		_sphereCenter = pnt;
 	}
 

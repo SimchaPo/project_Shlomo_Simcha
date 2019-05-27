@@ -3,6 +3,7 @@ package geometries;
 import java.util.List;
 
 import primitives.Color;
+import primitives.Material;
 import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
@@ -23,11 +24,11 @@ public class Tube extends RadialGeometry {
 	 * @param rad
 	 */
 	public Tube(Ray ray, double rad) {
-		this(ray, rad, Color.BLACK);
+		this(ray, rad, Color.BLACK, new Material());
 	}
 	
-	public Tube(Ray ray, double rad, Color emmission) {
-		super(rad, emmission);
+	public Tube(Ray ray, double rad, Color emmission, Material material) {
+		super(rad, emmission, material);
 		_ray = new Ray(ray);
 	}
 
