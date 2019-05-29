@@ -14,7 +14,7 @@ public class DirectionalLight extends Light implements LightSource {
 
 	public DirectionalLight(Color col, Vector dir) {
 		super(col);
-		direction = dir;
+		direction = dir.normalize();
 	}
 
 	public Vector getDirection() {
@@ -28,14 +28,12 @@ public class DirectionalLight extends Light implements LightSource {
 
 	@Override
 	public Vector getL(Point3D pnt) {
-		// TODO Auto-generated method stub
-		return null;
+		return direction;
 	}
 
 	@Override
 	public Vector getD(Point3D pnt) {
-		// TODO Auto-generated method stub
-		return null;
+		return direction;
 	}
 
 }

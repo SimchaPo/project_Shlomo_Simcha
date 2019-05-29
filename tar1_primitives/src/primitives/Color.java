@@ -175,4 +175,8 @@ public class Color {
 		return new Color(r, g, b);
 	}
 
+	@Override
+	public String toString() {
+		return "[" + _r + ", " + _g + ", " + _b + "]";
+	}
 }

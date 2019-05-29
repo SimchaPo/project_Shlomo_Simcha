@@ -85,30 +85,36 @@ public class Render {
 	 * @return
 	 */
 	private Color calcColor(GeoPoint intersection) {
-		Color color = _scene.getAmbientLight().getIntensity();
+		Color color = new Color(_scene.getAmbientLight().getIntensity());
 		color = color.add(intersection.geometry.getEmmission());
 		Vector v = intersection.point.subtract(_scene.getCamera().getP0()).normalize();
 		Vector n = intersection.geometry.getNormal(intersection.point);
 		int nShininess = intersection.geometry.getMaterial().getNShininess();
-		double kd = intersection.geometry.getMaterial().getKD();
+		double kd = intersection.geometry.getMaterial().getKD();	
 		double ks = intersection.geometry.getMaterial().getKS();
+		//if(kd > 0 || ks > 0) System.out.println("a" + color);
 		for (LightSource lightSource : _scene.getLights()) {
 			Vector l = lightSource.getL(intersection.point);
 			if(n.vectorsDotProduct(l)*n.vectorsDotProduct(v) > 0) {
-				Color lightIntensity = lightSource.getIntensity(intersection.point);
-				color.add(calcDiffusive(kd, l, n, lightIntensity), calcSpecular(ks, l, n, v, nShininess, lightIntensity));
+				Color lightIntensity = new Color(lightSource.getIntensity(intersection.point));
+				color = color.add(calcDiffusive(kd, l, n, lightIntensity), calcSpecular(ks, l, n, v, nShininess, lightIntensity));
+				if(kd > 0 || ks > 0) System.out.println("kd " + kd + " ks " + ks + " nS " + nShininess + " l " + l + " n " + n + " v " + v + " light " + lightIntensity );
 			}
 		}
+
+		//if(kd > 0 || ks > 0) System.out.println(color);
 		return color;
 	}
 	
 	private Color calcDiffusive(double kd, Vector l, Vector n,Color lightIntensity) {
-		return lightIntensity.scale(kd*l.vectorsDotProduct(n));
+		//if(kd > 0) System.out.println(kd*Math.abs(l.vectorsDotProduct(n)));
+		return new Color(lightIntensity.scale(kd*Math.abs(l.vectorsDotProduct(n))));
 	}
 
 	private Color calcSpecular(double ks, Vector l, Vector n, Vector v, int nShininess, Color lightIntensity) {
-		Vector r = l.vectorSub(n.scale(2*l.vectorsDotProduct(n)));
-		return lightIntensity.scale(ks*Math.pow(v.scale(-1).vectorsDotProduct(r), nShininess));
+		Vector r = l.vectorSub(n.scale(2*(l.vectorsDotProduct(n)))).normalize();
+		//if(ks > 0) System.out.println(ks*Math.pow(Math.max(0, v.scale(-1).vectorsDotProduct(r)), nShininess));
+		return new Color(lightIntensity.scale(ks*Math.pow(Math.max(0, -1*v.vectorsDotProduct(r)), nShininess)));
 	}
 	
 	/**
