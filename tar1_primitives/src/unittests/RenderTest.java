@@ -1,16 +1,11 @@
 package unittests;
 
-import java.awt.List;
-import java.util.ArrayList;
-
 import elements.AmbientLight;
 import elements.Camera;
 import elements.DirectionalLight;
-import elements.LightSource;
-import elements.pointLight;
-import elements.spotLight;
+import elements.PointLight;
+import elements.SpotLight;
 import geometries.Geometries;
-import geometries.Plane;
 import geometries.Sphere;
 import geometries.Triangle;
 import junit.framework.TestCase;
@@ -48,7 +43,7 @@ public class RenderTest extends TestCase {
 		Render ren = new Render(scene, im);
 		ren.renderImage();
 		ren.printGrid(10, java.awt.Color.red);
-		ren.get_imageWriter().writeToimage();
+		ren.getImageWriter().writeToImage();
 	}
 
 	/**
@@ -77,38 +72,12 @@ public class RenderTest extends TestCase {
 		Render ren = new Render(scene, im);
 		ren.renderImage();
 		ren.printGrid(10, java.awt.Color.white);
-		ren.get_imageWriter().writeToimage();
+		ren.getImageWriter().writeToImage();
 	}
 
-	public void testRenderImage3() {
-		Scene scene = new Scene("abc");
-		AmbientLight amb = new AmbientLight(new Color(255, 255, 255), 0);
-		scene.setBackground(new Color());
-		scene.setAmbientLight(amb);
-		Sphere sphere = new Sphere(new Point3D(0, 0, -150), 50, new Color(java.awt.Color.blue),
-				new Material(10, 100, 20));
-		scene.addGeometries(sphere);
-		Camera cam = new Camera(new Point3D(0, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, -1));
-		scene.setCamera(cam, 200);
-		/*
-		 * Triangle triangle = new Triangle(new Point3D(-125, -225, -260), new
-		 * Point3D(-225, -125, -260), new Point3D(-225, -225, -270), new Color
-		 * (java.awt.Color.green), new Material(10,100,4));
-		 * 
-		 * scene.addGeometries(triangle);
-		 */
-
-		scene.setLights(new spotLight(new Point3D(-200, -200, -100), 0, 0.1, 0.05, new Color(255, 100, 100),
-				new Vector(0, 0, 1)));
-
-		ImageWriter imageWriter = new ImageWriter("Spot test 3", 500, 500, 500, 500);
-
-		Render render = new Render(scene, imageWriter);
-
-		render.renderImage();
-		render.get_imageWriter().writeToimage();
-	}
-
+	/**
+	 * test for directional light, sphere
+	 */
 	public void testRenderImage4() {
 		Scene scene = new Scene("Test scene");
 		scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, -1, 0), new Vector(0, 0, 1)), 150);
@@ -127,9 +96,11 @@ public class RenderTest extends TestCase {
 
 		render.renderImage();
 		// render.printGrid(50);
-		render.get_imageWriter().writeToimage();
+		render.getImageWriter().writeToImage();
 	}
-
+	/**
+	 * test for point light, sphere and triangle
+	 */
 	public void testRenderImage5() {
 		// Two triangle
 		Scene scene = new Scene("Test scene");
@@ -139,7 +110,7 @@ public class RenderTest extends TestCase {
 		Geometries geometries = new Geometries();
 		scene.addGeometries(geometries);
 
-		scene.setLights(new pointLight(new Point3D(10, 10, 20), 1, 0.0001, 0.000005, new Color(255, 100, 100)));
+		scene.setLights(new PointLight(new Point3D(10, 10, 20), 1, 0.0001, 0.000005, new Color(255, 100, 100)));
 
 		geometries.add(
 				new Triangle(new Point3D(-180, -180, 140), new Point3D(180, -180, 150), new Point3D(-250, 250, 150)));
@@ -151,7 +122,7 @@ public class RenderTest extends TestCase {
 
 		render.renderImage();
 		// render.printGrid(50);
-		render.get_imageWriter().writeToimage();
+		render.getImageWriter().writeToImage();
 
 		// Sphere
 		scene = new Scene("Test scene");
@@ -161,7 +132,7 @@ public class RenderTest extends TestCase {
 		geometries = new Geometries();
 		scene.addGeometries(geometries);
 
-		scene.setLights(new pointLight(new Point3D(-30, 30, 60), 1, 0.0001, 0.000005, new Color(255, 100, 100)));
+		scene.setLights(new PointLight(new Point3D(-30, 30, 60), 1, 0.0001, 0.000005, new Color(255, 100, 100)));
 		geometries.add(new Sphere(new Point3D(0, 0, 150), 80, new Color(17, 30, 108), new Material(0.4, 0.6, 40)));
 
 		imageWriter = new ImageWriter("Sphere - PointLight", 500, 500, 500, 500);
@@ -170,9 +141,11 @@ public class RenderTest extends TestCase {
 
 		render.renderImage();
 		// render.printGrid(50);
-		render.get_imageWriter().writeToimage();
+		render.getImageWriter().writeToImage();
 	}
-
+	/**
+	 * test for spot light, sphere and triangle
+	 */
 	public void testRenderImage6() {
 
 		// Two triangle
@@ -183,7 +156,7 @@ public class RenderTest extends TestCase {
 		Geometries geometries = new Geometries();
 		scene.addGeometries(geometries);
 
-		scene.setLights(new spotLight(new Point3D(5, 5, 120), 1, 0.0001, 0.000005, new Color(255, 100, 100),
+		scene.setLights(new SpotLight(new Point3D(5, 5, 120), 1, 0.0001, 0.000005, new Color(255, 100, 100),
 				new Vector(-1, -1, 8)));
 
 		/*
@@ -199,7 +172,7 @@ public class RenderTest extends TestCase {
 
 		render.renderImage();
 		// render.printGrid(50);
-		render.get_imageWriter().writeToimage();
+		render.getImageWriter().writeToImage();
 
 		// Sphere
 		scene = new Scene("Test scene");
@@ -209,7 +182,7 @@ public class RenderTest extends TestCase {
 		geometries = new Geometries();
 		scene.addGeometries(geometries);
 
-		scene.setLights(new spotLight(new Point3D(-50, 50, 20), 1, 0.0001, 0.000005, new Color(255, 100, 100),
+		scene.setLights(new SpotLight(new Point3D(-50, 50, 20), 1, 0.0001, 0.000005, new Color(255, 100, 100),
 				new Vector(1, -1, 2)));
 		geometries.add(new Sphere(new Point3D(0, 0, 150), 80, new Color(17, 30, 108), new Material(0.5, 1.5, 40)));
 
@@ -219,6 +192,6 @@ public class RenderTest extends TestCase {
 
 		render.renderImage();
 		// render.printGrid(50);
-		render.get_imageWriter().writeToimage();
+		render.getImageWriter().writeToImage();
 	}
 }

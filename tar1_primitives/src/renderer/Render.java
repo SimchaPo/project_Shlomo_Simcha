@@ -27,11 +27,11 @@ public class Render {
 		_imageWriter = im;
 	}
 
-	public Scene get_scene() {
+	public Scene getScene() {
 		return _scene;
 	}
 
-	public ImageWriter get_imageWriter() {
+	public ImageWriter getImageWriter() {
 		return _imageWriter;
 	}
 
@@ -90,33 +90,48 @@ public class Render {
 		Vector v = intersection.point.subtract(_scene.getCamera().getP0()).normalize();
 		Vector n = intersection.geometry.getNormal(intersection.point);
 		int nShininess = intersection.geometry.getMaterial().getNShininess();
-		double kd = intersection.geometry.getMaterial().getKD();	
+		double kd = intersection.geometry.getMaterial().getKD();
 		double ks = intersection.geometry.getMaterial().getKS();
-		//if(kd > 0 || ks > 0) System.out.println("a" + color);
 		for (LightSource lightSource : _scene.getLights()) {
 			Vector l = lightSource.getL(intersection.point);
-			if(n.vectorsDotProduct(l)*n.vectorsDotProduct(v) > 0) {
+			if (n.vectorsDotProduct(l) * n.vectorsDotProduct(v) > 0) {
 				Color lightIntensity = new Color(lightSource.getIntensity(intersection.point));
-				color = color.add(calcDiffusive(kd, l, n, lightIntensity), calcSpecular(ks, l, n, v, nShininess, lightIntensity));
-				if(kd > 0 || ks > 0) System.out.println("kd " + kd + " ks " + ks + " nS " + nShininess + " l " + l + " n " + n + " v " + v + " light " + lightIntensity );
+				color = color.add(calcDiffusive(kd, l, n, lightIntensity),
+						calcSpecular(ks, l, n, v, nShininess, lightIntensity));
 			}
 		}
-
-		//if(kd > 0 || ks > 0) System.out.println(color);
 		return color;
 	}
-	
-	private Color calcDiffusive(double kd, Vector l, Vector n,Color lightIntensity) {
-		//if(kd > 0) System.out.println(kd*Math.abs(l.vectorsDotProduct(n)));
-		return new Color(lightIntensity.scale(kd*Math.abs(l.vectorsDotProduct(n))));
+
+	/**
+	 * calculate the diffusive of point
+	 * 
+	 * @param kd
+	 * @param l
+	 * @param n
+	 * @param lightIntensity
+	 * @return
+	 */
+	private Color calcDiffusive(double kd, Vector l, Vector n, Color lightIntensity) {
+		return new Color(lightIntensity.scale(kd * Math.abs(l.vectorsDotProduct(n))));
 	}
 
+	/**
+	 * calculate the specular of point
+	 * 
+	 * @param ks
+	 * @param l
+	 * @param n
+	 * @param v
+	 * @param nShininess
+	 * @param lightIntensity
+	 * @return
+	 */
 	private Color calcSpecular(double ks, Vector l, Vector n, Vector v, int nShininess, Color lightIntensity) {
-		Vector r = l.vectorSub(n.scale(2*(l.vectorsDotProduct(n)))).normalize();
-		//if(ks > 0) System.out.println(ks*Math.pow(Math.max(0, v.scale(-1).vectorsDotProduct(r)), nShininess));
-		return new Color(lightIntensity.scale(ks*Math.pow(Math.max(0, -1*v.vectorsDotProduct(r)), nShininess)));
+		Vector r = l.vectorSub(n.scale(2 * (l.vectorsDotProduct(n)))).normalize();
+		return new Color(lightIntensity.scale(ks * Math.pow(Math.max(0, -1 * v.vectorsDotProduct(r)), nShininess)));
 	}
-	
+
 	/**
 	 * function gets a Point3D list and returns the closest point to camera
 	 * 
@@ -125,7 +140,7 @@ public class Render {
 	 */
 	private GeoPoint getClosestPoint(List<GeoPoint> intersectionsPoints) {
 		Point3D rayPnt = _scene.getCamera().getP0();
-		GeoPoint closestPoint = intersectionsPoints.get(0);
+		GeoPoint closestPoint = new GeoPoint(intersectionsPoints.get(0));
 		double minDistancePow = rayPnt.distancePow(closestPoint.point);
 		double disPow;
 		for (GeoPoint p : intersectionsPoints) {

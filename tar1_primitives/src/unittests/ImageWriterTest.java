@@ -17,7 +17,7 @@ public class ImageWriterTest extends TestCase {
 				im.writePixel(j, i, Color.white);
 			}
 		}
-		im.writeToimage();
+		im.writeToImage();
 		assertTrue(true);
 	}
 

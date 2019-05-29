@@ -20,6 +20,11 @@ public interface Intersectable {
 			this.point = point;
 		}
 		
+		public GeoPoint(GeoPoint geoPoint) {
+			this.geometry = geoPoint.geometry;
+			this.point = geoPoint.point;
+		}
+		
 		public boolean equals(Object obj) {
 			if (this == obj)
 				return true;

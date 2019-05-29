@@ -3,12 +3,16 @@ package elements;
 import primitives.Color;
 import primitives.Point3D;
 import primitives.Vector;
-
-public class pointLight extends Light implements LightSource {
+/**
+ * class for spot light
+ * @author OWNER
+ *
+ */
+public class PointLight extends Light implements LightSource {
 	protected Point3D _position;
 	protected double _kC, _kL, _kQ;
 
-	public pointLight(Point3D pnt, double kC, double kL, double kQ, Color col) {
+	public PointLight(Point3D pnt, double kC, double kL, double kQ, Color col) {
 		super(col);
 		_position = pnt;
 		_kC = kC;

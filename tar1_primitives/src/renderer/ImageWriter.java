@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.*;
 import javax.imageio.stream.*;
 
@@ -68,7 +67,7 @@ public class ImageWriter {
 
 	// ***************** Operations ******************** //
 
-	public void writeToimage() {
+	public void writeToImage() {
 		File ouFile = new File(PROJECT_PATH + "/" + _imageName + ".jpg");
 		try {
 			javax.imageio.ImageWriter jpgWriter = ImageIO.getImageWritersByFormatName("jpg").next();
