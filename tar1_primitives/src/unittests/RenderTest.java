@@ -1,5 +1,12 @@
 package unittests;
 
+import java.io.File;
+import java.io.IOException;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
+
 import elements.AmbientLight;
 import elements.Camera;
 import elements.DirectionalLight;
@@ -10,6 +17,7 @@ import geometries.Plane;
 import geometries.Sphere;
 import geometries.Triangle;
 import junit.framework.TestCase;
+import parser.XMLBuilder;
 import primitives.Color;
 import primitives.Material;
 import primitives.Point3D;
@@ -17,6 +25,7 @@ import primitives.Vector;
 import renderer.ImageWriter;
 import renderer.Render;
 import scene.Scene;
+import scene.SceneBuilder;
 
 public class RenderTest extends TestCase {
 	/**
@@ -182,21 +191,17 @@ public class RenderTest extends TestCase {
 
 	/**
 	 * test for spot light, sphere
+	 * @throws ParserConfigurationException 
+	 * @throws SAXException 
+	 * @throws IOException 
 	 */
-	public void testRenderImage9() {
-		Scene scene = new Scene("Test scene");
-		scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, -1, 0), new Vector(0, 0, 1)), 150);
-		scene.setBackground(new Color());
-		scene.setAmbientLight(new AmbientLight(new Color(15, 15, 15), 1.0));
-		Geometries geometries = new Geometries();
-		scene.addGeometries(geometries);
-		scene.setLights(new SpotLight(new Point3D(0, -200, 80), 1, 0.0001, 0.000005, new Color(255, 100, 100),
-				new Vector(0, 1, 1)));
-		geometries.add(new Sphere(new Point3D(0, 0, 150), 80, new Color(17, 30, 108), new Material(0.5, 1.5, 40)),
-				new Triangle(new Point3D(0, -200, 150), new Point3D(-90, -40, 40), new Point3D(90, -40, 40),
-						new Color(java.awt.Color.green), new Material(0.5, 1.5, 40)));
-		ImageWriter imageWriter = new ImageWriter("SP", 500, 500, 500, 500);
-		Render render = new Render(scene, imageWriter);
+	public void testRenderImage9() throws IOException, SAXException, ParserConfigurationException {
+		SceneBuilder scene = new SceneBuilder();
+		XMLBuilder xmlBuilder = new XMLBuilder();
+		
+		File _file = new File("newTestnewXML.xml");
+		scene.loadSceneFromFile(_file);
+		Render render = new Render(scene.getScene(), scene.getImageWriter());
 		render.renderImage();
 		render.getImageWriter().writeToImage();
 	}

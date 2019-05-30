@@ -15,7 +15,11 @@ import org.xml.sax.SAXException;
 public class XMLBuilder {
 //	XMLOutputFactory _outFactory;
 //	XMLStreamWriter _fileWriter;
-	public String fileName;
+	private String fileName;
+
+	public String getFileName() {
+		return fileName;
+	}
 
 	public XMLBuilder() {
 		fileName = "NewXMLFile.xml";
@@ -32,29 +36,29 @@ public class XMLBuilder {
 		_fileWriter.writeStartDocument();
 		// public static void WriteToFile() {
 		_fileWriter.writeStartElement("scene");
-		_fileWriter.writeAttribute("background-color", "75 127 190");
+		_fileWriter.writeAttribute("background-color", "0 0 0");
 		_fileWriter.writeAttribute("screen-width", "500");
 		_fileWriter.writeAttribute("screen-height", "500");
-		_fileWriter.writeAttribute("screen-dist", "50");
+		_fileWriter.writeAttribute("screen-dist", "150");
 
 		_fileWriter.writeStartElement("ambient-light");
-		_fileWriter.writeAttribute("color", "255 255 255");
+		_fileWriter.writeAttribute("color", "15 15 15");
 		_fileWriter.writeAttribute("K", "1");
 		_fileWriter.writeEndElement();
 
 		_fileWriter.writeStartElement("camera");
 		_fileWriter.writeAttribute("p0", "0 0 0");
-		_fileWriter.writeAttribute("vTo", "0 0 -1");
+		_fileWriter.writeAttribute("vTo", "0 0 1");
 		_fileWriter.writeAttribute("pUp", "0 -1 0");
 		_fileWriter.writeEndElement();
 
 		_fileWriter.writeStartElement("geometries");
 
 		_fileWriter.writeStartElement("sphere");
-		_fileWriter.writeAttribute("center", "0 0 -50");
-		_fileWriter.writeAttribute("radius", "50");
-		_fileWriter.writeAttribute("emmission", "230 145 198");
-		_fileWriter.writeAttribute("material", "0.3 0.1 11");
+		_fileWriter.writeAttribute("center", "0 0 100");
+		_fileWriter.writeAttribute("radius", "60");
+		_fileWriter.writeAttribute("emmission", "17 30 108");
+		_fileWriter.writeAttribute("material", "0.7 0.3 40");
 		_fileWriter.writeEndElement();
 
 		// T1

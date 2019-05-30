@@ -19,6 +19,23 @@ import renderer.ImageWriter;
 
 public class SceneBuilder {
 	SceneDescriptor _sceneDesc;
+
+	public SceneDescriptor getSceneDesc() {
+		return _sceneDesc;
+	}
+
+	public Scene getScene() {
+		return _scene;
+	}
+
+	public ImageWriter getImageWriter() {
+		return _imageWriter;
+	}
+
+	public String getFilePath() {
+		return _filePath;
+	}
+
 	Scene _scene;
 	ImageWriter _imageWriter;
 	String _filePath;
@@ -28,6 +45,12 @@ public class SceneBuilder {
 		_scene = s;
 		_imageWriter = imW;
 		_filePath = fPth;
+	}
+
+	public SceneBuilder() {
+		_sceneDesc = new SceneDescriptor();
+		_scene = new Scene();
+		_imageWriter = new ImageWriter("pic", 500, 500, 500, 500);
 	}
 
 	public double[] stringSplitter(String str) {
@@ -49,8 +72,8 @@ public class SceneBuilder {
 		AmbientLight _ambColor;
 		Color C1 = new Color(0, 0, 0);
 		Point3D[] trianglePnts = new Point3D[3];
-		Point3D _P0 = null;
-		Vector _VTo = null, _VUp = null;
+		Point3D _P0 = new Point3D(0, 0, 0);
+		Vector _VTo = new Vector(0, 0, -1), _VUp = new Vector(0, 1, 0);
 		Sphere spheres = new Sphere(new Point3D(0.0, 0.0, 0.0), 1.0);
 		Triangle triangles = new Triangle(new Point3D(0.0, 4.0, 0.0), new Point3D(7.0, -1.0, 0.0),
 				new Point3D(2.0, 2.0, 0.0));
@@ -58,7 +81,8 @@ public class SceneBuilder {
 		for (Map.Entry<String, String> entry : _sceneDesc.get_sceneAttributes().entrySet()) {
 			if ("background-color" == entry.getKey()) {
 				rgb = stringSplitter(entry.getValue());
-				_scene.setBackground(new Color(rgb[0], rgb[0], rgb[3]));
+				System.out.println(rgb[0] + " " + rgb[1] + " " + rgb[2]);
+				_scene.setBackground(new Color(rgb[0], rgb[1], rgb[2]));
 			} else if ("screen-width" == entry.getKey()) {
 				imWid = Double.parseDouble(entry.getValue());
 			} else if ("screen-height" == entry.getKey()) {
@@ -106,7 +130,7 @@ public class SceneBuilder {
 					istrue = true;
 				} else if ("material" == entry.getKey()) {
 					rgb = stringSplitter(entry.getValue());
-				} else {
+				} else if ("radius" == entry.getKey()) {
 					tmp = Double.parseDouble(entry.getValue());
 				}
 				if (istrue) {
@@ -115,6 +139,7 @@ public class SceneBuilder {
 					spheres = new Sphere(_P0, tmp);
 			}
 			_scene.addGeometries(spheres);
+			
 		}
 		geometriesIterator = _sceneDesc.get_triangles().listIterator();
 		while (geometriesIterator.hasNext()) {
@@ -143,13 +168,13 @@ public class SceneBuilder {
 				if (istrue) {
 					triangles = new Triangle(trianglePnts[0], trianglePnts[1], trianglePnts[2], C1,
 							new Material(rgb[0], rgb[1], (int) rgb[2]));
-				} else
-					triangles = new Triangle(trianglePnts[0], trianglePnts[1], trianglePnts[2]);
+				}
+				_scene.addGeometries(triangles);
+				_imageWriter = new ImageWriter(_filePath, imWid, imhig, 500, 500);
 			}
-			_scene.addGeometries(triangles);
-			_imageWriter = new ImageWriter(_filePath, imWid, imhig, 500, 500);
-		}
 
+			return _scene;
+		}
 		return _scene;
 	}
 }

@@ -8,6 +8,8 @@ import elements.Camera;
 import geometries.Geometries;
 import geometries.Intersectable;
 import primitives.Color;
+import primitives.Point3D;
+import primitives.Vector;
 import elements.LightSource;
 
 /**
@@ -32,7 +34,13 @@ public class Scene {
 		_geometries = new Geometries();
 		_lights = new ArrayList<LightSource>();
 	}
-
+public Scene() {
+	_background = new Color();
+	_ambientLight = new AmbientLight(new Color(), 1);
+	_geometries = new Geometries();
+	_camera = new Camera(new Point3D(0,0,0), new Vector(0,1,0), new Vector(0,0,-1));
+	_lights = new ArrayList<LightSource>();
+}
 	public void setLights(LightSource... lights) {
 		for (LightSource light : lights)
 			_lights.add(light);
