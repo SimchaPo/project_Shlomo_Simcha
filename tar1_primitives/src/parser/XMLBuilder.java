@@ -53,6 +53,8 @@ public class XMLBuilder {
 		_fileWriter.writeStartElement("sphere");
 		_fileWriter.writeAttribute("center", "0 0 -50");
 		_fileWriter.writeAttribute("radius", "50");
+		_fileWriter.writeAttribute("emmission", "230 145 198");
+		_fileWriter.writeAttribute("material", "0.3 0.1 11");
 		_fileWriter.writeEndElement();
 
 		// T1
@@ -60,6 +62,8 @@ public class XMLBuilder {
 		_fileWriter.writeAttribute("p0", "100 0 -49");
 		_fileWriter.writeAttribute("p1", "0 100 -49");
 		_fileWriter.writeAttribute("p2", "100 100 -49");
+		_fileWriter.writeAttribute("emmission", "150 34 177");
+		_fileWriter.writeAttribute("material", "0.3 0.1 11");
 		_fileWriter.writeEndElement();
 
 		// T2
@@ -67,6 +71,8 @@ public class XMLBuilder {
 		_fileWriter.writeAttribute("p0", "-100 0 -49");
 		_fileWriter.writeAttribute("p1", "0 100 -49");
 		_fileWriter.writeAttribute("p2", "-100 100 -49");
+		_fileWriter.writeAttribute("emmission", "50 130 234");
+		_fileWriter.writeAttribute("material", "0.3 0.1 11");
 		_fileWriter.writeEndElement();
 
 		// T3
@@ -74,6 +80,8 @@ public class XMLBuilder {
 		_fileWriter.writeAttribute("p0", "100 0 -49");
 		_fileWriter.writeAttribute("p1", "0 -100 -49");
 		_fileWriter.writeAttribute("p2", "100 -100 -49");
+		_fileWriter.writeAttribute("emmission", "50 130 176");
+		_fileWriter.writeAttribute("material", "0.3 0.1 11");
 		_fileWriter.writeEndElement();
 
 		// T4
@@ -81,6 +89,8 @@ public class XMLBuilder {
 		_fileWriter.writeAttribute("p0", "-100 0 -49");
 		_fileWriter.writeAttribute("p1", "0 -100 -49");
 		_fileWriter.writeAttribute("p2", "-100 -100 -49");
+		_fileWriter.writeAttribute("emmission", "50 178 211");
+		_fileWriter.writeAttribute("material", "0.3 0.1 11");
 		_fileWriter.writeEndElement();
 
 		_fileWriter.writeEndElement();

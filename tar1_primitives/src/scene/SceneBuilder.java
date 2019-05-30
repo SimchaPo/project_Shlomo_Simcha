@@ -4,17 +4,15 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ListIterator;
 import java.util.Map;
-
 import javax.xml.parsers.ParserConfigurationException;
-
 import org.xml.sax.SAXException;
-
 import elements.AmbientLight;
 import elements.Camera;
 import geometries.Sphere;
 import geometries.Triangle;
 import parser.SceneDescriptor;
 import primitives.Color;
+import primitives.Material;
 import primitives.Point3D;
 import primitives.Vector;
 import renderer.ImageWriter;
@@ -49,6 +47,7 @@ public class SceneBuilder {
 		_sceneDesc.InitializeFromXMLstring(_file);
 		double imWid = 0.0, imhig = 0.0, screenDist = 0.0, k = 0.0, tmp = 0.0;
 		AmbientLight _ambColor;
+		Color C1 = new Color(0, 0, 0);
 		Point3D[] trianglePnts = new Point3D[3];
 		Point3D _P0 = null;
 		Vector _VTo = null, _VUp = null;
@@ -103,12 +102,15 @@ public class SceneBuilder {
 				}
 				if ("emmission" == entry.getKey()) {
 					rgb = stringSplitter(entry.getValue());
+					C1 = new Color(rgb[0], rgb[1], rgb[2]);
 					istrue = true;
+				} else if ("material" == entry.getKey()) {
+					rgb = stringSplitter(entry.getValue());
 				} else {
 					tmp = Double.parseDouble(entry.getValue());
 				}
 				if (istrue) {
-					spheres = new Sphere(_P0, tmp, new Color(rgb[0], rgb[1], rgb[2]));
+					spheres = new Sphere(_P0, tmp, C1, new Material(rgb[0], rgb[1], (int) rgb[2]));
 				} else
 					spheres = new Sphere(_P0, tmp);
 			}
@@ -133,11 +135,14 @@ public class SceneBuilder {
 				}
 				if ("emmission" == entry.getKey()) {
 					rgb = stringSplitter(entry.getValue());
+					C1 = new Color(rgb[0], rgb[1], rgb[2]);
 					istrue = true;
+				} else if ("material" == entry.getKey()) {
+					rgb = stringSplitter(entry.getValue());
 				}
 				if (istrue) {
-					triangles = new Triangle(trianglePnts[0], trianglePnts[1], trianglePnts[2],
-							new Color(rgb[0], rgb[1], rgb[2]));
+					triangles = new Triangle(trianglePnts[0], trianglePnts[1], trianglePnts[2], C1,
+							new Material(rgb[0], rgb[1], (int) rgb[2]));
 				} else
 					triangles = new Triangle(trianglePnts[0], trianglePnts[1], trianglePnts[2]);
 			}
