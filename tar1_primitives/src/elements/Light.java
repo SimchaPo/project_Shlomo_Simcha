@@ -1,7 +1,11 @@
 package elements;
 
 import primitives.Color;
-
+/**
+ * abstract class for lights
+ * @author OWNER
+ *
+ */
 public abstract class Light {
 	protected Color _color;
 

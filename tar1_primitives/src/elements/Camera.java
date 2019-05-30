@@ -2,7 +2,6 @@ package elements;
 
 import primitives.Point3D;
 import primitives.Ray;
-import primitives.Util;
 import static primitives.Util.*;
 import primitives.Vector;
 

@@ -2,17 +2,18 @@ package geometries;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-//import java.util.Iterator;
 import java.util.List;
-
 import primitives.Ray;
-//import geometries.Geometry;
 import geometries.Intersectable;
-
+/**
+ * class for Geometries list
+ * @author OWNER
+ *
+ */
 public class Geometries implements Intersectable {
 	private List<Intersectable> _geometries;
 
-	public List<Intersectable> get_geometries() {
+	public List<Intersectable> getGeometries() {
 		return _geometries;
 	}
 
@@ -44,7 +45,6 @@ public class Geometries implements Intersectable {
 
 	public Iterator<Intersectable> getGeometriesIterator() {
 		return _geometries.iterator();
-
 	}
 
 	@Override

@@ -1,12 +1,16 @@
 package primitives;
-
+/**
+ * class for material - color of geometry 
+ * @author OWNER
+ *
+ */
 public class Material {
 
 	private double _kD, _kS;
 	private int _nShininess;
 
 	public Material() {
-		this(0, 0, 0);
+		this(0.5, 0.5, 40);
 	}
 
 	public Material(double kD, double kS, int nShininess) {
