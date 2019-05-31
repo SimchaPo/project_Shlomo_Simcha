@@ -8,6 +8,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 import elements.AmbientLight;
 import elements.Camera;
+import elements.DirectionalLight;
+import elements.PointLight;
+import elements.SpotLight;
 import geometries.Sphere;
 import geometries.Triangle;
 import parser.SceneDescriptor;
@@ -17,25 +20,14 @@ import primitives.Point3D;
 import primitives.Vector;
 import renderer.ImageWriter;
 
+/**
+ * The class define scene & image writer by using XML document that user gave
+ * 
+ * @author meerzon shlomo & podolsky simha
+ *
+ */
 public class SceneBuilder {
 	SceneDescriptor _sceneDesc;
-
-	public SceneDescriptor getSceneDesc() {
-		return _sceneDesc;
-	}
-
-	public Scene getScene() {
-		return _scene;
-	}
-
-	public ImageWriter getImageWriter() {
-		return _imageWriter;
-	}
-
-	public String getFilePath() {
-		return _filePath;
-	}
-
 	Scene _scene;
 	ImageWriter _imageWriter;
 	String _filePath;
@@ -91,6 +83,47 @@ public class SceneBuilder {
 				screenDist = Double.parseDouble(entry.getValue());
 			}
 		}
+		ListIterator<Map<String, String>> lightsIterator = _sceneDesc.get_lightLst().listIterator();
+		while (lightsIterator.hasNext()) {
+			Map<java.lang.String, java.lang.String> map = (Map<java.lang.String, java.lang.String>) lightsIterator
+					.next();
+			boolean spotLight = false;
+			boolean directLight = false;
+			double kCTmp = 0.0, kLTmp = 0.0, kQTmp = 0.0;
+			for (Map.Entry<String, String> entry : map.entrySet()) {
+				if ("direction" == entry.getKey()) {
+					rgb = stringSplitter(entry.getValue());
+					_VTo = new Vector(rgb[0], rgb[1], rgb[2]);
+					directLight = true;
+				}
+				if ("kC" == entry.getKey()) {
+					kCTmp = Double.parseDouble(entry.getValue());
+					spotLight = true;
+				}
+				if ("kL" == entry.getKey()) {
+					kLTmp = Double.parseDouble(entry.getValue());
+				}
+				if ("kQ" == entry.getKey()) {
+					kQTmp = Double.parseDouble(entry.getValue());
+				}
+				if ("color" == entry.getKey()) {
+					rgb = stringSplitter(entry.getValue());
+					C1 = new Color(rgb[0], rgb[1], rgb[2]);
+				}
+				if ("point" == entry.getKey()) {
+					rgb = stringSplitter(entry.getValue());
+					_P0 = new Point3D(rgb[0], rgb[1], rgb[2]);
+				}
+			}
+			if (directLight && spotLight) {
+				_scene.setLights(new SpotLight(_P0, kCTmp, kLTmp, kQTmp, C1, _VTo));
+			} else if (directLight && (!spotLight)) {
+				_scene.setLights(new DirectionalLight(C1, _VTo));
+			} else {
+				_scene.setLights(new PointLight(_P0, kCTmp, kLTmp, kQTmp, C1));
+			}
+		}
+
 		for (Map.Entry<String, String> entry : _sceneDesc.get_ambientLightAttributes().entrySet()) {
 			if ("color" == entry.getKey()) {
 				rgb = stringSplitter(entry.getValue());
@@ -139,7 +172,7 @@ public class SceneBuilder {
 					spheres = new Sphere(_P0, tmp);
 			}
 			_scene.addGeometries(spheres);
-			
+
 		}
 		geometriesIterator = _sceneDesc.get_triangles().listIterator();
 		while (geometriesIterator.hasNext()) {
@@ -176,5 +209,21 @@ public class SceneBuilder {
 			return _scene;
 		}
 		return _scene;
+	}
+
+	public SceneDescriptor getSceneDesc() {
+		return _sceneDesc;
+	}
+
+	public Scene getScene() {
+		return _scene;
+	}
+
+	public ImageWriter getImageWriter() {
+		return _imageWriter;
+	}
+
+	public String getFilePath() {
+		return _filePath;
 	}
 }

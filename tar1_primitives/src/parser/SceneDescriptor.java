@@ -6,22 +6,27 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.xml.parsers.ParserConfigurationException;
-
 import org.xml.sax.SAXException;
 
+/**
+ * The class describe the Scene from XML document using SAX parser
+ * 
+ * @author meerz
+ *
+ */
 public class SceneDescriptor {
 	public static final String EMPTY_STRING = "";
 	public static final Map<String, String> EMPTY_MAP = new HashMap<String, String>();
 	public static final List<Map<String, String>> EMPTY_LIST = new ArrayList<Map<String, String>>();
 	public static final SceneDescriptor EMPTY_Descriptor = new SceneDescriptor(EMPTY_MAP, EMPTY_MAP, EMPTY_MAP,
-			EMPTY_LIST, EMPTY_LIST);
+			EMPTY_LIST, EMPTY_LIST, EMPTY_LIST);
 	Map<String, String> _sceneAttributes;
 	Map<String, String> _cameraAttributes;
 	Map<String, String> _ambientLightAttributes;
 	List<Map<String, String>> _spheres;
 	List<Map<String, String>> _triangles;
+	List<Map<String, String>> _lightLst;
 
 	public SceneDescriptor() {
 		_sceneAttributes = new HashMap<String, String>();
@@ -29,6 +34,7 @@ public class SceneDescriptor {
 		_ambientLightAttributes = new HashMap<String, String>();
 		_spheres = new ArrayList<Map<String, String>>();
 		_triangles = new ArrayList<Map<String, String>>();
+		_lightLst = new ArrayList<Map<String, String>>();
 	}
 
 	public SceneDescriptor(SceneDescriptor _otherSceneDescriptor) {
@@ -39,6 +45,12 @@ public class SceneDescriptor {
 			_ambientLightAttributes.putAll(_otherSceneDescriptor._ambientLightAttributes);
 			_spheres.addAll(_otherSceneDescriptor._spheres);
 			_triangles.addAll(_otherSceneDescriptor._triangles);
+			if (!_otherSceneDescriptor._lightLst.isEmpty()) {
+				_lightLst.addAll(_otherSceneDescriptor._lightLst);
+			}
+//			else {
+//				_lightLst=new
+//			}
 		}
 	}
 
@@ -48,7 +60,7 @@ public class SceneDescriptor {
 
 	public SceneDescriptor(Map<String, String> get_sceneMap, Map<String, String> get_cameraMap,
 			Map<String, String> get_ambientLightMap, List<Map<String, String>> get_sphereLst,
-			List<Map<String, String>> get_triangleLst) {
+			List<Map<String, String>> get_triangleLst, List<Map<String, String>> get_lightLst) {
 		this();
 		if (get_sceneMap != EMPTY_MAP || get_cameraMap != EMPTY_MAP || get_ambientLightMap != EMPTY_MAP) {
 			_sceneAttributes.putAll(get_sceneMap);
@@ -56,6 +68,9 @@ public class SceneDescriptor {
 			_ambientLightAttributes.putAll(get_ambientLightMap);
 			_spheres.addAll(get_sphereLst);
 			_triangles.addAll(get_triangleLst);
+			if (!get_lightLst.isEmpty()) {
+				_lightLst.addAll(get_lightLst);
+			}
 		}
 	}
 
@@ -96,6 +111,10 @@ public class SceneDescriptor {
 
 	public List<Map<String, String>> get_triangles() {
 		return _triangles;
+	}
+
+	public List<Map<String, String>> get_lightLst() {
+		return _lightLst;
 	}
 
 }

@@ -12,6 +12,13 @@ import javax.xml.transform.TransformerException;
 
 import org.xml.sax.SAXException;
 
+/**
+ * The class build XML document and save it in file has getter for file name
+ * those build
+ * 
+ * @author meerz
+ *
+ */
 public class XMLBuilder {
 //	XMLOutputFactory _outFactory;
 //	XMLStreamWriter _fileWriter;
@@ -40,16 +47,16 @@ public class XMLBuilder {
 		_fileWriter.writeAttribute("screen-width", "500");
 		_fileWriter.writeAttribute("screen-height", "500");
 		_fileWriter.writeAttribute("screen-dist", "150");
-		
-		_fileWriter.writeStartElement("lights");
+
+		_fileWriter.writeStartElement("light");
 		_fileWriter.writeAttribute("color", "255 100 100");
 		_fileWriter.writeAttribute("point", "10 10 20");
-		_fileWriter.writeAttribute("direction", "-1 -1 8");
+		_fileWriter.writeAttribute("direction", "12 3 -7");
 		_fileWriter.writeAttribute("kC", "1");
 		_fileWriter.writeAttribute("kL", "0.0001");
 		_fileWriter.writeAttribute("kQ", "0.000005");
 		_fileWriter.writeEndElement();
-		
+
 		_fileWriter.writeStartElement("ambient-light");
 		_fileWriter.writeAttribute("color", "15 15 15");
 		_fileWriter.writeAttribute("K", "1");
