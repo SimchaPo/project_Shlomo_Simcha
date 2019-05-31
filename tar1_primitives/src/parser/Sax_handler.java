@@ -19,6 +19,13 @@ import org.xml.sax.helpers.DefaultHandler;
 public class Sax_handler extends DefaultHandler {
 	static final String SCENE = "scene";
 	static final String AMBIENT_LIGHT = "ambient-light";
+	static final String LIGHT = "light";
+	static final String POINT="point";
+	static final String VECTOR="vector";
+	static final String DIRECTION="direction";
+	static final String KC="kC";
+	static final String KL="kL";
+	static final String KQ="kQ";
 	static final String CAMERA = "camera";
 	static final String GEOMETRIES = "geometries";
 	static final String SPHERE = "sphere";
@@ -41,6 +48,7 @@ public class Sax_handler extends DefaultHandler {
 	private Map<String, String> _sphereMap = new HashMap<String, String>(SceneDescriptor.EMPTY_MAP);
 	private Map<String, String> _triangleMap = new HashMap<String, String>(SceneDescriptor.EMPTY_MAP);
 	private Map<String, String> _sceneMap = new HashMap<String, String>(SceneDescriptor.EMPTY_MAP);
+	private Map<String, String> _lightMap = new HashMap<String, String>(SceneDescriptor.EMPTY_MAP);
 	private Map<String, String> _cameraMap = new HashMap<String, String>(SceneDescriptor.EMPTY_MAP);
 	private Map<String, String> _ambientLightMap = new HashMap<String, String>(SceneDescriptor.EMPTY_MAP);
 	private List<Map<String, String>> _sphereLst = new ArrayList<Map<String, String>>(SceneDescriptor.EMPTY_LIST);
@@ -63,6 +71,15 @@ public class Sax_handler extends DefaultHandler {
 			_sceneMap.put(SCREEN_WIDTH, atts.getValue(SCREEN_WIDTH));
 			_sceneMap.put(SCREEN_HEIGHT, atts.getValue(SCREEN_HEIGHT));
 			_sceneMap.put(SCREEN_DIST, atts.getValue(SCREEN_DIST));
+		}
+		if (_qName == LIGHT) {
+			System.out.println(_qName + " " + "startElement");
+			_sceneMap.put(POINT, atts.getValue(POINT));
+			_sceneMap.put(KC, atts.getValue(KC));
+			_sceneMap.put(KL, atts.getValue(KL));
+			_sceneMap.put(KQ, atts.getValue(KQ));
+			_sceneMap.put(VECTOR, atts.getValue(VECTOR));
+			_sceneMap.put(COLOR, atts.getValue(COLOR));
 		}
 		if (_qName == CAMERA) {
 			System.out.println(_qName + " " + "startElement");
@@ -104,6 +121,7 @@ public class Sax_handler extends DefaultHandler {
 		case SCENE:
 			System.out.println(_qName + " " + "endElement");
 			tmp = new SceneDescriptor(_sceneMap, _cameraMap, _ambientLightMap, _sphereLst, _triangleLst);
+			
 			// System.out.println(_sceneMap.keySet().toString());
 		case CAMERA:
 			System.out.println(_qName + " " + "endElement");
