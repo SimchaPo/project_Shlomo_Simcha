@@ -20,7 +20,7 @@ public abstract class RadialGeometry extends Geometry {
 	public RadialGeometry(double rad) {
 		this(rad, Color.BLACK, new Material());
 	}
-	
+
 	public RadialGeometry(double rad, Color emmission, Material material) {
 		_material = new Material(material);
 		_emmission = emmission;

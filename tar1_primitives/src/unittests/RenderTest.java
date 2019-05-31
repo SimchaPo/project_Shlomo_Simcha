@@ -13,11 +13,9 @@ import elements.DirectionalLight;
 import elements.PointLight;
 import elements.SpotLight;
 import geometries.Geometries;
-import geometries.Plane;
 import geometries.Sphere;
 import geometries.Triangle;
 import junit.framework.TestCase;
-import parser.XMLBuilder;
 import primitives.Color;
 import primitives.Material;
 import primitives.Point3D;
@@ -191,16 +189,17 @@ public class RenderTest extends TestCase {
 
 	/**
 	 * test for spot light, sphere
-	 * @throws ParserConfigurationException 
-	 * @throws SAXException 
-	 * @throws IOException 
+	 * 
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws IOException
 	 */
 	public void testRenderImage9() throws IOException, SAXException, ParserConfigurationException {
 		SceneBuilder scene = new SceneBuilder();
-		XMLBuilder xmlBuilder = new XMLBuilder();
-		
+		// XMLBuilder xmlBuilder = new XMLBuilder();
 		File _file = new File("newTestnewXML.xml");
 		scene.loadSceneFromFile(_file);
+		System.out.println(scene.getScene().getLights());
 		Render render = new Render(scene.getScene(), scene.getImageWriter());
 		render.renderImage();
 		render.getImageWriter().writeToImage();

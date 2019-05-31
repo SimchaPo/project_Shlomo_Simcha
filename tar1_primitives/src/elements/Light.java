@@ -1,8 +1,10 @@
 package elements;
 
 import primitives.Color;
+
 /**
  * abstract class for lights
+ * 
  * @author OWNER
  *
  */
@@ -12,7 +14,7 @@ public abstract class Light {
 	public Light(Color color) {
 		_color = color;
 	}
-	
+
 	public Color get_color() {
 		return _color;
 	}

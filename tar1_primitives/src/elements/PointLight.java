@@ -3,8 +3,10 @@ package elements;
 import primitives.Color;
 import primitives.Point3D;
 import primitives.Vector;
+
 /**
  * class for spot light
+ * 
  * @author OWNER
  *
  */
@@ -23,7 +25,7 @@ public class PointLight extends Light implements LightSource {
 	@Override
 	public Color getIntensity(Point3D pnt) {
 		double disPow = pnt.distancePow(_position);
-		return _color.reduce(Math.max(1,_kC + _kL * Math.sqrt(disPow) + _kQ * disPow));
+		return _color.reduce(Math.max(1, _kC + _kL * Math.sqrt(disPow) + _kQ * disPow));
 	}
 
 	@Override

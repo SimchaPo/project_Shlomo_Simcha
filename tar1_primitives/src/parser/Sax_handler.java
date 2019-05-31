@@ -114,7 +114,6 @@ public class Sax_handler extends DefaultHandler {
 		if (text.contains("<") || currentElm == "") {
 			return;
 		}
-
 	}
 
 	public void endElement(String _nameSpace, String _localName, String _qName) throws SAXException {

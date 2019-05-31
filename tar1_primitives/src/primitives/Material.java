@@ -1,6 +1,8 @@
 package primitives;
+
 /**
- * class for material - color of geometry 
+ * class for material - color of geometry
+ * 
  * @author OWNER
  *
  */

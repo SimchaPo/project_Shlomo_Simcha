@@ -26,7 +26,7 @@ public class Tube extends RadialGeometry {
 	public Tube(Ray ray, double rad) {
 		this(ray, rad, Color.BLACK, new Material());
 	}
-	
+
 	public Tube(Ray ray, double rad, Color emmission, Material material) {
 		super(rad, emmission, material);
 		_ray = new Ray(ray);

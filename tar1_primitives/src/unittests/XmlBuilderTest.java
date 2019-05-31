@@ -28,8 +28,10 @@ public class XmlBuilderTest extends TestCase {
 		res.InitializeFromXMLstring(tXMLFile);
 		String expstr = exp.get_sceneAttributes().toString();
 		String resstr = res.get_sceneAttributes().toString();
+		System.out.println(expstr);
+		System.out.println(resstr);
 
-		//assertEquals(expstr, resstr);
+		// assertEquals(expstr, resstr);
 	}
 
 }

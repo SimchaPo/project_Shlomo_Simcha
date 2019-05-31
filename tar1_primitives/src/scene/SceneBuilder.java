@@ -186,7 +186,7 @@ public class SceneBuilder {
 				} else if ("p1" == entry.getKey()) {
 					rgb = stringSplitter(entry.getValue());
 					trianglePnts[1] = new Point3D(rgb[0], rgb[1], rgb[2]);
-				} else {
+				} else if ("p2" == entry.getKey()) {
 					rgb = stringSplitter(entry.getValue());
 					trianglePnts[2] = new Point3D(rgb[0], rgb[1], rgb[2]);
 

@@ -10,6 +10,13 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
+/**
+ * The class initialize the SAX Parser using the SAX parser factory & etc from
+ * java.xml libraries
+ * 
+ * @author meerz
+ *
+ */
 public class SceneXmlParser {
 	private SceneDescriptor parserDescriptor;
 

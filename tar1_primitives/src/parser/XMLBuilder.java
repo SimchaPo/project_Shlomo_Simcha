@@ -51,7 +51,7 @@ public class XMLBuilder {
 		_fileWriter.writeStartElement("light");
 		_fileWriter.writeAttribute("color", "255 100 100");
 		_fileWriter.writeAttribute("point", "10 10 20");
-		_fileWriter.writeAttribute("direction", "12 3 -7");
+		_fileWriter.writeAttribute("direction", "-1 -1 8");
 		_fileWriter.writeAttribute("kC", "1");
 		_fileWriter.writeAttribute("kL", "0.0001");
 		_fileWriter.writeAttribute("kQ", "0.000005");
@@ -71,35 +71,35 @@ public class XMLBuilder {
 		_fileWriter.writeStartElement("geometries");
 
 		_fileWriter.writeStartElement("sphere");
-		_fileWriter.writeAttribute("center", "0 0 100");
+		_fileWriter.writeAttribute("center", "0 0 150");
 		_fileWriter.writeAttribute("radius", "60");
-		_fileWriter.writeAttribute("emmission", "17 30 108");
-		_fileWriter.writeAttribute("material", "0.7 0.3 40");
+		_fileWriter.writeAttribute("emmission", "17 98 108");
+		_fileWriter.writeAttribute("material", "0.4 0.3 30");
 		_fileWriter.writeEndElement();
 
 		// T1
 		_fileWriter.writeStartElement("triangle");
-		_fileWriter.writeAttribute("p0", "100 0 -49");
-		_fileWriter.writeAttribute("p1", "0 100 -49");
-		_fileWriter.writeAttribute("p2", "100 100 -49");
+		_fileWriter.writeAttribute("p0", "10 0 -49");
+		_fileWriter.writeAttribute("p1", "0 10 -49");
+		_fileWriter.writeAttribute("p2", "10 10 -49");
 		_fileWriter.writeAttribute("emmission", "150 34 177");
 		_fileWriter.writeAttribute("material", "0.3 0.1 11");
 		_fileWriter.writeEndElement();
 
 		// T2
 		_fileWriter.writeStartElement("triangle");
-		_fileWriter.writeAttribute("p0", "-100 0 -49");
-		_fileWriter.writeAttribute("p1", "0 100 -49");
-		_fileWriter.writeAttribute("p2", "-100 100 -49");
+		_fileWriter.writeAttribute("p0", "-10 0 -49");
+		_fileWriter.writeAttribute("p1", "0 10 -49");
+		_fileWriter.writeAttribute("p2", "-10 10 -49");
 		_fileWriter.writeAttribute("emmission", "50 130 234");
 		_fileWriter.writeAttribute("material", "0.3 0.1 11");
 		_fileWriter.writeEndElement();
 
 		// T3
 		_fileWriter.writeStartElement("triangle");
-		_fileWriter.writeAttribute("p0", "100 0 -49");
-		_fileWriter.writeAttribute("p1", "0 -100 -49");
-		_fileWriter.writeAttribute("p2", "100 -100 -49");
+		_fileWriter.writeAttribute("p0", "10 0 -49");
+		_fileWriter.writeAttribute("p1", "0 -10 -49");
+		_fileWriter.writeAttribute("p2", "10 -10 -49");
 		_fileWriter.writeAttribute("emmission", "50 130 176");
 		_fileWriter.writeAttribute("material", "0.3 0.1 11");
 		_fileWriter.writeEndElement();

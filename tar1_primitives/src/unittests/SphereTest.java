@@ -74,7 +74,7 @@ public class SphereTest extends TestCase {
 		Sphere sp = new Sphere(new Point3D(0, 0, 0), 3);
 		List<GeoPoint> result = sp.findIntersections(new Ray(new Point3D(-5, -2, 0), new Vector(1, 1, 0)));
 		List<GeoPoint> exp = new ArrayList<GeoPoint>();
-		exp.add(new GeoPoint(sp, new Point3D(-3, 0, 0)));	
+		exp.add(new GeoPoint(sp, new Point3D(-3, 0, 0)));
 		exp.add(new GeoPoint(sp, new Point3D(0, 3, 0)));
 		assertEquals("problem with intersections", exp, result);
 	}
