@@ -74,7 +74,7 @@ public class Plane extends Geometry {
 		Vector pq = point.subtract(rayPnt);
 		double pqProDotNormal = pq.vectorsDotProduct(normalVector);
 		double t = alignZero(pqProDotNormal / rayVecDotProNormal);
-		if (t > 0) {
+		if (!isZero(t) && t > 0) {
 			planeLst.add(new GeoPoint(this, rayPnt.addVec(rayVec.scale(t))));
 		} else if (isZero(t)) {
 			planeLst.add(new GeoPoint(this, rayPnt));
