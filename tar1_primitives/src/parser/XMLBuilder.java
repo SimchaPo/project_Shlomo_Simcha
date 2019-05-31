@@ -44,7 +44,7 @@ public class XMLBuilder {
 		_fileWriter.writeStartElement("lights");
 		_fileWriter.writeAttribute("color", "255 100 100");
 		_fileWriter.writeAttribute("point", "10 10 20");
-		_fileWriter.writeAttribute("vector", "-1 -1 8");
+		_fileWriter.writeAttribute("direction", "-1 -1 8");
 		_fileWriter.writeAttribute("kC", "1");
 		_fileWriter.writeAttribute("kL", "0.0001");
 		_fileWriter.writeAttribute("kQ", "0.000005");
