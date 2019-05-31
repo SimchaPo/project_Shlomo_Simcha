@@ -19,6 +19,9 @@ import org.xml.sax.helpers.DefaultHandler;
 public class Sax_handler extends DefaultHandler {
 	static final String SCENE = "scene";
 	static final String AMBIENT_LIGHT = "ambient-light";
+	static final String LIGHT = "light";
+	static final String POINT="point";
+	static final String VECTOR="vector";
 	static final String CAMERA = "camera";
 	static final String GEOMETRIES = "geometries";
 	static final String SPHERE = "sphere";
