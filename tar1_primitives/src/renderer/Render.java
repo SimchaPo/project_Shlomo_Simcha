@@ -19,6 +19,8 @@ import scene.Scene;
  */
 public class Render {
 
+	private static final int MAX_CALC_COLOR_LEVEL = 10;
+	private static final double EPS = 0.1;
 	private Scene _scene;
 	private ImageWriter _imageWriter;
 
@@ -48,10 +50,14 @@ public class Render {
 					_imageWriter.writePixel(i, j, _scene.getBackground().getColor());
 				} else {
 					GeoPoint closestPoint = getClosestPoint(intersections);
-					_imageWriter.writePixel(i, j, calcColor(closestPoint).getColor());
+					_imageWriter.writePixel(i, j, calcColor(closestPoint, ray).getColor());
 				}
 			}
 		}
+	}
+
+	private Color calcColor(GeoPoint closestPoint, Ray ray) {
+		return calcColor(closestPoint, ray, MAX_CALC_COLOR_LEVEL, 1).add(_scene.getAmbientLight().getIntensity());
 	}
 
 	/**
@@ -84,10 +90,13 @@ public class Render {
 	 * @param intersection
 	 * @return
 	 */
-	private Color calcColor(GeoPoint intersection) {
-		Color color = new Color(_scene.getAmbientLight().getIntensity());
+	private Color calcColor(GeoPoint intersection, Ray inRay, int level, double k) {
+		if (level == 0 || k <= 0.001) {
+			return Color.BLACK;
+		}
+		Color color = new Color();
 		color = color.add(intersection.geometry.getEmmission());
-		Vector v = intersection.point.subtract(_scene.getCamera().getP0()).normalize();
+		Vector v = inRay.getVector();
 		Vector n = intersection.geometry.getNormal(intersection.point);
 		int nShininess = intersection.geometry.getMaterial().getNShininess();
 		double kd = intersection.geometry.getMaterial().getKD();
@@ -95,12 +104,73 @@ public class Render {
 		for (LightSource lightSource : _scene.getLights()) {
 			Vector l = lightSource.getL(intersection.point);
 			if (n.vectorsDotProduct(l) * n.vectorsDotProduct(v) > 0) {
-				Color lightIntensity = new Color(lightSource.getIntensity(intersection.point));
-				color = color.add(calcDiffusive(kd, l, n, lightIntensity),
-						calcSpecular(ks, l, n, v, nShininess, lightIntensity));
+				if (unshaded(l, n, intersection)) {
+					Color lightIntensity = new Color(lightSource.getIntensity(intersection.point));
+					color = color.add(calcDiffusive(kd, l, n, lightIntensity),
+							calcSpecular(ks, l, n, v, nShininess, lightIntensity));
+				}
 			}
 		}
+		Color reflectedLight = new Color(), refractedLight = new Color();
+		double kr = intersection.geometry.getMaterial().getKR();
+		if (kr != 0) {
+			Ray reflectedRay = constructReflectedRay(n, intersection.point, inRay);
+			GeoPoint reflectedPoint = findClosestIntersection(reflectedRay);
+			if (reflectedPoint != null) {
+				reflectedLight = calcColor(reflectedPoint, reflectedRay, level - 1, k * kr).scale(kr);
+			}
+		}
+		double kt = intersection.geometry.getMaterial().getKT();
+		if (kt != 0) {
+			Ray refractedRay = constructRefractedRay(intersection.point, inRay);
+			GeoPoint refractedPoint = findClosestIntersection(refractedRay);
+			if (refractedPoint != null) {
+				refractedLight = calcColor(refractedPoint, refractedRay, level - 1, k * kt).scale(kt);
+			}
+		}
+		color = color.add(reflectedLight, refractedLight);
 		return color;
+	}
+
+	private boolean unshaded(Vector l, Vector n, GeoPoint intersection) {
+		Vector lightDirection = l.scale(-1);
+		Vector epsVector = n.scale(n.vectorsDotProduct(lightDirection) > 0 ? EPS : -EPS);
+		Point3D point = intersection.point.addVec(epsVector);
+		Ray lightRay = new Ray(point, lightDirection);
+		List<GeoPoint> intersections = _scene.getGeometries().findIntersections(lightRay);
+		return intersections.isEmpty();
+	}
+
+	private GeoPoint findClosestIntersection(Ray ray) {
+		Vector rayVec = ray.getVector();
+		Vector epsVector = rayVec.scale(EPS);
+		Point3D point = ray.getPoint().addVec(epsVector);
+		Ray newRay = new Ray(point, rayVec);
+		List<GeoPoint> intersections = _scene.getGeometries().findIntersections(newRay);
+		Point3D rayPnt = ray.getPoint();
+		if (intersections.isEmpty()) {
+			return null;
+		}
+		GeoPoint closestPoint = new GeoPoint(intersections.get(0));
+		double minDistancePow = rayPnt.distancePow(closestPoint.point);
+		double disPow;
+		for (GeoPoint p : intersections) {
+			disPow = rayPnt.distancePow(p.point);
+			if (disPow < minDistancePow) {
+				minDistancePow = disPow;
+				closestPoint = p;
+			}
+		}
+		return closestPoint;
+	}
+
+	private Ray constructRefractedRay(Point3D point, Ray inRay) {
+		return new Ray(point, inRay.getVector());
+	}
+
+	private Ray constructReflectedRay(Vector n, Point3D point, Ray inRay) {
+		Vector v = new Vector(inRay.getVector());
+		return new Ray(point, v.vectorSub(n.scale(2 * v.vectorsDotProduct(n))));
 	}
 
 	/**
