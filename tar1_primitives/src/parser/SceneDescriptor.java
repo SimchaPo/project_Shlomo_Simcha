@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.xml.parsers.ParserConfigurationException;
+
 import org.xml.sax.SAXException;
 
 /**
@@ -45,9 +47,10 @@ public class SceneDescriptor {
 			_ambientLightAttributes.putAll(_otherSceneDescriptor._ambientLightAttributes);
 			_spheres.addAll(_otherSceneDescriptor._spheres);
 			_triangles.addAll(_otherSceneDescriptor._triangles);
-			if (!_otherSceneDescriptor._lightLst.isEmpty()) {
-				_lightLst.addAll(_otherSceneDescriptor._lightLst);
-			}
+//			if (_otherSceneDescriptor._lightLst.isEmpty()) {
+//			} else {
+			_lightLst.addAll(_otherSceneDescriptor._lightLst);
+			// }
 //			else {
 //				_lightLst=new
 //			}
@@ -68,9 +71,11 @@ public class SceneDescriptor {
 			_ambientLightAttributes.putAll(get_ambientLightMap);
 			_spheres.addAll(get_sphereLst);
 			_triangles.addAll(get_triangleLst);
-			if (!get_lightLst.isEmpty()) {
-				_lightLst.addAll(get_lightLst);
-			}
+//			if (get_lightLst.isEmpty()) {
+//			} else {
+			_lightLst.addAll(get_lightLst);
+			// }
+
 		}
 	}
 
@@ -83,6 +88,7 @@ public class SceneDescriptor {
 		this._cameraAttributes.putAll(_sceneD._cameraAttributes);
 		this._spheres.addAll(_sceneD._spheres);
 		this._triangles.addAll(_sceneD._triangles);
+		this._lightLst.addAll(_sceneD._lightLst);
 	}
 
 	public boolean isEmpty() {

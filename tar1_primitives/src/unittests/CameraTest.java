@@ -4,15 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import elements.Camera;
+import geometries.Intersectable.GeoPoint;
 import geometries.Plane;
 import geometries.Sphere;
 import geometries.Triangle;
 import junit.framework.TestCase;
-import primitives.Coordinate;
 import primitives.Point3D;
-import primitives.Ray;
 import primitives.Vector;
-import static geometries.Intersectable.GeoPoint;
 
 public class CameraTest extends TestCase {
 	/**

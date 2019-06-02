@@ -5,12 +5,12 @@ import java.util.List;
 
 import elements.AmbientLight;
 import elements.Camera;
+import elements.LightSource;
 import geometries.Geometries;
 import geometries.Intersectable;
 import primitives.Color;
 import primitives.Point3D;
 import primitives.Vector;
-import elements.LightSource;
 
 /**
  * Scene class has all information for for a image scene

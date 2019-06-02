@@ -1,10 +1,5 @@
 package primitives;
 
-import primitives.Coordinate;
-import primitives.Vector;
-//import static primitives.Util.usubtract;
-import java.lang.Math;
-
 /**
  * The class define the point in 3d space
  * 

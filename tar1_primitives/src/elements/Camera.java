@@ -1,8 +1,9 @@
 package elements;
 
+import static primitives.Util.alignZero;
+
 import primitives.Point3D;
 import primitives.Ray;
-import static primitives.Util.*;
 import primitives.Vector;
 
 /**

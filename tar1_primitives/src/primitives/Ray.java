@@ -1,7 +1,5 @@
 package primitives;
 
-import primitives.Vector;
-
 /**
  * the Class define the ray in 3d space
  */

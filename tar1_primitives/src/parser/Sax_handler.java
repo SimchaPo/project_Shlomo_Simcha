@@ -35,6 +35,7 @@ public class Sax_handler extends DefaultHandler {
 	static final String SCREEN_HEIGHT = "screen-height";
 	static final String SCREEN_DIST = "screen-dist";
 	static final String COLOR = "color";
+	static final String LIGHT_COLOR = "light-color";
 	static final String P_0 = "p0";
 	static final String V_TO = "vTo";
 	static final String V_UP = "vUp";
@@ -75,12 +76,12 @@ public class Sax_handler extends DefaultHandler {
 		}
 		if (_qName == LIGHT) {
 			System.out.println(_qName + " " + "startElement");
-			_sceneMap.put(POINT, atts.getValue(POINT));
-			_sceneMap.put(KC, atts.getValue(KC));
-			_sceneMap.put(KL, atts.getValue(KL));
-			_sceneMap.put(KQ, atts.getValue(KQ));
-			_sceneMap.put(DIRECTION, atts.getValue(DIRECTION));
-			_sceneMap.put(COLOR, atts.getValue(COLOR));
+			_lightMap.put(LIGHT_COLOR, atts.getValue(LIGHT_COLOR));
+			_lightMap.put(POINT, atts.getValue(POINT));
+			_lightMap.put(KC, atts.getValue(KC));
+			_lightMap.put(KL, atts.getValue(KL));
+			_lightMap.put(KQ, atts.getValue(KQ));
+			_lightMap.put(DIRECTION, atts.getValue(DIRECTION));
 		}
 		if (_qName == CAMERA) {
 			System.out.println(_qName + " " + "startElement");
@@ -152,8 +153,10 @@ public class Sax_handler extends DefaultHandler {
 
 	public SceneDescriptor getTmp() throws SAXException {
 		if (tmp != SceneDescriptor.EMPTY_Descriptor) {
+			System.out.println("YES");
 			return tmp;
 		} else {
+			System.out.println("NO");
 			return SceneDescriptor.EMPTY_Descriptor;
 		}
 	}

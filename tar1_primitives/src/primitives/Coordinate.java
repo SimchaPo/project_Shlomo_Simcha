@@ -1,6 +1,9 @@
 package primitives;
 
-import static primitives.Util.*;
+import static primitives.Util.alignZero;
+import static primitives.Util.uadd;
+import static primitives.Util.uscale;
+import static primitives.Util.usubtract;
 
 public final class Coordinate {
 	// private static final double EPSILON = 0.0000001;
