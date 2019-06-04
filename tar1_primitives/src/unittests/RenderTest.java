@@ -196,10 +196,6 @@ public class RenderTest extends TestCase {
 	 */
 	public void testRenderImage9() throws IOException, SAXException, ParserConfigurationException {
 		SceneBuilder scene = new SceneBuilder();
-<<<<<<< HEAD
-		// XMLBuilder xmlBuilder = new XMLBuilder();
-=======
->>>>>>> branch 'master' of https://github.com/SimchaPo/project_Shlomo_Simcha.git
 		File _file = new File("newTestnewXML.xml");
 		scene.loadSceneFromFile(_file);
 		System.out.println(scene.getScene().getLights());
