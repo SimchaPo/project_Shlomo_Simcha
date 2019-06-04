@@ -195,10 +195,14 @@ public class RenderTest extends TestCase {
 	 * @throws IOException
 	 */
 	public void testRenderImage9() throws IOException, SAXException, ParserConfigurationException {
+<<<<<<< HEAD
 		SceneBuilder scene = new SceneBuilder();
 
 		// XMLBuilder xmlBuilder = new XMLBuilder();
 
+=======
+		SceneBuilder scene = new SceneBuilder();
+>>>>>>> branch 'master' of https://github.com/SimchaPo/project_Shlomo_Simcha.git
 		File _file = new File("newTestnewXML.xml");
 		scene.loadSceneFromFile(_file);
 		System.out.println(scene.getScene().getLights());
@@ -234,11 +238,19 @@ public class RenderTest extends TestCase {
 		scene.setCamera(new Camera(), 300);
 
 		Sphere sphere = new Sphere(new Point3D(0.0, 0.0, -1000), 500, new Color(0, 0, 100),
+<<<<<<< HEAD
 				new Material(1, 1, 40, 0, 0.7));
+=======
+				new Material(1,1, 40, 0,1));
+>>>>>>> branch 'master' of https://github.com/SimchaPo/project_Shlomo_Simcha.git
 		scene.addGeometries(sphere);
 
 		Sphere sphere2 = new Sphere(new Point3D(0.0, 0.0, -1000), 250, new Color(100, 20, 20),
+<<<<<<< HEAD
 				new Material(1, 1, 40, 0, 0.2));
+=======
+				new Material(1,1, 40, 0,0));
+>>>>>>> branch 'master' of https://github.com/SimchaPo/project_Shlomo_Simcha.git
 
 		scene.addGeometries(sphere2);
 
@@ -257,7 +269,11 @@ public class RenderTest extends TestCase {
 		scene.setCamera(new Camera(), 300);
 
 		Sphere sphere = new Sphere(new Point3D(-550, -500, -1000), 300, new Color(0, 0, 100),
+<<<<<<< HEAD
 				new Material(1, 1, 40, 0, 0.7));
+=======
+				new Material(1,1, 40, 0,1));
+>>>>>>> branch 'master' of https://github.com/SimchaPo/project_Shlomo_Simcha.git
 
 		scene.addGeometries(sphere);
 
@@ -308,6 +324,39 @@ public class RenderTest extends TestCase {
 				new Vector(-2, -2, -3)));
 
 		ImageWriter imageWriter = new ImageWriter("Recursive Test 3", 500, 500, 500, 500);
+
+		Render render = new Render(scene, imageWriter);
+		render.renderImage();
+		render.getImageWriter().writeToImage();
+	}
+	
+	public void testRenderImage14() {
+		Scene scene = new Scene();
+		scene.setBackground(new Color(java.awt.Color.white));
+		scene.setCamera(new Camera(), 100);
+		Triangle triangle1 = new Triangle(new Point3D(-750, -500, -1000), new Point3D(750, -500, -1000),
+				new Point3D(0, 1000, -1000), new Color(java.awt.Color.blue), new Material(0.5, 0.5, 20, 0, 0));
+
+		Triangle triangle2 = new Triangle(new Point3D(-750, 500, -1000), new Point3D(750, 500, -1000),
+				new Point3D(0, -1000, -1000), new Color(java.awt.Color.blue), new Material(0.5, 0.5, 20, 0, 0));
+
+		Triangle triangle3 = new Triangle(new Point3D(-3500, -1500, -1000), new Point3D(3500, -1500, -1000),
+				new Point3D(-3500, -1800, -1000), new Color(java.awt.Color.blue), new Material(0.5, 0.5, 20, 0, 0));
+
+		Triangle triangle4 = new Triangle(new Point3D(-3500, -1800, -1000), new Point3D(3500, -1800, -1000),
+				new Point3D(3500, -1500, -1000), new Color(java.awt.Color.blue), new Material(0.5, 0.5, 20, 0, 0));
+		
+		Triangle triangle5 = new Triangle(new Point3D(-3500, 1500, -1000), new Point3D(3500, 1500, -1000),
+				new Point3D(-3500, 1800, -1000), new Color(java.awt.Color.blue), new Material(0.5, 0.5, 20, 0, 0));
+
+		Triangle triangle6 = new Triangle(new Point3D(-3500, 1800, -1000), new Point3D(3500, 1800, -1000),
+				new Point3D(3500, 1500, -1000), new Color(java.awt.Color.blue), new Material(0.5, 0.5, 20, 0, 0));
+		scene.addGeometries(triangle1, triangle2, triangle3, triangle4, triangle5, triangle6);
+
+		scene.setLights(new SpotLight(new Point3D(200, 200, -150), 0, 0.00001, 0.000005, new Color(255, 100, 100),
+				new Vector(-2, -2, -3)));
+
+		ImageWriter imageWriter = new ImageWriter("star", 500, 500, 500, 500);
 
 		Render render = new Render(scene, imageWriter);
 		render.renderImage();
