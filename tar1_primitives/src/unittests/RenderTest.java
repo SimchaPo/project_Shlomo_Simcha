@@ -195,14 +195,11 @@ public class RenderTest extends TestCase {
 	 * @throws IOException
 	 */
 	public void testRenderImage9() throws IOException, SAXException, ParserConfigurationException {
-<<<<<<< HEAD
-		SceneBuilder scene = new SceneBuilder();
 
 		// XMLBuilder xmlBuilder = new XMLBuilder();
 
-=======
+
 		SceneBuilder scene = new SceneBuilder();
->>>>>>> branch 'master' of https://github.com/SimchaPo/project_Shlomo_Simcha.git
 		File _file = new File("newTestnewXML.xml");
 		scene.loadSceneFromFile(_file);
 		System.out.println(scene.getScene().getLights());
@@ -238,19 +235,15 @@ public class RenderTest extends TestCase {
 		scene.setCamera(new Camera(), 300);
 
 		Sphere sphere = new Sphere(new Point3D(0.0, 0.0, -1000), 500, new Color(0, 0, 100),
-<<<<<<< HEAD
+
 				new Material(1, 1, 40, 0, 0.7));
-=======
-				new Material(1,1, 40, 0,1));
->>>>>>> branch 'master' of https://github.com/SimchaPo/project_Shlomo_Simcha.git
+
+				new Material(1,1, 40, 0,1);
 		scene.addGeometries(sphere);
 
 		Sphere sphere2 = new Sphere(new Point3D(0.0, 0.0, -1000), 250, new Color(100, 20, 20),
-<<<<<<< HEAD
 				new Material(1, 1, 40, 0, 0.2));
-=======
-				new Material(1,1, 40, 0,0));
->>>>>>> branch 'master' of https://github.com/SimchaPo/project_Shlomo_Simcha.git
+				new Material(1,1, 40, 0,0);
 
 		scene.addGeometries(sphere2);
 
@@ -269,11 +262,9 @@ public class RenderTest extends TestCase {
 		scene.setCamera(new Camera(), 300);
 
 		Sphere sphere = new Sphere(new Point3D(-550, -500, -1000), 300, new Color(0, 0, 100),
-<<<<<<< HEAD
+
 				new Material(1, 1, 40, 0, 0.7));
-=======
-				new Material(1,1, 40, 0,1));
->>>>>>> branch 'master' of https://github.com/SimchaPo/project_Shlomo_Simcha.git
+				new Material(1,1, 40, 0,1);
 
 		scene.addGeometries(sphere);
 
