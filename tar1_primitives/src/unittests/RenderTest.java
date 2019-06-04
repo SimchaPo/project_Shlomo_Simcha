@@ -196,10 +196,9 @@ public class RenderTest extends TestCase {
 	 */
 	public void testRenderImage9() throws IOException, SAXException, ParserConfigurationException {
 		SceneBuilder scene = new SceneBuilder();
-<<<<<<< HEAD
+
 		// XMLBuilder xmlBuilder = new XMLBuilder();
-=======
->>>>>>> branch 'master' of https://github.com/SimchaPo/project_Shlomo_Simcha.git
+
 		File _file = new File("newTestnewXML.xml");
 		scene.loadSceneFromFile(_file);
 		System.out.println(scene.getScene().getLights());
@@ -214,12 +213,12 @@ public class RenderTest extends TestCase {
 	public void testRenderImage10() {
 		Scene scene = new Scene();
 		scene.setCamera(new Camera(), 100);
-		Sphere sphere = new Sphere(new Point3D(0.0, 0.0, -1000), 500, new Color(0, 0, 100), new Material(1,1, 40));
+		Sphere sphere = new Sphere(new Point3D(0.0, 0.0, -1000), 500, new Color(0, 0, 100), new Material(1, 1, 40));
 		scene.addGeometries(sphere);
 		Triangle triangle1 = new Triangle(new Point3D(3500, 3500, -2000), new Point3D(-3500, -3500, -1000),
-				new Point3D(3500, -3500, -2000), new Color(), new Material(1,1, 40));
+				new Point3D(3500, -3500, -2000), new Color(), new Material(1, 1, 40));
 		Triangle triangle2 = new Triangle(new Point3D(3500, 3500, -2000), new Point3D(-3500, 3500, -1000),
-				new Point3D(-3500, -3500, -1000), new Color(), new Material(1,1, 40));
+				new Point3D(-3500, -3500, -1000), new Color(), new Material(1, 1, 40));
 		scene.addGeometries(triangle1);
 		scene.addGeometries(triangle2);
 		scene.setLights(new SpotLight(new Point3D(200, 200, -100), 0, 0.000001, 0.0000005, new Color(255, 100, 100),
@@ -235,11 +234,11 @@ public class RenderTest extends TestCase {
 		scene.setCamera(new Camera(), 300);
 
 		Sphere sphere = new Sphere(new Point3D(0.0, 0.0, -1000), 500, new Color(0, 0, 100),
-				new Material(1,1, 40, 0,0.7));
+				new Material(1, 1, 40, 0, 0.7));
 		scene.addGeometries(sphere);
 
 		Sphere sphere2 = new Sphere(new Point3D(0.0, 0.0, -1000), 250, new Color(100, 20, 20),
-				new Material(1,1, 40, 0,0.2));
+				new Material(1, 1, 40, 0, 0.2));
 
 		scene.addGeometries(sphere2);
 
@@ -258,19 +257,19 @@ public class RenderTest extends TestCase {
 		scene.setCamera(new Camera(), 300);
 
 		Sphere sphere = new Sphere(new Point3D(-550, -500, -1000), 300, new Color(0, 0, 100),
-				new Material(1,1, 40, 0,0.7));
+				new Material(1, 1, 40, 0, 0.7));
 
 		scene.addGeometries(sphere);
 
 		Sphere sphere2 = new Sphere(new Point3D(-550, -500, -1000), 150, new Color(100, 20, 20),
-				new Material(1,1, 40, 0,0));
+				new Material(1, 1, 40, 0, 0));
 		scene.addGeometries(sphere2);
 
 		Triangle triangle = new Triangle(new Point3D(1500, -1500, -1500), new Point3D(-1500, 1500, -1500),
-				new Point3D(200, 200, -375), new Color(20, 20, 20), new Material(1,1, 40, 1,0));
+				new Point3D(200, 200, -375), new Color(20, 20, 20), new Material(1, 1, 40, 1, 0));
 
 		Triangle triangle2 = new Triangle(new Point3D(1500, -1500, -1500), new Point3D(-1500, 1500, -1500),
-				new Point3D(-1500, -1500, -1500), new Color(20, 20, 20), new Material(1,1, 40, 1,0));
+				new Point3D(-1500, -1500, -1500), new Color(20, 20, 20), new Material(1, 1, 40, 1, 0));
 		scene.addGeometries(triangle);
 		scene.addGeometries(triangle2);
 

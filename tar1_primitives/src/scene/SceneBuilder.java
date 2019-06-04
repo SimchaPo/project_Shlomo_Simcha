@@ -93,27 +93,65 @@ public class SceneBuilder {
 			boolean spotLight = false;
 			boolean directLight = false;
 			double kCTmp = 0.0, kLTmp = 0.0, kQTmp = 0.0;
+
 			for (Map.Entry<String, String> entry : map.entrySet()) {
-				if ("direction" == entry.getKey()) {
+				switch (entry.getKey()) {
+				case "direction": {
 					rgb = stringSplitter(entry.getValue());
 					_VTo = new Vector(rgb[0], rgb[1], rgb[2]);
 					directLight = true;
-				} else if ("kC" == entry.getKey()) {
+					break;
+				}
+				case "kC": {
 					kCTmp = Double.parseDouble(entry.getValue());
 					spotLight = true;
-				} else if ("kL" == entry.getKey()) {
+					break;
+				}
+				case "kL": {
 					kLTmp = Double.parseDouble(entry.getValue());
-				} else if ("kQ" == entry.getKey()) {
+					spotLight = true;
+					break;
+				}
+				case "kQ": {
 					kQTmp = Double.parseDouble(entry.getValue());
-				} else if ("light-color" == entry.getKey()) {
+					spotLight = true;
+					break;
+				}
+				case "light-color": {
 					System.out.println(entry.getValue());
 					rgb = stringSplitter(entry.getValue());
 					C2.setColor(rgb[0], rgb[1], rgb[2]);
-				} else if ("point" == entry.getKey()) {
+					break;
+				}
+				case "point": {
 					rgb = stringSplitter(entry.getValue());
 					_P0 = new Point3D(rgb[0], rgb[1], rgb[2]);
+					break;
+				}
+				default:
+					break;
 				}
 			}
+//				if ("direction" == entry.getKey()) {
+//					rgb = stringSplitter(entry.getValue());
+//					_VTo = new Vector(rgb[0], rgb[1], rgb[2]);
+//					directLight = true;
+//				} else if ("kC" == entry.getKey()) {
+//					kCTmp = Double.parseDouble(entry.getValue());
+//					spotLight = true;
+//				} else if ("kL" == entry.getKey()) {
+//					kLTmp = Double.parseDouble(entry.getValue());
+//				} else if ("kQ" == entry.getKey()) {
+//					kQTmp = Double.parseDouble(entry.getValue());
+//				} else if ("light-color" == entry.getKey()) {
+//					System.out.println(entry.getValue());
+//					rgb = stringSplitter(entry.getValue());
+//					C2.setColor(rgb[0], rgb[1], rgb[2]);
+//				} else if ("point" == entry.getKey()) {
+//					rgb = stringSplitter(entry.getValue());
+//					_P0 = new Point3D(rgb[0], rgb[1], rgb[2]);
+//				}
+//			}
 			if (directLight) {
 				if (spotLight) {
 					_scene.setLights(new SpotLight(_P0, kCTmp, kLTmp, kQTmp, C2, _VTo));

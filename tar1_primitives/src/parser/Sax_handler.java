@@ -82,6 +82,7 @@ public class Sax_handler extends DefaultHandler {
 			_lightMap.put(KL, atts.getValue(KL));
 			_lightMap.put(KQ, atts.getValue(KQ));
 			_lightMap.put(DIRECTION, atts.getValue(DIRECTION));
+			System.out.println(_lightMap.keySet().toString()+_lightMap.values().toString());
 		}
 		if (_qName == CAMERA) {
 			System.out.println(_qName + " " + "startElement");
