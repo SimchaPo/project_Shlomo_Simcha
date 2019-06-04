@@ -6,6 +6,7 @@ import elements.LightSource;
 import primitives.Color;
 import primitives.Point3D;
 import primitives.Ray;
+import primitives.Util;
 import primitives.Vector;
 import scene.Scene;
 import static geometries.Intersectable.GeoPoint;
@@ -19,8 +20,8 @@ import static geometries.Intersectable.GeoPoint;
  */
 public class Render {
 
-	private static final int MAX_CALC_COLOR_LEVEL = 10;
-	private static final double EPS = 0.1;
+	private static final int MAX_CALC_COLOR_LEVEL = 15;
+	private static final double EPS = 1;
 	private Scene _scene;
 	private ImageWriter _imageWriter;
 
@@ -94,8 +95,7 @@ public class Render {
 		if (level == 0 || k <= 0.001) {
 			return Color.BLACK;
 		}
-		Color color = new Color();
-		color = color.add(intersection.geometry.getEmmission());
+		Color color = new Color(intersection.geometry.getEmmission());
 		Vector v = inRay.getVector();
 		Vector n = intersection.geometry.getNormal(intersection.point);
 		int nShininess = intersection.geometry.getMaterial().getNShininess();
@@ -104,8 +104,9 @@ public class Render {
 		for (LightSource lightSource : _scene.getLights()) {
 			Vector l = lightSource.getL(intersection.point);
 			if (n.vectorsDotProduct(l) * n.vectorsDotProduct(v) > 0) {
-				if (unshaded(l, n, intersection)) {
-					Color lightIntensity = new Color(lightSource.getIntensity(intersection.point));
+				double ktr = transparency(l, n, intersection);
+				if (!Util.isZero(ktr*k)) {
+					Color lightIntensity = new Color(lightSource.getIntensity(intersection.point)).scale(ktr);
 					color = color.add(calcDiffusive(kd, l, n, lightIntensity),
 							calcSpecular(ks, l, n, v, nShininess, lightIntensity));
 				}
@@ -132,13 +133,17 @@ public class Render {
 		return color;
 	}
 
-	private boolean unshaded(Vector l, Vector n, GeoPoint intersection) {
+	private double transparency(Vector l, Vector n, GeoPoint intersection) {
 		Vector lightDirection = l.scale(-1);
 		Vector epsVector = n.scale(n.vectorsDotProduct(lightDirection) > 0 ? EPS : -EPS);
 		Point3D point = intersection.point.addVec(epsVector);
 		Ray lightRay = new Ray(point, lightDirection);
 		List<GeoPoint> intersections = _scene.getGeometries().findIntersections(lightRay);
-		return intersections.isEmpty();
+		double ktr = 1;
+		for(GeoPoint gp : intersections) {
+			ktr *= gp.geometry.getMaterial().getKT();
+		}
+		return ktr;
 	}
 
 	private GeoPoint findClosestIntersection(Ray ray) {
