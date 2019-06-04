@@ -1,5 +1,8 @@
 package geometries;
 
+import static primitives.Util.alignZero;
+import static primitives.Util.isZero;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +10,6 @@ import primitives.Color;
 import primitives.Material;
 import primitives.Point3D;
 import primitives.Ray;
-import static primitives.Util.*;
 import primitives.Vector;
 
 /**
@@ -47,7 +49,7 @@ public class Plane extends Geometry {
 	public Plane(Point3D pnt1, Point3D pnt2, Point3D pnt3) {
 		this(pnt1, (pnt1.subtract(pnt2)).vecotrsCrossProduct(pnt2.subtract(pnt3)));
 	}
-	
+
 	public Plane(Point3D pnt1, Point3D pnt2, Point3D pnt3, Color emmission, Material material) {
 		this(pnt1, (pnt1.subtract(pnt2)).vecotrsCrossProduct(pnt2.subtract(pnt3)), emmission, material);
 	}

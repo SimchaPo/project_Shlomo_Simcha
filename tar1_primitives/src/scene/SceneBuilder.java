@@ -4,10 +4,16 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ListIterator;
 import java.util.Map;
+
 import javax.xml.parsers.ParserConfigurationException;
+
 import org.xml.sax.SAXException;
+
 import elements.AmbientLight;
 import elements.Camera;
+import elements.DirectionalLight;
+import elements.PointLight;
+import elements.SpotLight;
 import geometries.Sphere;
 import geometries.Triangle;
 import parser.SceneDescriptor;
@@ -17,25 +23,14 @@ import primitives.Point3D;
 import primitives.Vector;
 import renderer.ImageWriter;
 
+/**
+ * The class define scene & image writer by using XML document that user gave
+ * 
+ * @author meerzon shlomo & podolsky simha
+ *
+ */
 public class SceneBuilder {
 	SceneDescriptor _sceneDesc;
-
-	public SceneDescriptor getSceneDesc() {
-		return _sceneDesc;
-	}
-
-	public Scene getScene() {
-		return _scene;
-	}
-
-	public ImageWriter getImageWriter() {
-		return _imageWriter;
-	}
-
-	public String getFilePath() {
-		return _filePath;
-	}
-
 	Scene _scene;
 	ImageWriter _imageWriter;
 	String _filePath;
@@ -50,14 +45,13 @@ public class SceneBuilder {
 	public SceneBuilder() {
 		_sceneDesc = new SceneDescriptor();
 		_scene = new Scene();
-		_imageWriter = new ImageWriter("pic", 500, 500, 500, 500);
+		_imageWriter = new ImageWriter("pic1", 500, 500, 500, 500);
 	}
 
 	public double[] stringSplitter(String str) {
-		String[] subStr;
 		String delimeter = " ";
 		int i = 0;
-		subStr = str.split(delimeter);
+		String[] subStr = str.split(delimeter);
 		double[] todble = new double[3];
 		for (String s : subStr) {
 			todble[i] = Double.parseDouble(s);
@@ -70,7 +64,8 @@ public class SceneBuilder {
 		_sceneDesc.InitializeFromXMLstring(_file);
 		double imWid = 0.0, imhig = 0.0, screenDist = 0.0, k = 0.0, tmp = 0.0;
 		AmbientLight _ambColor;
-		Color C1 = new Color(0, 0, 0);
+		Color C1 = new Color();
+		Color C2 = new Color();
 		Point3D[] trianglePnts = new Point3D[3];
 		Point3D _P0 = new Point3D(0, 0, 0);
 		Vector _VTo = new Vector(0, 0, -1), _VUp = new Vector(0, 1, 0);
@@ -91,6 +86,45 @@ public class SceneBuilder {
 				screenDist = Double.parseDouble(entry.getValue());
 			}
 		}
+		ListIterator<Map<String, String>> lightsIterator = _sceneDesc.get_lightLst().listIterator();
+		while (lightsIterator.hasNext()) {
+			Map<java.lang.String, java.lang.String> map = (Map<java.lang.String, java.lang.String>) lightsIterator
+					.next();
+			boolean spotLight = false;
+			boolean directLight = false;
+			double kCTmp = 0.0, kLTmp = 0.0, kQTmp = 0.0;
+			for (Map.Entry<String, String> entry : map.entrySet()) {
+				if ("direction" == entry.getKey()) {
+					rgb = stringSplitter(entry.getValue());
+					_VTo = new Vector(rgb[0], rgb[1], rgb[2]);
+					directLight = true;
+				} else if ("kC" == entry.getKey()) {
+					kCTmp = Double.parseDouble(entry.getValue());
+					spotLight = true;
+				} else if ("kL" == entry.getKey()) {
+					kLTmp = Double.parseDouble(entry.getValue());
+				} else if ("kQ" == entry.getKey()) {
+					kQTmp = Double.parseDouble(entry.getValue());
+				} else if ("light-color" == entry.getKey()) {
+					System.out.println(entry.getValue());
+					rgb = stringSplitter(entry.getValue());
+					C2.setColor(rgb[0], rgb[1], rgb[2]);
+				} else if ("point" == entry.getKey()) {
+					rgb = stringSplitter(entry.getValue());
+					_P0 = new Point3D(rgb[0], rgb[1], rgb[2]);
+				}
+			}
+			if (directLight) {
+				if (spotLight) {
+					_scene.setLights(new SpotLight(_P0, kCTmp, kLTmp, kQTmp, C2, _VTo));
+				} else {
+					_scene.setLights(new DirectionalLight(C2, _VTo));
+				}
+			} else {
+				_scene.setLights(new PointLight(_P0, kCTmp, kLTmp, kQTmp, C2));
+			}
+		}
+
 		for (Map.Entry<String, String> entry : _sceneDesc.get_ambientLightAttributes().entrySet()) {
 			if ("color" == entry.getKey()) {
 				rgb = stringSplitter(entry.getValue());
@@ -114,9 +148,9 @@ public class SceneBuilder {
 		}
 		_scene.setCamera(new Camera(_P0, _VUp, _VTo), screenDist);
 
-		ListIterator<Map<String, String>> geometriesIterator = _sceneDesc.get_spheres().listIterator();
-		while (geometriesIterator.hasNext()) {
-			Map<java.lang.String, java.lang.String> map = (Map<java.lang.String, java.lang.String>) geometriesIterator
+		ListIterator<Map<String, String>> sphereIterator = _sceneDesc.get_spheres().listIterator();
+		while (sphereIterator.hasNext()) {
+			Map<java.lang.String, java.lang.String> map = (Map<java.lang.String, java.lang.String>) sphereIterator
 					.next();
 			for (Map.Entry<String, String> entry : map.entrySet()) {
 				boolean istrue = false;
@@ -126,7 +160,7 @@ public class SceneBuilder {
 				}
 				if ("emmission" == entry.getKey()) {
 					rgb = stringSplitter(entry.getValue());
-					C1 = new Color(rgb[0], rgb[1], rgb[2]);
+					C1.setColor(rgb[0], rgb[1], rgb[2]);
 					istrue = true;
 				} else if ("material" == entry.getKey()) {
 					rgb = stringSplitter(entry.getValue());
@@ -139,11 +173,11 @@ public class SceneBuilder {
 					spheres = new Sphere(_P0, tmp);
 			}
 			_scene.addGeometries(spheres);
-			
+
 		}
-		geometriesIterator = _sceneDesc.get_triangles().listIterator();
-		while (geometriesIterator.hasNext()) {
-			Map<java.lang.String, java.lang.String> map = (Map<java.lang.String, java.lang.String>) geometriesIterator
+		ListIterator<Map<String, String>> triangleIterator = _sceneDesc.get_triangles().listIterator();
+		while (triangleIterator.hasNext()) {
+			Map<java.lang.String, java.lang.String> map = (Map<java.lang.String, java.lang.String>) triangleIterator
 					.next();
 			for (Map.Entry<String, String> entry : map.entrySet()) {
 				boolean istrue = false;
@@ -153,14 +187,14 @@ public class SceneBuilder {
 				} else if ("p1" == entry.getKey()) {
 					rgb = stringSplitter(entry.getValue());
 					trianglePnts[1] = new Point3D(rgb[0], rgb[1], rgb[2]);
-				} else {
+				} else if ("p2" == entry.getKey()) {
 					rgb = stringSplitter(entry.getValue());
 					trianglePnts[2] = new Point3D(rgb[0], rgb[1], rgb[2]);
 
 				}
 				if ("emmission" == entry.getKey()) {
 					rgb = stringSplitter(entry.getValue());
-					C1 = new Color(rgb[0], rgb[1], rgb[2]);
+					C1.setColor(rgb[0], rgb[1], rgb[2]);
 					istrue = true;
 				} else if ("material" == entry.getKey()) {
 					rgb = stringSplitter(entry.getValue());
@@ -176,5 +210,21 @@ public class SceneBuilder {
 			return _scene;
 		}
 		return _scene;
+	}
+
+	public SceneDescriptor getSceneDesc() {
+		return _sceneDesc;
+	}
+
+	public Scene getScene() {
+		return _scene;
+	}
+
+	public ImageWriter getImageWriter() {
+		return _imageWriter;
+	}
+
+	public String getFilePath() {
+		return _filePath;
 	}
 }

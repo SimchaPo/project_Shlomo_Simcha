@@ -6,6 +6,7 @@ import primitives.Vector;
 
 /**
  * class that sets light from sun
+ * 
  * @author OWNER
  *
  */

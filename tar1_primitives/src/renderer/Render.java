@@ -3,13 +3,13 @@ package renderer;
 import java.util.List;
 
 import elements.LightSource;
+import geometries.Intersectable.GeoPoint;
 import primitives.Color;
 import primitives.Point3D;
 import primitives.Ray;
 import primitives.Util;
 import primitives.Vector;
 import scene.Scene;
-import static geometries.Intersectable.GeoPoint;
 
 /**
  * Render class gets scene and image writer and sets everything together to in

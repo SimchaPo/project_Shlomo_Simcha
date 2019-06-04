@@ -20,12 +20,12 @@ public class Sax_handler extends DefaultHandler {
 	static final String SCENE = "scene";
 	static final String AMBIENT_LIGHT = "ambient-light";
 	static final String LIGHT = "light";
-	static final String POINT="point";
-	static final String VECTOR="vector";
-	static final String DIRECTION="direction";
-	static final String KC="kC";
-	static final String KL="kL";
-	static final String KQ="kQ";
+	static final String POINT = "point";
+	static final String VECTOR = "vector";
+	static final String DIRECTION = "direction";
+	static final String KC = "kC";
+	static final String KL = "kL";
+	static final String KQ = "kQ";
 	static final String CAMERA = "camera";
 	static final String GEOMETRIES = "geometries";
 	static final String SPHERE = "sphere";
@@ -35,6 +35,7 @@ public class Sax_handler extends DefaultHandler {
 	static final String SCREEN_HEIGHT = "screen-height";
 	static final String SCREEN_DIST = "screen-dist";
 	static final String COLOR = "color";
+	static final String LIGHT_COLOR = "light-color";
 	static final String P_0 = "p0";
 	static final String V_TO = "vTo";
 	static final String V_UP = "vUp";
@@ -53,6 +54,7 @@ public class Sax_handler extends DefaultHandler {
 	private Map<String, String> _ambientLightMap = new HashMap<String, String>(SceneDescriptor.EMPTY_MAP);
 	private List<Map<String, String>> _sphereLst = new ArrayList<Map<String, String>>(SceneDescriptor.EMPTY_LIST);
 	private List<Map<String, String>> _triangleLst = new ArrayList<Map<String, String>>(SceneDescriptor.EMPTY_LIST);
+	private List<Map<String, String>> _lightLst = new ArrayList<Map<String, String>>(SceneDescriptor.EMPTY_LIST);
 	private String currentElm = "";
 	SceneDescriptor tmp = SceneDescriptor.EMPTY_Descriptor;
 	// private String currentFigure = null;
@@ -74,12 +76,12 @@ public class Sax_handler extends DefaultHandler {
 		}
 		if (_qName == LIGHT) {
 			System.out.println(_qName + " " + "startElement");
-			_sceneMap.put(POINT, atts.getValue(POINT));
-			_sceneMap.put(KC, atts.getValue(KC));
-			_sceneMap.put(KL, atts.getValue(KL));
-			_sceneMap.put(KQ, atts.getValue(KQ));
-			_sceneMap.put(VECTOR, atts.getValue(VECTOR));
-			_sceneMap.put(COLOR, atts.getValue(COLOR));
+			_lightMap.put(LIGHT_COLOR, atts.getValue(LIGHT_COLOR));
+			_lightMap.put(POINT, atts.getValue(POINT));
+			_lightMap.put(KC, atts.getValue(KC));
+			_lightMap.put(KL, atts.getValue(KL));
+			_lightMap.put(KQ, atts.getValue(KQ));
+			_lightMap.put(DIRECTION, atts.getValue(DIRECTION));
 		}
 		if (_qName == CAMERA) {
 			System.out.println(_qName + " " + "startElement");
@@ -113,15 +115,14 @@ public class Sax_handler extends DefaultHandler {
 		if (text.contains("<") || currentElm == "") {
 			return;
 		}
-
 	}
 
 	public void endElement(String _nameSpace, String _localName, String _qName) throws SAXException {
 		switch (_qName) {
 		case SCENE:
 			System.out.println(_qName + " " + "endElement");
-			tmp = new SceneDescriptor(_sceneMap, _cameraMap, _ambientLightMap, _sphereLst, _triangleLst);
-			
+			tmp = new SceneDescriptor(_sceneMap, _cameraMap, _ambientLightMap, _sphereLst, _triangleLst, _lightLst);
+
 			// System.out.println(_sceneMap.keySet().toString());
 		case CAMERA:
 			System.out.println(_qName + " " + "endElement");
@@ -136,6 +137,10 @@ public class Sax_handler extends DefaultHandler {
 			_triangleLst.add(_triangleMap);
 			// System.out.println(_triangleMap.keySet().toString());
 			break;
+		case LIGHT:
+			System.out.println(_qName + " " + "endElement");
+			_lightLst.add(_lightMap);
+			break;
 		default:
 			break;
 		}
@@ -148,8 +153,10 @@ public class Sax_handler extends DefaultHandler {
 
 	public SceneDescriptor getTmp() throws SAXException {
 		if (tmp != SceneDescriptor.EMPTY_Descriptor) {
+			System.out.println("YES");
 			return tmp;
 		} else {
+			System.out.println("NO");
 			return SceneDescriptor.EMPTY_Descriptor;
 		}
 	}

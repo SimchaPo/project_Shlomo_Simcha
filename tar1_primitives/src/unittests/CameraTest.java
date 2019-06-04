@@ -4,15 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import elements.Camera;
+import geometries.Intersectable.GeoPoint;
 import geometries.Plane;
 import geometries.Sphere;
 import geometries.Triangle;
 import junit.framework.TestCase;
-import primitives.Coordinate;
 import primitives.Point3D;
-import primitives.Ray;
 import primitives.Vector;
-import static geometries.Intersectable.GeoPoint;
 
 public class CameraTest extends TestCase {
 	/**
@@ -27,11 +25,13 @@ public class CameraTest extends TestCase {
 		double sd = 1, sw = 9, sh = 9;
 		for (int i = 0; i < 3; ++i) {
 			for (int j = 0; j < 3; ++j) {
-				//result.addAll(sp.findIntersections(cam.constructRayThroughPixel(Nx, Ny, i, j, sd, sw, sh)));
+				// result.addAll(sp.findIntersections(cam.constructRayThroughPixel(Nx, Ny, i, j,
+				// sd, sw, sh)));
 			}
 		}
-		//assertEquals("problem with camera", exp, result.size());
+		// assertEquals("problem with camera", exp, result.size());
 	}
+
 	/**
 	 * test for case they are 2 intersections with sphere after view
 	 */

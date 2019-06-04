@@ -31,7 +31,7 @@ public class Triangle extends Plane {
 	public Triangle(Point3D _pnt1, Point3D _pnt2, Point3D _pnt3) {
 		this(_pnt1, _pnt2, _pnt3, Color.BLACK, new Material());
 	}
-	
+
 	public Triangle(Point3D _pnt1, Point3D _pnt2, Point3D _pnt3, Color emmission, Material material) {
 		super(_pnt1, _pnt2, _pnt3, emmission, material);
 		trianPoints[0] = _pnt1;

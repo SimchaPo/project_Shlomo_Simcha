@@ -12,6 +12,13 @@ import javax.xml.transform.TransformerException;
 
 import org.xml.sax.SAXException;
 
+/**
+ * The class build XML document and save it in file has getter for file name
+ * those build
+ * 
+ * @author meerz
+ *
+ */
 public class XMLBuilder {
 //	XMLOutputFactory _outFactory;
 //	XMLStreamWriter _fileWriter;
@@ -40,16 +47,7 @@ public class XMLBuilder {
 		_fileWriter.writeAttribute("screen-width", "500");
 		_fileWriter.writeAttribute("screen-height", "500");
 		_fileWriter.writeAttribute("screen-dist", "150");
-		
-		_fileWriter.writeStartElement("lights");
-		_fileWriter.writeAttribute("color", "255 100 100");
-		_fileWriter.writeAttribute("point", "10 10 20");
-		_fileWriter.writeAttribute("direction", "-1 -1 8");
-		_fileWriter.writeAttribute("kC", "1");
-		_fileWriter.writeAttribute("kL", "0.0001");
-		_fileWriter.writeAttribute("kQ", "0.000005");
-		_fileWriter.writeEndElement();
-		
+
 		_fileWriter.writeStartElement("ambient-light");
 		_fileWriter.writeAttribute("color", "15 15 15");
 		_fileWriter.writeAttribute("K", "1");
@@ -61,50 +59,59 @@ public class XMLBuilder {
 		_fileWriter.writeAttribute("pUp", "0 -1 0");
 		_fileWriter.writeEndElement();
 
+		_fileWriter.writeStartElement("light");
+		_fileWriter.writeAttribute("light-color", "255 100 100");
+		_fileWriter.writeAttribute("point", "-50 50 50");
+		_fileWriter.writeAttribute("direction", "-1 -1 8");
+		_fileWriter.writeAttribute("kC", "1");
+		_fileWriter.writeAttribute("kL", "0.0001");
+		_fileWriter.writeAttribute("kQ", "0.000005");
+		_fileWriter.writeEndElement();
+
 		_fileWriter.writeStartElement("geometries");
 
 		_fileWriter.writeStartElement("sphere");
-		_fileWriter.writeAttribute("center", "0 0 100");
+		_fileWriter.writeAttribute("center", "-250 250 150");
 		_fileWriter.writeAttribute("radius", "60");
-		_fileWriter.writeAttribute("emmission", "17 30 108");
-		_fileWriter.writeAttribute("material", "0.7 0.3 40");
+		_fileWriter.writeAttribute("emmission", "17 98 108");
+		_fileWriter.writeAttribute("material", "0.4 0.6 40");
 		_fileWriter.writeEndElement();
 
 		// T1
-		_fileWriter.writeStartElement("triangle");
-		_fileWriter.writeAttribute("p0", "100 0 -49");
-		_fileWriter.writeAttribute("p1", "0 100 -49");
-		_fileWriter.writeAttribute("p2", "100 100 -49");
-		_fileWriter.writeAttribute("emmission", "150 34 177");
-		_fileWriter.writeAttribute("material", "0.3 0.1 11");
-		_fileWriter.writeEndElement();
-
-		// T2
-		_fileWriter.writeStartElement("triangle");
-		_fileWriter.writeAttribute("p0", "-100 0 -49");
-		_fileWriter.writeAttribute("p1", "0 100 -49");
-		_fileWriter.writeAttribute("p2", "-100 100 -49");
-		_fileWriter.writeAttribute("emmission", "50 130 234");
-		_fileWriter.writeAttribute("material", "0.3 0.1 11");
-		_fileWriter.writeEndElement();
+//		_fileWriter.writeStartElement("triangle");
+//		_fileWriter.writeAttribute("p0", "180 -180 145");
+//		_fileWriter.writeAttribute("p1", "180 -180 150");
+//		_fileWriter.writeAttribute("p2", "-250 250 150");
+//		_fileWriter.writeAttribute("emmission", "150 34 177");
+//		_fileWriter.writeAttribute("material", "0.3 0.1 11");
+//		_fileWriter.writeEndElement();
+//
+//		// T2
+//		_fileWriter.writeStartElement("triangle");
+//		_fileWriter.writeAttribute("p0", "180 180 150");
+//		_fileWriter.writeAttribute("p1", "250 250 145");
+//		_fileWriter.writeAttribute("p2", "-250 250 150");
+//		_fileWriter.writeAttribute("emmission", "50 130 234");
+//		_fileWriter.writeAttribute("material", "0.3 0.1 11");
+//		_fileWriter.writeEndElement();
 
 		// T3
-		_fileWriter.writeStartElement("triangle");
-		_fileWriter.writeAttribute("p0", "100 0 -49");
-		_fileWriter.writeAttribute("p1", "0 -100 -49");
-		_fileWriter.writeAttribute("p2", "100 -100 -49");
-		_fileWriter.writeAttribute("emmission", "50 130 176");
-		_fileWriter.writeAttribute("material", "0.3 0.1 11");
-		_fileWriter.writeEndElement();
-
-		// T4
-		_fileWriter.writeStartElement("triangle");
-		_fileWriter.writeAttribute("p0", "-100 0 -49");
-		_fileWriter.writeAttribute("p1", "0 -100 -49");
-		_fileWriter.writeAttribute("p2", "-100 -100 -49");
-		_fileWriter.writeAttribute("emmission", "50 178 211");
-		_fileWriter.writeAttribute("material", "0.3 0.1 11");
-		_fileWriter.writeEndElement();
+//		_fileWriter.writeStartElement("triangle");
+//		_fileWriter.writeAttribute("p0", "10 0 -49");
+//		_fileWriter.writeAttribute("p1", "0 -10 -49");
+//		_fileWriter.writeAttribute("p2", "10 -10 -49");
+//		_fileWriter.writeAttribute("emmission", "50 130 176");
+//		_fileWriter.writeAttribute("material", "0.3 0.1 11");
+//		_fileWriter.writeEndElement();
+//
+//		// T4
+//		_fileWriter.writeStartElement("triangle");
+//		_fileWriter.writeAttribute("p0", "-100 0 -49");
+//		_fileWriter.writeAttribute("p1", "0 -100 -49");
+//		_fileWriter.writeAttribute("p2", "-100 -100 -49");
+//		_fileWriter.writeAttribute("emmission", "50 178 211");
+//		_fileWriter.writeAttribute("material", "0.3 0.1 11");
+//		_fileWriter.writeEndElement();
 
 		_fileWriter.writeEndElement();
 		_fileWriter.writeEndElement();

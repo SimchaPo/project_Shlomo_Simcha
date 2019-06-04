@@ -1,8 +1,11 @@
 package geometries;
 
+import static primitives.Util.alignZero;
+import static primitives.Util.isZero;
+import static primitives.Util.usubtract;
+
 import java.util.ArrayList;
 import java.util.List;
-import static primitives.Util.*;
 
 import primitives.Color;
 import primitives.Material;

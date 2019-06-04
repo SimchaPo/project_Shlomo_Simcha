@@ -1,9 +1,8 @@
 package unittests;
 
-import primitives.Vector;
-
 import junit.framework.TestCase;
 import primitives.Point3D;
+import primitives.Vector;
 
 public class Point3DTest extends TestCase {
 	/**

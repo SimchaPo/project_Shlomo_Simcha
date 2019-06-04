@@ -1,9 +1,5 @@
 package primitives;
 
-//import static primitives.Util.usubtract;
-
-import primitives.Point3D;
-
 /**
  * This class define vector & function those calculate mathematical quantities
  * 
