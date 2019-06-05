@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.transform.TransformerException;
 
 import org.xml.sax.SAXException;
 
@@ -16,6 +18,7 @@ import geometries.Geometries;
 import geometries.Sphere;
 import geometries.Triangle;
 import junit.framework.TestCase;
+import parser.XMLBuilder;
 import primitives.Color;
 import primitives.Material;
 import primitives.Point3D;
@@ -193,17 +196,20 @@ public class RenderTest extends TestCase {
 	 * @throws ParserConfigurationException
 	 * @throws SAXException
 	 * @throws IOException
+	 * @throws XMLStreamException 
+	 * @throws TransformerException 
 	 */
-	public void testRenderImage9() throws IOException, SAXException, ParserConfigurationException {
+	public void testRenderImage9() throws IOException, SAXException, ParserConfigurationException, TransformerException, XMLStreamException {
 
-		// XMLBuilder xmlBuilder = new XMLBuilder();
+		XMLBuilder xmlBuilder = new XMLBuilder("new");
+		xmlBuilder.WriteToFile();
 
-
+		Scene sc = new Scene();
 		SceneBuilder scene = new SceneBuilder();
-		File _file = new File("newTestnewXML.xml");
-		scene.loadSceneFromFile(_file);
-		System.out.println(scene.getScene().getLights());
-		Render render = new Render(scene.getScene(), scene.getImageWriter());
+		File _file = new File(xmlBuilder.getFileName());
+		sc = scene.loadSceneFromFile(_file);
+		System.out.println(sc);
+		Render render = new Render(sc, scene.getImageWriter());
 		render.renderImage();
 		render.getImageWriter().writeToImage();
 	}

@@ -52,7 +52,7 @@ public class SceneBuilder {
 		String delimeter = " ";
 		int i = 0;
 		String[] subStr = str.split(delimeter);
-		double[] todble = new double[3];
+		double[] todble = new double[subStr.length];
 		for (String s : subStr) {
 			todble[i] = Double.parseDouble(s);
 			i++;
@@ -73,10 +73,10 @@ public class SceneBuilder {
 		Triangle triangles = new Triangle(new Point3D(0.0, 4.0, 0.0), new Point3D(7.0, -1.0, 0.0),
 				new Point3D(2.0, 2.0, 0.0));
 		double[] rgb = new double[3];
+		double[] mat = new double[5];
 		for (Map.Entry<String, String> entry : _sceneDesc.get_sceneAttributes().entrySet()) {
 			if ("background-color" == entry.getKey()) {
 				rgb = stringSplitter(entry.getValue());
-				System.out.println(rgb[0] + " " + rgb[1] + " " + rgb[2]);
 				_scene.setBackground(new Color(rgb[0], rgb[1], rgb[2]));
 			} else if ("screen-width" == entry.getKey()) {
 				imWid = Double.parseDouble(entry.getValue());
@@ -118,7 +118,6 @@ public class SceneBuilder {
 					break;
 				}
 				case "light-color": {
-					System.out.println(entry.getValue());
 					rgb = stringSplitter(entry.getValue());
 					C2.setColor(rgb[0], rgb[1], rgb[2]);
 					break;
@@ -166,12 +165,13 @@ public class SceneBuilder {
 		for (Map.Entry<String, String> entry : _sceneDesc.get_ambientLightAttributes().entrySet()) {
 			if ("color" == entry.getKey()) {
 				rgb = stringSplitter(entry.getValue());
-			} else {
+			} else if ("ka" == entry.getKey()) {
 				k = Double.parseDouble(entry.getValue());
 			}
-			_ambColor = new AmbientLight(new Color(rgb[0], rgb[1], rgb[2]), k);
-			_scene.setAmbientLight(_ambColor);
 		}
+		_ambColor = new AmbientLight(new Color(rgb[0], rgb[1], rgb[2]), k);
+		_scene.setAmbientLight(_ambColor);
+
 		for (Map.Entry<String, String> entry : _sceneDesc.get_cameraAttributes().entrySet()) {
 			if ("p0" == entry.getKey()) {
 				rgb = stringSplitter(entry.getValue());
@@ -179,7 +179,7 @@ public class SceneBuilder {
 			} else if ("vTo" == entry.getKey()) {
 				rgb = stringSplitter(entry.getValue());
 				_VTo = new Vector(rgb[0], rgb[1], rgb[2]);
-			} else if ("pUp" == entry.getKey()) {
+			} else if ("vUp" == entry.getKey()) {
 				rgb = stringSplitter(entry.getValue());
 				_VUp = new Vector(rgb[0], rgb[1], rgb[2]);
 			}
@@ -190,8 +190,8 @@ public class SceneBuilder {
 		while (sphereIterator.hasNext()) {
 			Map<java.lang.String, java.lang.String> map = (Map<java.lang.String, java.lang.String>) sphereIterator
 					.next();
+			boolean istrue = false;
 			for (Map.Entry<String, String> entry : map.entrySet()) {
-				boolean istrue = false;
 				if ("center" == entry.getKey()) {
 					rgb = stringSplitter(entry.getValue());
 					_P0 = new Point3D(rgb[0], rgb[1], rgb[2]);
@@ -201,12 +201,12 @@ public class SceneBuilder {
 					C1.setColor(rgb[0], rgb[1], rgb[2]);
 					istrue = true;
 				} else if ("material" == entry.getKey()) {
-					rgb = stringSplitter(entry.getValue());
+					mat = stringSplitter(entry.getValue());
 				} else if ("radius" == entry.getKey()) {
 					tmp = Double.parseDouble(entry.getValue());
 				}
 				if (istrue) {
-					spheres = new Sphere(_P0, tmp, C1, new Material(rgb[0], rgb[1], (int) rgb[2]));
+					spheres = new Sphere(_P0, tmp, C1, new Material(mat));
 				} else
 					spheres = new Sphere(_P0, tmp);
 			}
@@ -217,8 +217,8 @@ public class SceneBuilder {
 		while (triangleIterator.hasNext()) {
 			Map<java.lang.String, java.lang.String> map = (Map<java.lang.String, java.lang.String>) triangleIterator
 					.next();
+			boolean istrue = false;
 			for (Map.Entry<String, String> entry : map.entrySet()) {
-				boolean istrue = false;
 				if ("p0" == entry.getKey()) {
 					rgb = stringSplitter(entry.getValue());
 					trianglePnts[0] = new Point3D(rgb[0], rgb[1], rgb[2]);
@@ -235,11 +235,11 @@ public class SceneBuilder {
 					C1.setColor(rgb[0], rgb[1], rgb[2]);
 					istrue = true;
 				} else if ("material" == entry.getKey()) {
-					rgb = stringSplitter(entry.getValue());
+					mat = stringSplitter(entry.getValue());
 				}
 				if (istrue) {
 					triangles = new Triangle(trianglePnts[0], trianglePnts[1], trianglePnts[2], C1,
-							new Material(rgb[0], rgb[1], (int) rgb[2]));
+							new Material(mat));
 				}
 				_scene.addGeometries(triangles);
 				_imageWriter = new ImageWriter(_filePath, imWid, imhig, 500, 500);

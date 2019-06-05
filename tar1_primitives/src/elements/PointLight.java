@@ -38,4 +38,8 @@ public class PointLight extends Light implements LightSource {
 		return getL(pnt);
 	}
 
+	@Override
+	public String toString() {
+		return "PointLight positin: " + _position + " color: " + _color + " kc: " + _kC + " kl: " + _kL + " kq: " + _kQ;
+	}
 }

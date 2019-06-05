@@ -27,6 +27,20 @@ public class Material {
 		this(kD, kS, nShininess, 0, 0);
 	}
 
+	public Material(double[] dbl) {
+		_kD = dbl[0];
+		_kS = dbl[1];
+		_nShininess = (int) dbl[2];
+		if (dbl.length == 5) {
+			_kR = dbl[3];
+			_kT = dbl[4];
+		} else {
+			_kR = 0;
+			_kT = 0;
+		}
+
+	}
+
 	public Material(Material mat) {
 		_kD = mat._kD;
 		_kS = mat._kS;
@@ -55,4 +69,8 @@ public class Material {
 		return _kT;
 	}
 
+	@Override
+	public String toString() {
+		return "kd: " + _kD + " ks: " + _kS + " nShininess: " + _nShininess + " kr: " + _kR + " kt: " + _kT;
+	}
 }

@@ -99,4 +99,9 @@ public class Scene {
 	public void addGeometries(Intersectable... geometries) {
 		_geometries.add(geometries);
 	}
+	
+	@Override
+	public String toString() {
+		return "name: " +  _scene + "\ncamera: " + _camera + " " + screenDistance + "\nback: " + _background + "\nambient: " + _ambientLight.get_color() + "\n" + _geometries + "\n" + _lights;
+	}
 }

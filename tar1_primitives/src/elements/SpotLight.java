@@ -35,4 +35,8 @@ public class SpotLight extends PointLight {
 		return _direction;
 	}
 
+	@Override
+	public String toString() {
+		return "SpotLight: " + _direction + " positin: " + _position + " color: " + _color + " kc: " + _kC + " kl: " + _kL + " kq: " + _kQ;
+	}
 }

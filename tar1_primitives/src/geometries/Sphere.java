@@ -74,6 +74,6 @@ public class Sphere extends RadialGeometry {
 
 	@Override
 	public String toString() {
-		return "center: " + _sphereCenter + " radius: " + _radius;
+		return "center: " + _sphereCenter + " radius: " + _radius + " emmission: " + _emmission + " material: " + _material;
 	}
 }

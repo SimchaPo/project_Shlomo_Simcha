@@ -37,4 +37,8 @@ public class DirectionalLight extends Light implements LightSource {
 		return direction;
 	}
 
+	@Override
+	public String toString() {
+		return "DirectionalLight: " + direction + " color: " + _color;
+	}
 }

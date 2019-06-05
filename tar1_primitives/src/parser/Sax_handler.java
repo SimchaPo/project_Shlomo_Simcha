@@ -35,11 +35,12 @@ public class Sax_handler extends DefaultHandler {
 	static final String SCREEN_HEIGHT = "screen-height";
 	static final String SCREEN_DIST = "screen-dist";
 	static final String COLOR = "color";
+	static final String KA = "ka";
 	static final String LIGHT_COLOR = "light-color";
 	static final String P_0 = "p0";
 	static final String V_TO = "vTo";
 	static final String V_UP = "vUp";
-	static final String CENTER = "centre";
+	static final String CENTER = "center";
 	static final String RADIUS = "radius";
 	static final String EMMISSION = "emmission";
 	static final String MATERIAL = "material";
@@ -61,48 +62,42 @@ public class Sax_handler extends DefaultHandler {
 	// int count = 0;
 
 	public void startDocument() throws SAXException {
-		System.out.println("startDocument");
+		
 	}
 
 	public void startElement(String _nameSpace, String _localName, String _qName, Attributes atts) throws SAXException {
 		// currentElm = _qName;
 
 		if (_qName == SCENE) {
-			System.out.println(_qName + " " + "startElement");
 			_sceneMap.put(BACKGRAUND_COLOR, atts.getValue(BACKGRAUND_COLOR));
 			_sceneMap.put(SCREEN_WIDTH, atts.getValue(SCREEN_WIDTH));
 			_sceneMap.put(SCREEN_HEIGHT, atts.getValue(SCREEN_HEIGHT));
 			_sceneMap.put(SCREEN_DIST, atts.getValue(SCREEN_DIST));
 		}
 		if (_qName == LIGHT) {
-			System.out.println(_qName + " " + "startElement");
 			_lightMap.put(LIGHT_COLOR, atts.getValue(LIGHT_COLOR));
 			_lightMap.put(POINT, atts.getValue(POINT));
 			_lightMap.put(KC, atts.getValue(KC));
 			_lightMap.put(KL, atts.getValue(KL));
 			_lightMap.put(KQ, atts.getValue(KQ));
 			_lightMap.put(DIRECTION, atts.getValue(DIRECTION));
-			System.out.println(_lightMap.keySet().toString()+_lightMap.values().toString());
 		}
 		if (_qName == CAMERA) {
-			System.out.println(_qName + " " + "startElement");
 			_cameraMap.put(P_0, atts.getValue(P_0));
 			_cameraMap.put(V_TO, atts.getValue(V_TO));
 			_cameraMap.put(V_UP, atts.getValue(V_UP));
 		}
 		if (_qName == AMBIENT_LIGHT) {
-			System.out.println(_qName + " " + "startElement");
 			_ambientLightMap.put(COLOR, atts.getValue(COLOR));
+			_ambientLightMap.put(KA, atts.getValue(KA));
 		}
 		if (_qName == SPHERE) {
-			System.out.println(_qName + " " + "startElement");
 			_sphereMap.put(CENTER, atts.getValue(CENTER));
 			_sphereMap.put(RADIUS, atts.getValue(RADIUS));
 			_sphereMap.put(EMMISSION, atts.getValue(EMMISSION));
 			_sphereMap.put(MATERIAL, atts.getValue(MATERIAL));
 		}
 		if (_qName == TRIANGLE) {
-			System.out.println(_qName + " " + "startElement");
 			_triangleMap.put(P0, atts.getValue(P0));
 			_triangleMap.put(P1, atts.getValue(P1));
 			_triangleMap.put(P2, atts.getValue(P2));
@@ -121,25 +116,20 @@ public class Sax_handler extends DefaultHandler {
 	public void endElement(String _nameSpace, String _localName, String _qName) throws SAXException {
 		switch (_qName) {
 		case SCENE:
-			System.out.println(_qName + " " + "endElement");
 			tmp = new SceneDescriptor(_sceneMap, _cameraMap, _ambientLightMap, _sphereLst, _triangleLst, _lightLst);
 
 			// System.out.println(_sceneMap.keySet().toString());
 		case CAMERA:
-			System.out.println(_qName + " " + "endElement");
 			// System.out.println(_cameraMap.keySet().toString());
 		case SPHERE:
-			System.out.println(_qName + " " + "endElement");
 			_sphereLst.add(_sphereMap);
 			// System.out.println(_sphereMap.keySet().toString());
 			break;
 		case TRIANGLE:
-			System.out.println(_qName + " " + "endElement");
 			_triangleLst.add(_triangleMap);
 			// System.out.println(_triangleMap.keySet().toString());
 			break;
 		case LIGHT:
-			System.out.println(_qName + " " + "endElement");
 			_lightLst.add(_lightMap);
 			break;
 		default:
@@ -149,17 +139,13 @@ public class Sax_handler extends DefaultHandler {
 
 	@Override
 	public void endDocument() throws SAXException {
-		System.out.println("endDocument");
 	}
 
 	public SceneDescriptor getTmp() throws SAXException {
 		if (tmp != SceneDescriptor.EMPTY_Descriptor) {
-			System.out.println("YES");
 			return tmp;
 		} else {
-			System.out.println("NO");
 			return SceneDescriptor.EMPTY_Descriptor;
 		}
 	}
-//shtuyot le commit
 }

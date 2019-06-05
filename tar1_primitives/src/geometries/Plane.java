@@ -86,6 +86,6 @@ public class Plane extends Geometry {
 
 	@Override
 	public String toString() {
-		return "point on plane: " + point + " noemal: " + normalVector;
+		return "point on plane: " + point + " noemal: " + normalVector + " emmission: " + _emmission + " material: " + _material;
 	}
 }

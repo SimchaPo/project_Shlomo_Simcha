@@ -20,8 +20,7 @@ import org.xml.sax.SAXException;
  *
  */
 public class XMLBuilder {
-//	XMLOutputFactory _outFactory;
-//	XMLStreamWriter _fileWriter;
+
 	private String fileName;
 
 	public String getFileName() {
@@ -33,13 +32,13 @@ public class XMLBuilder {
 	}
 
 	public XMLBuilder(String str) {
-		fileName = str;
+		fileName = str + ".xml";
 	}
 
-	public void WriteToFile(String fName) throws TransformerException, ParserConfigurationException, SAXException,
+	public void WriteToFile() throws TransformerException, ParserConfigurationException, SAXException,
 			IOException, FileNotFoundException, XMLStreamException {
 		XMLOutputFactory _outFactory = XMLOutputFactory.newFactory();
-		XMLStreamWriter _fileWriter = _outFactory.createXMLStreamWriter(new FileOutputStream(fName));
+		XMLStreamWriter _fileWriter = _outFactory.createXMLStreamWriter(new FileOutputStream(fileName));
 		_fileWriter.writeStartDocument();
 		// public static void WriteToFile() {
 		_fileWriter.writeStartElement("scene");
@@ -50,19 +49,19 @@ public class XMLBuilder {
 
 		_fileWriter.writeStartElement("ambient-light");
 		_fileWriter.writeAttribute("color", "15 15 15");
-		_fileWriter.writeAttribute("K", "1");
+		_fileWriter.writeAttribute("ka", "1");
 		_fileWriter.writeEndElement();
 
 		_fileWriter.writeStartElement("camera");
 		_fileWriter.writeAttribute("p0", "0 0 0");
 		_fileWriter.writeAttribute("vTo", "0 0 1");
-		_fileWriter.writeAttribute("pUp", "0 -1 0");
+		_fileWriter.writeAttribute("vUp", "0 -1 0");
 		_fileWriter.writeEndElement();
 
 		_fileWriter.writeStartElement("light");
 		_fileWriter.writeAttribute("light-color", "255 100 100");
-		_fileWriter.writeAttribute("point", "-50 50 50");
-		_fileWriter.writeAttribute("direction", "-1 -1 8");
+		_fileWriter.writeAttribute("point", "-50 50 20");
+		_fileWriter.writeAttribute("direction", "-1 -1 2");
 		_fileWriter.writeAttribute("kC", "1");
 		_fileWriter.writeAttribute("kL", "0.0001");
 		_fileWriter.writeAttribute("kQ", "0.000005");
@@ -71,10 +70,10 @@ public class XMLBuilder {
 		_fileWriter.writeStartElement("geometries");
 
 		_fileWriter.writeStartElement("sphere");
-		_fileWriter.writeAttribute("center", "-250 250 150");
-		_fileWriter.writeAttribute("radius", "60");
-		_fileWriter.writeAttribute("emmission", "17 98 108");
-		_fileWriter.writeAttribute("material", "0.4 0.6 40");
+		_fileWriter.writeAttribute("center", "0 0 150");
+		_fileWriter.writeAttribute("radius", "80");
+		_fileWriter.writeAttribute("emmission", "17 30 108");
+		_fileWriter.writeAttribute("material", "0.5 1.5 40");
 		_fileWriter.writeEndElement();
 
 		// T1

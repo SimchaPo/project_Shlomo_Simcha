@@ -71,11 +71,7 @@ public class SceneDescriptor {
 			_ambientLightAttributes.putAll(get_ambientLightMap);
 			_spheres.addAll(get_sphereLst);
 			_triangles.addAll(get_triangleLst);
-//			if (get_lightLst.isEmpty()) {
-//			} else {
 			_lightLst.addAll(get_lightLst);
-			// }
-
 		}
 	}
 

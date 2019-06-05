@@ -83,4 +83,9 @@ public class Camera {
 		Vector _Vij = pij.subtract(this._p0).normalize();// _Vij vector from camera to pixel on the screen
 		return new Ray(this._p0, _Vij);
 	}
+	
+	@Override
+	public String toString() {
+		return "P0: " + _p0 + " vTo: " + _vTo + " vUp: " + _vUp;
+	}
 }
