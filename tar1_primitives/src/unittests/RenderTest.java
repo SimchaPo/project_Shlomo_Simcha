@@ -196,10 +196,11 @@ public class RenderTest extends TestCase {
 	 * @throws ParserConfigurationException
 	 * @throws SAXException
 	 * @throws IOException
-	 * @throws XMLStreamException 
-	 * @throws TransformerException 
+	 * @throws XMLStreamException
+	 * @throws TransformerException
 	 */
-	public void testRenderImage9() throws IOException, SAXException, ParserConfigurationException, TransformerException, XMLStreamException {
+	public void testRenderImage9()
+			throws IOException, SAXException, ParserConfigurationException, TransformerException, XMLStreamException {
 
 		XMLBuilder xmlBuilder = new XMLBuilder("new");
 		xmlBuilder.WriteToFile();
@@ -244,12 +245,12 @@ public class RenderTest extends TestCase {
 
 				new Material(1, 1, 40, 0, 0.7));
 
-				new Material(1,1, 40, 0,1);
+		new Material(1, 1, 40, 0, 1);
 		scene.addGeometries(sphere);
 
 		Sphere sphere2 = new Sphere(new Point3D(0.0, 0.0, -1000), 250, new Color(100, 20, 20),
 				new Material(1, 1, 40, 0, 0.2));
-				new Material(1,1, 40, 0,0);
+		new Material(1, 1, 40, 0, 0);
 
 		scene.addGeometries(sphere2);
 
@@ -270,7 +271,7 @@ public class RenderTest extends TestCase {
 		Sphere sphere = new Sphere(new Point3D(-550, -500, -1000), 300, new Color(0, 0, 100),
 
 				new Material(1, 1, 40, 0, 0.7));
-				new Material(1,1, 40, 0,1);
+		new Material(1, 1, 40, 0, 1);
 
 		scene.addGeometries(sphere);
 
@@ -326,7 +327,7 @@ public class RenderTest extends TestCase {
 		render.renderImage();
 		render.getImageWriter().writeToImage();
 	}
-	
+
 	public void testRenderImage14() {
 		Scene scene = new Scene();
 		scene.setBackground(new Color(java.awt.Color.white));
@@ -342,7 +343,7 @@ public class RenderTest extends TestCase {
 
 		Triangle triangle4 = new Triangle(new Point3D(-3500, -1800, -1000), new Point3D(3500, -1800, -1000),
 				new Point3D(3500, -1500, -1000), new Color(java.awt.Color.blue), new Material(0.5, 0.5, 20, 0, 0));
-		
+
 		Triangle triangle5 = new Triangle(new Point3D(-3500, 1500, -1000), new Point3D(3500, 1500, -1000),
 				new Point3D(-3500, 1800, -1000), new Color(java.awt.Color.blue), new Material(0.5, 0.5, 20, 0, 0));
 
@@ -355,6 +356,39 @@ public class RenderTest extends TestCase {
 
 		ImageWriter imageWriter = new ImageWriter("star", 500, 500, 500, 500);
 
+		Render render = new Render(scene, imageWriter);
+		render.renderImage();
+		render.getImageWriter().writeToImage();
+	}
+
+	public void testRenderImage15() {
+		Scene scene = new Scene();
+		scene.setCamera(new Camera(), 200);
+		Sphere sphere = new Sphere(new Point3D(0, 0, -1000), 500, new Color(0, 0, 100), new Material());
+		scene.addGeometries(sphere);
+		Triangle triangle = new Triangle(new Point3D(-125, -225, -260), new Point3D(-225, -125, -260),
+				new Point3D(-225, -225, -270), new Color(0, 0, 100), new Material());
+		scene.addGeometries(triangle);
+		scene.setLights(new SpotLight(new Point3D(-200, -200, -150), 0.1, 0.00001, 0.000005, new Color(255, 100, 100),
+				new Vector(2, 2, -3)));
+		ImageWriter imageWriter = new ImageWriter("Spot Test2 new", 500, 500, 500, 500);
+		Render render = new Render(scene, imageWriter);
+		render.renderImage();
+		render.getImageWriter().writeToImage();
+	}
+
+	public void testRenderImage16() {
+		Scene scene = new Scene();
+		scene.setCamera(new Camera(), 100);
+		Triangle triangle = new Triangle(new Point3D(3500, 3500, -2000), new Point3D(-3500, -3500, -1000),
+				new Point3D(3500, -3500, -2000), new Color(0, 0, 0), new Material());
+		Triangle triangle2 = new Triangle(new Point3D(3500, 3500, -2000), new Point3D(-3500, 3500, -1000),
+				new Point3D(-3500, -3500, -1000), new Color(0, 0, 0), new Material());
+		scene.addGeometries(triangle);
+		scene.addGeometries(triangle2);
+		scene.setLights(new SpotLight(new Point3D(200, 200, -100), 0, 0.000001, 0.0000005, new Color(255, 100, 100),
+				new Vector(-2, -2, -3)));
+		ImageWriter imageWriter = new ImageWriter("Spot Test3 new", 500, 500, 500, 500);
 		Render render = new Render(scene, imageWriter);
 		render.renderImage();
 		render.getImageWriter().writeToImage();
