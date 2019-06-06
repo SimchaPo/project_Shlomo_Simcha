@@ -79,11 +79,7 @@ public class XMLBuilder {
 		_fileWriter.writeEndElement();
 
 		_fileWriter.writeStartElement("light");
-<<<<<<< HEAD
 		_fileWriter.writeAttribute("light-color", "254 99 99");
-=======
-		_fileWriter.writeAttribute("light-color", "255 100 100");
->>>>>>> branch 'master' of https://github.com/SimchaPo/project_Shlomo_Simcha.git
 		// _fileWriter.writeAttribute("point", "-50 50 20");
 		_fileWriter.writeAttribute("direction", "-2 -2 -3");
 //		_fileWriter.writeAttribute("kC", "1");
