@@ -123,14 +123,14 @@ public class XMLBuilder {
 		_fileWriter.writeAttribute("material", "0.4 0.9 11");
 		_fileWriter.writeEndElement();
 
-//		// T4
-//		_fileWriter.writeStartElement("triangle");
-//		_fileWriter.writeAttribute("p0", "125 225 -260");
-//		_fileWriter.writeAttribute("p1", "225 125 -260");
-//		_fileWriter.writeAttribute("p2", "225 225 -270");
-//		_fileWriter.writeAttribute("emmission", "0 0 0");
-//		_fileWriter.writeAttribute("material", "0.1 0.1 40");
-//		_fileWriter.writeEndElement();
+		// T4
+		_fileWriter.writeStartElement("triangle");
+		_fileWriter.writeAttribute("p0", "125 225 -260");
+		_fileWriter.writeAttribute("p1", "225 125 -260");
+		_fileWriter.writeAttribute("p2", "225 225 -270");
+		_fileWriter.writeAttribute("emmission", "0 0 0");
+		_fileWriter.writeAttribute("material", "0.1 0.1 40");
+		_fileWriter.writeEndElement();
 
 		_fileWriter.writeEndElement();
 		_fileWriter.writeEndElement();
