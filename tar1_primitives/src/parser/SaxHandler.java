@@ -113,7 +113,11 @@ public class SaxHandler extends DefaultHandler {
 		switch (_qName) {
 		case SCENE:
 			tmp = new SceneDescriptor(_sceneMap, _cameraMap, _ambientLightMap, _sphereLst, _triangleLst, _lightLst);
+<<<<<<< HEAD
 			break;
+=======
+
+>>>>>>> branch 'master' of https://github.com/SimchaPo/project_Shlomo_Simcha.git
 		case CAMERA:
 			break;
 		case SPHERE:
@@ -124,6 +128,11 @@ public class SaxHandler extends DefaultHandler {
 			break;
 		case LIGHT:
 			_lightLst.add(new HashMap<String, String>(_lightMap));
+<<<<<<< HEAD
+=======
+//			System.out.println(_lightMap);
+//			System.out.println(_lightLst);
+>>>>>>> branch 'master' of https://github.com/SimchaPo/project_Shlomo_Simcha.git
 			break;
 		default:
 			break;
