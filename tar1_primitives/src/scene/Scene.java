@@ -9,8 +9,7 @@ import elements.LightSource;
 import geometries.Geometries;
 import geometries.Intersectable;
 import primitives.Color;
-import primitives.Point3D;
-import primitives.Vector;
+
 
 /**
  * Scene class has all information for for a image scene

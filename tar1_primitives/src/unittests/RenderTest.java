@@ -212,7 +212,11 @@ public class RenderTest extends TestCase {
 	 */
 	public void testRenderImage9() {
 		Scene scene = new Scene("abc");
-		scene.setCamera(new Camera(), 100);
+		scene.setBackground(new Color());
+		scene.setAmbientLight(new AmbientLight(Color.BLACK, 1.0));
+		scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, -1)), 100);
+		Geometries geometries = new Geometries();
+		scene.addGeometries(geometries);
 		Sphere sphere = new Sphere(new Point3D(0.0, 0.0, -1000), 500, new Color(0, 0, 100), new Material(1, 1, 40));
 		scene.addGeometries(sphere);
 		Triangle triangle1 = new Triangle(new Point3D(3500, 3500, -2000), new Point3D(-3500, -3500, -1000),
@@ -234,7 +238,11 @@ public class RenderTest extends TestCase {
 	 */
 	public void testRenderImage10() {
 		Scene scene = new Scene("abc");
-		scene.setCamera(new Camera(), 300);
+		scene.setBackground(new Color());
+		scene.setAmbientLight(new AmbientLight(Color.BLACK, 1.0));
+		scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, -1)), 300);
+		Geometries geometries = new Geometries();
+		scene.addGeometries(geometries);
 		Sphere sphere = new Sphere(new Point3D(0.0, 0.0, -1000), 500, new Color(0, 0, 100),
 				new Material(1, 1, 40, 0, 0.7));
 		scene.addGeometries(sphere);
@@ -254,7 +262,11 @@ public class RenderTest extends TestCase {
 	 */
 	public void testRenderImage11() {
 		Scene scene = new Scene("abc");
-		scene.setCamera(new Camera(), 300);
+		scene.setBackground(new Color());
+		scene.setAmbientLight(new AmbientLight(Color.BLACK, 1.0));
+		scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, -1)), 300);
+		Geometries geometries = new Geometries();
+		scene.addGeometries(geometries);
 		Sphere sphere = new Sphere(new Point3D(-550, -500, -1000), 300, new Color(0, 0, 100),
 				new Material(1, 1, 40, 0, 0.7));
 		scene.addGeometries(sphere);
@@ -280,7 +292,11 @@ public class RenderTest extends TestCase {
 	 */
 	public void testRenderImage12() {
 		Scene scene = new Scene("abc");
-		scene.setCamera(new Camera(), 300);
+		scene.setBackground(new Color());
+		scene.setAmbientLight(new AmbientLight(Color.BLACK, 1.0));
+		scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, -1)), 300);
+		Geometries geometries = new Geometries();
+		scene.addGeometries(geometries);
 		Sphere sphere = new Sphere(new Point3D(0, 0, -1000), 300, new Color(0, 0, 100),
 				new Material(0.5, 0.5, 20, 0, 0.5));
 		scene.addGeometries(sphere);
@@ -306,8 +322,11 @@ public class RenderTest extends TestCase {
 	 */
 	public void testRenderImage13() {
 		Scene scene = new Scene("abc");
+		scene.setAmbientLight(new AmbientLight(Color.BLACK, 1.0));
+		scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, -1)), 100);
+		Geometries geometries = new Geometries();
+		scene.addGeometries(geometries);
 		scene.setBackground(new Color(java.awt.Color.white));
-		scene.setCamera(new Camera(), 100);
 		Triangle triangle1 = new Triangle(new Point3D(-750, -500, -1000), new Point3D(750, -500, -1000),
 				new Point3D(0, 1000, -1000), new Color(java.awt.Color.blue), new Material(0.5, 0.5, 20, 0, 0));
 		Triangle triangle2 = new Triangle(new Point3D(-750, 500, -1000), new Point3D(750, 500, -1000),
@@ -334,7 +353,11 @@ public class RenderTest extends TestCase {
 	 */
 	public void testRenderImage14() {
 		Scene scene = new Scene("abc");
-		scene.setCamera(new Camera(), 200);
+		scene.setBackground(new Color());
+		scene.setAmbientLight(new AmbientLight(Color.BLACK, 1.0));
+		scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, -1)), 200);
+		Geometries geometries = new Geometries();
+		scene.addGeometries(geometries);
 		Sphere sphere = new Sphere(new Point3D(0, 0, -1000), 500, new Color(0, 0, 100), new Material());
 		scene.addGeometries(sphere);
 		Triangle triangle = new Triangle(new Point3D(-125, -225, -260), new Point3D(-225, -125, -260),
@@ -350,7 +373,11 @@ public class RenderTest extends TestCase {
 	
 	public void testRenderImage15() {
 		Scene scene = new Scene("abc");
-		scene.setCamera(new Camera(), 200);
+		scene.setBackground(new Color());
+		scene.setAmbientLight(new AmbientLight(Color.BLACK, 1.0));
+		scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, -1)), 200);
+		Geometries geometries = new Geometries();
+		scene.addGeometries(geometries);
 		Sphere sphere = new Sphere(new Point3D(0, 0, -1000), 500, new Color(0, 0, 100), new Material());
 		scene.addGeometries(sphere);
 		Triangle triangle = new Triangle(new Point3D(-125, -225, -260), new Point3D(-225, -125, -260),
