@@ -77,7 +77,7 @@ public class XMLBuilder {
 		_fileWriter.writeAttribute("kL", "0.0001");
 		_fileWriter.writeAttribute("kQ", "0.000005");
 		_fileWriter.writeEndElement();
-//
+
 //		_fileWriter.writeStartElement("light");
 //		_fileWriter.writeAttribute("light-color", "255 100 100");
 //		// _fileWriter.writeAttribute("point", "-50 50 20");
@@ -96,15 +96,22 @@ public class XMLBuilder {
 		_fileWriter.writeAttribute("material", "0.5 1.5 40");
 		_fileWriter.writeEndElement();
 
+//		_fileWriter.writeStartElement("sphere");
+//		_fileWriter.writeAttribute("center", "2 0 700");
+//		_fileWriter.writeAttribute("radius", "500");
+//		_fileWriter.writeAttribute("emmission", "0 0 108");
+//		_fileWriter.writeAttribute("material", "0.5 1.5 40");
+//		_fileWriter.writeEndElement();
+
 		// T1
 //		_fileWriter.writeStartElement("triangle");
-//		_fileWriter.writeAttribute("p0", "180 -180 145");
-//		_fileWriter.writeAttribute("p1", "180 -180 150");
-//		_fileWriter.writeAttribute("p2", "-250 250 150");
+//		_fileWriter.writeAttribute("p0", "180 -18 145");
+//		_fileWriter.writeAttribute("p1", "180 -80 150");
+//		_fileWriter.writeAttribute("p2", "-250 250 50");
 //		_fileWriter.writeAttribute("emmission", "150 34 177");
 //		_fileWriter.writeAttribute("material", "0.3 0.1 11");
 //		_fileWriter.writeEndElement();
-//
+
 //		// T2
 //		_fileWriter.writeStartElement("triangle");
 //		_fileWriter.writeAttribute("p0", "180 180 150");
@@ -123,7 +130,7 @@ public class XMLBuilder {
 		_fileWriter.writeAttribute("material", "0.4 0.9 11");
 		_fileWriter.writeEndElement();
 
-//		// T4
+		// T4
 //		_fileWriter.writeStartElement("triangle");
 //		_fileWriter.writeAttribute("p0", "125 225 -260");
 //		_fileWriter.writeAttribute("p1", "225 125 -260");

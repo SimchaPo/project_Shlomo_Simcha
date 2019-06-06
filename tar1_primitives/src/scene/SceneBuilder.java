@@ -79,6 +79,7 @@ public class SceneBuilder {
 	public Scene loadSceneFromFile(File _file) throws IOException, SAXException, ParserConfigurationException {
 		_sceneDesc.InitializeFromXMLstring(_file);
 		double imWid = 0.0, imhig = 0.0, screenDist = 0.0, k = 0.0, tmp = 0.0;
+		
 		AmbientLight _ambColor;
 		Color C1 = new Color();
 		Color C2 = new Color();
