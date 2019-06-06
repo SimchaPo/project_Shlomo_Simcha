@@ -15,10 +15,7 @@ import primitives.Ray;
 public class Geometries implements Intersectable {
 	private List<Intersectable> _geometries;
 
-	public List<Intersectable> getGeometries() {
-		return _geometries;
-	}
-
+	/*********** constructor *******/
 	public Geometries(Intersectable... geometries) {
 		_geometries = new ArrayList<Intersectable>();
 		add(geometries);
@@ -45,15 +42,19 @@ public class Geometries implements Intersectable {
 		return gmtriesIntrsctnsLst;
 	}
 
+	public List<Intersectable> getGeometries() {
+		return _geometries;
+	}
+
 	public Iterator<Intersectable> getGeometriesIterator() {
 		return _geometries.iterator();
 	}
 
 	@Override
 	public String toString() {
-		String str = "";
+		String str = "geometries:\n";
 		for (Intersectable geo : _geometries) {
-			str += geo + "\n";
+			str += "	" + geo + "\n";
 		}
 		return str;
 	}

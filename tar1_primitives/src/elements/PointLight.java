@@ -14,6 +14,7 @@ public class PointLight extends Light implements LightSource {
 	protected Point3D _position;
 	protected double _kC, _kL, _kQ;
 
+	/*********** constructor ********/
 	public PointLight(Point3D pnt, double kC, double kL, double kQ, Color col) {
 		super(col);
 		_position = pnt;
@@ -22,6 +23,7 @@ public class PointLight extends Light implements LightSource {
 		_kQ = kQ;
 	}
 
+	/******** getters/setters ********/
 	@Override
 	public Color getIntensity(Point3D pnt) {
 		double disPow = pnt.distancePow(_position);

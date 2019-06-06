@@ -25,11 +25,13 @@ public class Render {
 	private Scene _scene;
 	private ImageWriter _imageWriter;
 
+	/********** constructor **********/
 	public Render(Scene s, ImageWriter im) {
 		_scene = s;
 		_imageWriter = im;
 	}
 
+	/********* getters/setters *********/
 	public Scene getScene() {
 		return _scene;
 	}
@@ -57,6 +59,13 @@ public class Render {
 		}
 	}
 
+	/**
+	 * calls the calcColor function with default arguments
+	 * 
+	 * @param closestPoint
+	 * @param ray
+	 * @return
+	 */
 	private Color calcColor(GeoPoint closestPoint, Ray ray) {
 		return calcColor(closestPoint, ray, MAX_CALC_COLOR_LEVEL, 1).add(_scene.getAmbientLight().getIntensity());
 	}
@@ -105,7 +114,7 @@ public class Render {
 			Vector l = lightSource.getL(intersection.point);
 			if (n.vectorsDotProduct(l) * n.vectorsDotProduct(v) > 0) {
 				double ktr = transparency(l, n, intersection);
-				if (!Util.isZero(ktr*k)) {
+				if (!Util.isZero(ktr * k)) {
 					Color lightIntensity = new Color(lightSource.getIntensity(intersection.point)).scale(ktr);
 					color = color.add(calcDiffusive(kd, l, n, lightIntensity),
 							calcSpecular(ks, l, n, v, nShininess, lightIntensity));
@@ -133,6 +142,14 @@ public class Render {
 		return color;
 	}
 
+	/**
+	 * calculates the amaunt of shaddow at point
+	 * 
+	 * @param l
+	 * @param n
+	 * @param intersection
+	 * @return
+	 */
 	private double transparency(Vector l, Vector n, GeoPoint intersection) {
 		Vector lightDirection = l.scale(-1);
 		Vector epsVector = n.scale(n.vectorsDotProduct(lightDirection) > 0 ? EPS : -EPS);
@@ -140,12 +157,18 @@ public class Render {
 		Ray lightRay = new Ray(point, lightDirection);
 		List<GeoPoint> intersections = _scene.getGeometries().findIntersections(lightRay);
 		double ktr = 1;
-		for(GeoPoint gp : intersections) {
+		for (GeoPoint gp : intersections) {
 			ktr *= gp.geometry.getMaterial().getKT();
 		}
 		return ktr;
 	}
 
+	/**
+	 * finds closest intersection to ray point
+	 * 
+	 * @param ray
+	 * @return
+	 */
 	private GeoPoint findClosestIntersection(Ray ray) {
 		Vector rayVec = ray.getVector();
 		Vector epsVector = rayVec.scale(EPS);
@@ -169,10 +192,25 @@ public class Render {
 		return closestPoint;
 	}
 
+	/**
+	 * returns new ray of refraction
+	 * 
+	 * @param point
+	 * @param inRay
+	 * @return
+	 */
 	private Ray constructRefractedRay(Point3D point, Ray inRay) {
 		return new Ray(point, inRay.getVector());
 	}
 
+	/**
+	 * returns new ray of reflection
+	 * 
+	 * @param n
+	 * @param point
+	 * @param inRay
+	 * @return
+	 */
 	private Ray constructReflectedRay(Vector n, Point3D point, Ray inRay) {
 		Vector v = new Vector(inRay.getVector());
 		return new Ray(point, v.vectorSub(n.scale(2 * v.vectorsDotProduct(n))));

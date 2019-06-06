@@ -7,10 +7,10 @@ package primitives;
  *
  */
 public class Material {
-
 	private double _kD, _kS, _kR, _kT;
 	private int _nShininess;
 
+	/******** constructors ********/
 	public Material() {
 		this(0.5, 0.5, 40, 0, 0);
 	}
@@ -28,27 +28,18 @@ public class Material {
 	}
 
 	public Material(double[] dbl) {
-		_kD = dbl[0];
-		_kS = dbl[1];
-		_nShininess = (int) dbl[2];
+		this(dbl[0], dbl[1], (int) dbl[2]);
 		if (dbl.length == 5) {
 			_kR = dbl[3];
 			_kT = dbl[4];
-		} else {
-			_kR = 0;
-			_kT = 0;
 		}
-
 	}
 
 	public Material(Material mat) {
-		_kD = mat._kD;
-		_kS = mat._kS;
-		_nShininess = mat._nShininess;
-		_kR = mat._kR;
-		_kT = mat._kT;
+		this(mat._kD, mat._kS, mat._nShininess, mat._kR, mat._kT);
 	}
 
+	/********* getters/setters **********/
 	public double getKD() {
 		return _kD;
 	}

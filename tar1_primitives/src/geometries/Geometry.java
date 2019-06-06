@@ -15,13 +15,14 @@ public abstract class Geometry implements Intersectable {
 	protected Color _emmission;
 	protected Material _material;
 
+	/******** getters *******/
 	public Material getMaterial() {
 		return _material;
 	}
 
-	abstract public Vector getNormal(Point3D pnt);
-
 	public Color getEmmission() {
 		return _emmission;
 	}
+
+	abstract public Vector getNormal(Point3D pnt);
 }

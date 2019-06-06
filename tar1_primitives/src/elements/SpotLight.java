@@ -14,11 +14,13 @@ public class SpotLight extends PointLight {
 
 	private Vector _direction;
 
+	/********* constructor ********/
 	public SpotLight(Point3D pnt, double kC, double kL, double kQ, Color col, Vector dir) {
 		super(pnt, kC, kL, kQ, col);
 		_direction = dir.normalize();
 	}
 
+	/******** getters/setters ********/
 	@Override
 	public Color getIntensity(Point3D pnt) {
 		double sc = Math.max(0, pnt.equals(_position) ? 0 : _direction.vectorsDotProduct(getL(pnt)));
@@ -37,6 +39,7 @@ public class SpotLight extends PointLight {
 
 	@Override
 	public String toString() {
-		return "SpotLight: " + _direction + " positin: " + _position + " color: " + _color + " kc: " + _kC + " kl: " + _kL + " kq: " + _kQ;
+		return "SpotLight: " + _direction + " positin: " + _position + " color: " + _color + " kc: " + _kC + " kl: "
+				+ _kL + " kq: " + _kQ;
 	}
 }

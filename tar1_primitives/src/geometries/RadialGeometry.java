@@ -12,6 +12,7 @@ import primitives.Material;
 public abstract class RadialGeometry extends Geometry {
 	protected double _radius;
 
+	/********** constructors *********/
 	/**
 	 * Constructor
 	 * 

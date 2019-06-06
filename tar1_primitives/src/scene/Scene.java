@@ -28,7 +28,7 @@ public class Scene {
 	private double screenDistance;
 	private List<LightSource> _lights;
 
-	// ******** Constructor **********//
+	/******** Constructors **********/
 	public Scene(String name) {
 		_scene = name;
 		_geometries = new Geometries();
@@ -43,12 +43,12 @@ public class Scene {
 		_lights = new ArrayList<LightSource>();
 	}
 
+	/****** Getters/Setters *******/
 	public void setLights(LightSource... lights) {
 		for (LightSource light : lights)
 			_lights.add(light);
 	}
 
-	// ****** Getters/Setters *******//
 	public void setBackground(Color _background) {
 		this._background = _background;
 	}
@@ -90,7 +90,7 @@ public class Scene {
 		return _lights;
 	}
 
-	// ******* Functions *******//
+	/******* Functions *******/
 	/**
 	 * add geometries shapes to geometries
 	 * 
@@ -102,6 +102,6 @@ public class Scene {
 	
 	@Override
 	public String toString() {
-		return "name: " +  _scene + "\ncamera: " + _camera + " " + screenDistance + "\nback: " + _background + "\nambient: " + _ambientLight.get_color() + "\n" + _geometries + "\n" + _lights;
+		return "name: " +  _scene + "\ncamera: " + _camera + " " + screenDistance + "\nback: " + _background + "\nambient: " + _ambientLight.getColor() + "\n" + _geometries + "\n" + _lights;
 	}
 }

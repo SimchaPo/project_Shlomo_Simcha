@@ -15,6 +15,7 @@ public interface Intersectable {
 		public Geometry geometry;
 		public Point3D point;
 
+		/********** constructors ********/
 		public GeoPoint(Geometry geometry, Point3D point) {
 			this.geometry = geometry;
 			this.point = point;
@@ -25,6 +26,7 @@ public interface Intersectable {
 			this.point = geoPoint.point;
 		}
 
+		@Override
 		public boolean equals(Object obj) {
 			if (this == obj)
 				return true;
@@ -36,6 +38,12 @@ public interface Intersectable {
 		}
 	}
 
+	/**
+	 * find intersections of ray with geometries
+	 * 
+	 * @param _ray
+	 * @return
+	 */
 	public List<GeoPoint> findIntersections(Ray _ray);
 
 	public static final List<GeoPoint> EMPTY_LIST = new ArrayList<>();

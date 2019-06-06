@@ -22,16 +22,12 @@ public class XmlBuilderTest extends TestCase {
 
 	public void testWriteToFile() throws FileNotFoundException, TransformerException, ParserConfigurationException,
 			SAXException, IOException, XMLStreamException {
-		testXml.WriteToFile(testXml.getFileName());
+		testXml.WriteToFile();
 		File tXMLFile = new File(testXml.getFileName());
 		exp.InitializeFromXMLstring(expFile);
 		res.InitializeFromXMLstring(tXMLFile);
-		String expstr = exp.get_sceneAttributes().toString();
-		String resstr = res.get_sceneAttributes().toString();
-		System.out.println(expstr);
-		System.out.println(resstr);
-
-		// assertEquals(expstr, resstr);
+		String expstr = exp.getSceneAttributes().toString();
+		String resstr = res.getSceneAttributes().toString();
 	}
 
 }

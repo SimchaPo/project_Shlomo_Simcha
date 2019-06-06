@@ -11,11 +11,13 @@ import primitives.Color;
 public abstract class Light {
 	protected Color _color;
 
+	/******* constructor *****/
 	public Light(Color color) {
 		_color = color;
 	}
 
-	public Color get_color() {
+	/******** getters/setters *********/
+	public Color getColor() {
 		return _color;
 	}
 

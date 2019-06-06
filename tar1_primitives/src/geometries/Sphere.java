@@ -22,6 +22,7 @@ import primitives.Vector;
 public class Sphere extends RadialGeometry {
 	protected Point3D _sphereCenter;
 
+	/*********** constructors **********/
 	/**
 	 * constructor for Sphere
 	 * 
@@ -37,6 +38,7 @@ public class Sphere extends RadialGeometry {
 		_sphereCenter = pnt;
 	}
 
+	/********* admin *********/
 	@Override
 	public Vector getNormal(Point3D pnt) {
 		return (pnt.subtract(_sphereCenter)).normalize();
@@ -74,6 +76,7 @@ public class Sphere extends RadialGeometry {
 
 	@Override
 	public String toString() {
-		return "center: " + _sphereCenter + " radius: " + _radius + " emmission: " + _emmission + " material: " + _material;
+		return "center: " + _sphereCenter + " radius: " + _radius + " emmission: " + _emmission + " material: "
+				+ _material;
 	}
 }

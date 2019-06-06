@@ -23,24 +23,35 @@ public class XMLBuilder {
 
 	private String fileName;
 
-	public String getFileName() {
-		return fileName;
-	}
-
+	/********* constructors ********/
 	public XMLBuilder() {
-		fileName = "NewXMLFile.xml";
+		this("NewXMLFile");
 	}
 
 	public XMLBuilder(String str) {
 		fileName = str + ".xml";
 	}
 
-	public void WriteToFile() throws TransformerException, ParserConfigurationException, SAXException,
-			IOException, FileNotFoundException, XMLStreamException {
+	/******** getter *********/
+	public String getFileName() {
+		return fileName;
+	}
+
+	/**
+	 * function writes scene detailes to XML file
+	 * 
+	 * @throws TransformerException
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws IOException
+	 * @throws FileNotFoundException
+	 * @throws XMLStreamException
+	 */
+	public void WriteToFile() throws TransformerException, ParserConfigurationException, SAXException, IOException,
+			FileNotFoundException, XMLStreamException {
 		XMLOutputFactory _outFactory = XMLOutputFactory.newFactory();
 		XMLStreamWriter _fileWriter = _outFactory.createXMLStreamWriter(new FileOutputStream(fileName));
 		_fileWriter.writeStartDocument();
-		// public static void WriteToFile() {
 		_fileWriter.writeStartElement("scene");
 		_fileWriter.writeAttribute("background-color", "0 0 0");
 		_fileWriter.writeAttribute("screen-width", "500");
@@ -118,5 +129,4 @@ public class XMLBuilder {
 		_fileWriter.flush();
 		_fileWriter.close();
 	}
-
 }

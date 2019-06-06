@@ -23,13 +23,14 @@ public class SceneDescriptor {
 	public static final List<Map<String, String>> EMPTY_LIST = new ArrayList<Map<String, String>>();
 	public static final SceneDescriptor EMPTY_Descriptor = new SceneDescriptor(EMPTY_MAP, EMPTY_MAP, EMPTY_MAP,
 			EMPTY_LIST, EMPTY_LIST, EMPTY_LIST);
-	Map<String, String> _sceneAttributes;
-	Map<String, String> _cameraAttributes;
-	Map<String, String> _ambientLightAttributes;
-	List<Map<String, String>> _spheres;
-	List<Map<String, String>> _triangles;
-	List<Map<String, String>> _lightLst;
+	private Map<String, String> _sceneAttributes;
+	private Map<String, String> _cameraAttributes;
+	private Map<String, String> _ambientLightAttributes;
+	private List<Map<String, String>> _spheres;
+	private List<Map<String, String>> _triangles;
+	private List<Map<String, String>> _lightLst;
 
+	/********** constructors *******/
 	public SceneDescriptor() {
 		_sceneAttributes = new HashMap<String, String>();
 		_cameraAttributes = new HashMap<String, String>();
@@ -47,19 +48,9 @@ public class SceneDescriptor {
 			_ambientLightAttributes.putAll(_otherSceneDescriptor._ambientLightAttributes);
 			_spheres.addAll(_otherSceneDescriptor._spheres);
 			_triangles.addAll(_otherSceneDescriptor._triangles);
-//			if (_otherSceneDescriptor._lightLst.isEmpty()) {
-//			} else {
 			_lightLst.addAll(_otherSceneDescriptor._lightLst);
-			// }
-//			else {
-//				_lightLst=new
-//			}
 		}
 	}
-
-//	public SceneDescriptor(SceneXmlParser _obj) {
-//		
-//	}
 
 	public SceneDescriptor(Map<String, String> get_sceneMap, Map<String, String> get_cameraMap,
 			Map<String, String> get_ambientLightMap, List<Map<String, String>> get_sphereLst,
@@ -87,36 +78,41 @@ public class SceneDescriptor {
 		this._lightLst.addAll(_sceneD._lightLst);
 	}
 
+	/**
+	 * function checks if attributes are empty
+	 * 
+	 * @return
+	 */
 	public boolean isEmpty() {
 		if (this._sceneAttributes.isEmpty() || this._cameraAttributes.isEmpty()
 				|| this._ambientLightAttributes.isEmpty()) {
 			return true;
-		} else
-			return false;
+		}
+		return false;
 	}
 
-	public Map<String, String> get_sceneAttributes() {
+	/********* getters *********/
+	public Map<String, String> getSceneAttributes() {
 		return _sceneAttributes;
 	}
 
-	public Map<String, String> get_cameraAttributes() {
+	public Map<String, String> getCameraAttributes() {
 		return _cameraAttributes;
 	}
 
-	public Map<String, String> get_ambientLightAttributes() {
+	public Map<String, String> getAmbientLightAttributes() {
 		return _ambientLightAttributes;
 	}
 
-	public List<Map<String, String>> get_spheres() {
+	public List<Map<String, String>> getSpheres() {
 		return _spheres;
 	}
 
-	public List<Map<String, String>> get_triangles() {
+	public List<Map<String, String>> getTriangles() {
 		return _triangles;
 	}
 
-	public List<Map<String, String>> get_lightLst() {
+	public List<Map<String, String>> getLightLst() {
 		return _lightLst;
 	}
-
 }

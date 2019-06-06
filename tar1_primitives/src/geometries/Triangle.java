@@ -21,6 +21,7 @@ public class Triangle extends Plane {
 
 	private Point3D trianPoints[] = new Point3D[3];
 
+	/********* constructors ********/
 	/**
 	 * Constructor
 	 * 
@@ -48,6 +49,7 @@ public class Triangle extends Plane {
 		return trianPoints;
 	}
 
+	/******** admin *********/
 	@Override
 	public List<GeoPoint> findIntersections(Ray _ray) {
 		List<GeoPoint> trnglLst = super.findIntersections(_ray);

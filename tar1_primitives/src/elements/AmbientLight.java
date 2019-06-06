@@ -10,12 +10,12 @@ import primitives.Color;
 public class AmbientLight extends Light {
 	private double _ka;
 
-	public double getKa() {
-		return _ka;
-	}
-
 	public AmbientLight(Color ia, double ka) {
 		super(ia.scale(ka));
 		_ka = ka;
+	}
+
+	public double getKa() {
+		return _ka;
 	}
 }

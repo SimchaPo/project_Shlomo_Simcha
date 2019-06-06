@@ -23,7 +23,7 @@ public class SceneXmlParser {
 	public void parserInit(File _file) throws ParserConfigurationException, SAXException, IOException {
 		SAXParserFactory spf = SAXParserFactory.newInstance();
 		SAXParser saxParser = spf.newSAXParser();
-		Sax_handler handler = new Sax_handler();
+		SaxHandler handler = new SaxHandler();
 		XMLReader xmlReader = saxParser.getXMLReader();
 		xmlReader.setContentHandler(handler);
 		xmlReader.parse("file:\\".concat(_file.getAbsolutePath()));
@@ -31,10 +31,6 @@ public class SceneXmlParser {
 	}
 
 	public SceneDescriptor getParserDescriptor() {
-		if (parserDescriptor != SceneDescriptor.EMPTY_Descriptor) {
-			return parserDescriptor;
-		} else {
-			return SceneDescriptor.EMPTY_Descriptor;
-		}
+		return parserDescriptor;
 	}
 }

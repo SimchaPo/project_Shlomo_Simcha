@@ -16,7 +16,7 @@ public class Camera {
 	private Vector _vTo;
 	private Vector _vRight;
 
-	// Contractor
+	// Constractor
 	public Camera(Point3D _pnt0, Vector _vecUp, Vector _vecTo) {
 		_p0 = new Point3D(_pnt0);
 		_vUp = _vecUp.normalize();
@@ -29,10 +29,7 @@ public class Camera {
 	}
 
 	public Camera() {
-		_p0 = new Point3D(0, 0, 0);
-		_vUp = new Vector(0, 1, 0);
-		_vTo = new Vector(0, 0, -1);
-		_vRight = _vTo.vecotrsCrossProduct(_vUp).normalize();
+		this(new Point3D(0, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, -1));
 	}
 
 	// getters
@@ -86,6 +83,6 @@ public class Camera {
 	
 	@Override
 	public String toString() {
-		return "P0: " + _p0 + " vTo: " + _vTo + " vUp: " + _vUp;
+		return "Camera - P0: " + _p0 + " vTo: " + _vTo + " vUp: " + _vUp + " vRight: " + _vRight;
 	}
 }

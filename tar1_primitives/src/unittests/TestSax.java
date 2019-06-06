@@ -20,9 +20,8 @@ public class TestSax extends TestCase {
 	public void testHandlerTest() throws SAXException, ParserConfigurationException, IOException {
 		b.InitializeFromXMLstring(_f);
 		a.parserInit(_f);
-		System.out.print(_f.getAbsolutePath());
-		String tString1 = a.getParserDescriptor().get_sceneAttributes().toString();
-		String tString2 = b.get_sceneAttributes().toString();
+		String tString1 = a.getParserDescriptor().getSceneAttributes().toString();
+		String tString2 = b.getSceneAttributes().toString();
 		assertEquals(tString1, tString2);
 	}
 }

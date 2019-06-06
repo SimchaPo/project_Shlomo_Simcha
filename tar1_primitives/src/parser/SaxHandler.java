@@ -16,7 +16,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * @author meerz
  *
  */
-public class Sax_handler extends DefaultHandler {
+public class SaxHandler extends DefaultHandler {
 	static final String SCENE = "scene";
 	static final String AMBIENT_LIGHT = "ambient-light";
 	static final String LIGHT = "light";
@@ -58,16 +58,12 @@ public class Sax_handler extends DefaultHandler {
 	private List<Map<String, String>> _lightLst = new ArrayList<Map<String, String>>(SceneDescriptor.EMPTY_LIST);
 	private String currentElm = "";
 	SceneDescriptor tmp = SceneDescriptor.EMPTY_Descriptor;
-	// private String currentFigure = null;
-	// int count = 0;
 
 	public void startDocument() throws SAXException {
-		
+
 	}
 
 	public void startElement(String _nameSpace, String _localName, String _qName, Attributes atts) throws SAXException {
-		// currentElm = _qName;
-
 		if (_qName == SCENE) {
 			_sceneMap.put(BACKGRAUND_COLOR, atts.getValue(BACKGRAUND_COLOR));
 			_sceneMap.put(SCREEN_WIDTH, atts.getValue(SCREEN_WIDTH));
@@ -117,17 +113,12 @@ public class Sax_handler extends DefaultHandler {
 		switch (_qName) {
 		case SCENE:
 			tmp = new SceneDescriptor(_sceneMap, _cameraMap, _ambientLightMap, _sphereLst, _triangleLst, _lightLst);
-
-			// System.out.println(_sceneMap.keySet().toString());
 		case CAMERA:
-			// System.out.println(_cameraMap.keySet().toString());
 		case SPHERE:
 			_sphereLst.add(_sphereMap);
-			// System.out.println(_sphereMap.keySet().toString());
 			break;
 		case TRIANGLE:
 			_triangleLst.add(_triangleMap);
-			// System.out.println(_triangleMap.keySet().toString());
 			break;
 		case LIGHT:
 			_lightLst.add(_lightMap);
@@ -142,10 +133,6 @@ public class Sax_handler extends DefaultHandler {
 	}
 
 	public SceneDescriptor getTmp() throws SAXException {
-		if (tmp != SceneDescriptor.EMPTY_Descriptor) {
-			return tmp;
-		} else {
-			return SceneDescriptor.EMPTY_Descriptor;
-		}
+		return tmp;
 	}
 }

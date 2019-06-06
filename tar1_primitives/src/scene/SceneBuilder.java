@@ -26,7 +26,7 @@ import renderer.ImageWriter;
 /**
  * The class define scene & image writer by using XML document that user gave
  * 
- * @author meerzon shlomo & podolsky simha
+ * @author meerzon shlomo & podolsky simcha
  *
  */
 public class SceneBuilder {
@@ -35,6 +35,7 @@ public class SceneBuilder {
 	ImageWriter _imageWriter;
 	String _filePath;
 
+	/********* constructors ***********/
 	public SceneBuilder(SceneDescriptor sD, Scene s, ImageWriter imW, String fPth) {
 		_sceneDesc = sD;
 		_scene = s;
@@ -48,6 +49,12 @@ public class SceneBuilder {
 		_imageWriter = new ImageWriter("pic1", 500, 500, 500, 500);
 	}
 
+	/**
+	 * splits string of numbers to array
+	 * 
+	 * @param str
+	 * @return
+	 */
 	public double[] stringSplitter(String str) {
 		String delimeter = " ";
 		int i = 0;
@@ -60,6 +67,15 @@ public class SceneBuilder {
 		return todble;
 	}
 
+	/**
+	 * read scene from XML to scene element
+	 * 
+	 * @param _file
+	 * @return
+	 * @throws IOException
+	 * @throws SAXException
+	 * @throws ParserConfigurationException
+	 */
 	public Scene loadSceneFromFile(File _file) throws IOException, SAXException, ParserConfigurationException {
 		_sceneDesc.InitializeFromXMLstring(_file);
 		double imWid = 0.0, imhig = 0.0, screenDist = 0.0, k = 0.0, tmp = 0.0;
@@ -69,12 +85,11 @@ public class SceneBuilder {
 		Point3D[] trianglePnts = new Point3D[3];
 		Point3D _P0 = new Point3D(0, 0, 0);
 		Vector _VTo = new Vector(0, 0, -1), _VUp = new Vector(0, 1, 0);
-		Sphere spheres = new Sphere(new Point3D(0.0, 0.0, 0.0), 1.0);
-		Triangle triangles = new Triangle(new Point3D(0.0, 4.0, 0.0), new Point3D(7.0, -1.0, 0.0),
-				new Point3D(2.0, 2.0, 0.0));
+		Sphere spheres = new Sphere(new Point3D(0, 0, 0), 1);
+		Triangle triangles = new Triangle(new Point3D(1, 0, 0), new Point3D(0, 1, 0), new Point3D(0, 0, 1));
 		double[] rgb = new double[3];
 		double[] mat = new double[5];
-		for (Map.Entry<String, String> entry : _sceneDesc.get_sceneAttributes().entrySet()) {
+		for (Map.Entry<String, String> entry : _sceneDesc.getSceneAttributes().entrySet()) {
 			if ("background-color" == entry.getKey()) {
 				rgb = stringSplitter(entry.getValue());
 				_scene.setBackground(new Color(rgb[0], rgb[1], rgb[2]));
@@ -86,7 +101,7 @@ public class SceneBuilder {
 				screenDist = Double.parseDouble(entry.getValue());
 			}
 		}
-		ListIterator<Map<String, String>> lightsIterator = _sceneDesc.get_lightLst().listIterator();
+		ListIterator<Map<String, String>> lightsIterator = _sceneDesc.getLightLst().listIterator();
 		while (lightsIterator.hasNext()) {
 			Map<java.lang.String, java.lang.String> map = (Map<java.lang.String, java.lang.String>) lightsIterator
 					.next();
@@ -131,26 +146,6 @@ public class SceneBuilder {
 					break;
 				}
 			}
-//				if ("direction" == entry.getKey()) {
-//					rgb = stringSplitter(entry.getValue());
-//					_VTo = new Vector(rgb[0], rgb[1], rgb[2]);
-//					directLight = true;
-//				} else if ("kC" == entry.getKey()) {
-//					kCTmp = Double.parseDouble(entry.getValue());
-//					spotLight = true;
-//				} else if ("kL" == entry.getKey()) {
-//					kLTmp = Double.parseDouble(entry.getValue());
-//				} else if ("kQ" == entry.getKey()) {
-//					kQTmp = Double.parseDouble(entry.getValue());
-//				} else if ("light-color" == entry.getKey()) {
-//					System.out.println(entry.getValue());
-//					rgb = stringSplitter(entry.getValue());
-//					C2.setColor(rgb[0], rgb[1], rgb[2]);
-//				} else if ("point" == entry.getKey()) {
-//					rgb = stringSplitter(entry.getValue());
-//					_P0 = new Point3D(rgb[0], rgb[1], rgb[2]);
-//				}
-//			}
 			if (directLight) {
 				if (spotLight) {
 					_scene.setLights(new SpotLight(_P0, kCTmp, kLTmp, kQTmp, C2, _VTo));
@@ -162,7 +157,7 @@ public class SceneBuilder {
 			}
 		}
 
-		for (Map.Entry<String, String> entry : _sceneDesc.get_ambientLightAttributes().entrySet()) {
+		for (Map.Entry<String, String> entry : _sceneDesc.getAmbientLightAttributes().entrySet()) {
 			if ("color" == entry.getKey()) {
 				rgb = stringSplitter(entry.getValue());
 			} else if ("ka" == entry.getKey()) {
@@ -172,7 +167,7 @@ public class SceneBuilder {
 		_ambColor = new AmbientLight(new Color(rgb[0], rgb[1], rgb[2]), k);
 		_scene.setAmbientLight(_ambColor);
 
-		for (Map.Entry<String, String> entry : _sceneDesc.get_cameraAttributes().entrySet()) {
+		for (Map.Entry<String, String> entry : _sceneDesc.getCameraAttributes().entrySet()) {
 			if ("p0" == entry.getKey()) {
 				rgb = stringSplitter(entry.getValue());
 				_P0 = new Point3D(rgb[0], rgb[1], rgb[2]);
@@ -186,7 +181,7 @@ public class SceneBuilder {
 		}
 		_scene.setCamera(new Camera(_P0, _VUp, _VTo), screenDist);
 
-		ListIterator<Map<String, String>> sphereIterator = _sceneDesc.get_spheres().listIterator();
+		ListIterator<Map<String, String>> sphereIterator = _sceneDesc.getSpheres().listIterator();
 		while (sphereIterator.hasNext()) {
 			Map<java.lang.String, java.lang.String> map = (Map<java.lang.String, java.lang.String>) sphereIterator
 					.next();
@@ -213,7 +208,7 @@ public class SceneBuilder {
 			_scene.addGeometries(spheres);
 
 		}
-		ListIterator<Map<String, String>> triangleIterator = _sceneDesc.get_triangles().listIterator();
+		ListIterator<Map<String, String>> triangleIterator = _sceneDesc.getTriangles().listIterator();
 		while (triangleIterator.hasNext()) {
 			Map<java.lang.String, java.lang.String> map = (Map<java.lang.String, java.lang.String>) triangleIterator
 					.next();
@@ -238,8 +233,7 @@ public class SceneBuilder {
 					mat = stringSplitter(entry.getValue());
 				}
 				if (istrue) {
-					triangles = new Triangle(trianglePnts[0], trianglePnts[1], trianglePnts[2], C1,
-							new Material(mat));
+					triangles = new Triangle(trianglePnts[0], trianglePnts[1], trianglePnts[2], C1, new Material(mat));
 				}
 				_scene.addGeometries(triangles);
 				_imageWriter = new ImageWriter(_filePath, imWid, imhig, 500, 500);
@@ -250,6 +244,7 @@ public class SceneBuilder {
 		return _scene;
 	}
 
+	/********* getters/setters **********/
 	public SceneDescriptor getSceneDesc() {
 		return _sceneDesc;
 	}

@@ -13,11 +13,18 @@ import primitives.Vector;
 public class DirectionalLight extends Light implements LightSource {
 	private Vector direction;
 
+	/**
+	 * constructor
+	 * 
+	 * @param col
+	 * @param dir
+	 */
 	public DirectionalLight(Color col, Vector dir) {
 		super(col);
 		direction = dir.normalize();
 	}
 
+	/********* getters ******/
 	public Vector getDirection() {
 		return direction;
 	}
