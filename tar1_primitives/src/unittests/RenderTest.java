@@ -201,6 +201,7 @@ public class RenderTest extends TestCase {
 		SceneBuilder scene = new SceneBuilder();
 		File _file = new File(xmlBuilder.getFileName());
 		sc = scene.loadSceneFromFile(_file);
+		System.out.println(sc);
 		Render render = new Render(sc, scene.getImageWriter());
 		render.renderImage();
 		render.getImageWriter().writeToImage();
