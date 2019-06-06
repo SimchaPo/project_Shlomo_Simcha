@@ -78,6 +78,15 @@ public class XMLBuilder {
 		_fileWriter.writeAttribute("kQ", "0.000005");
 		_fileWriter.writeEndElement();
 
+		_fileWriter.writeStartElement("light");
+		_fileWriter.writeAttribute("light-color", "255 100 100");
+		// _fileWriter.writeAttribute("point", "-50 50 20");
+		_fileWriter.writeAttribute("direction", "-1 -1 2");
+//		_fileWriter.writeAttribute("kC", "1");
+//		_fileWriter.writeAttribute("kL", "0.0001");
+//		_fileWriter.writeAttribute("kQ", "0.000005");
+		_fileWriter.writeEndElement();
+
 		_fileWriter.writeStartElement("geometries");
 
 		_fileWriter.writeStartElement("sphere");
@@ -106,22 +115,22 @@ public class XMLBuilder {
 //		_fileWriter.writeEndElement();
 
 		// T3
-//		_fileWriter.writeStartElement("triangle");
-//		_fileWriter.writeAttribute("p0", "10 0 -49");
-//		_fileWriter.writeAttribute("p1", "0 -10 -49");
-//		_fileWriter.writeAttribute("p2", "10 -10 -49");
-//		_fileWriter.writeAttribute("emmission", "50 130 176");
-//		_fileWriter.writeAttribute("material", "0.3 0.1 11");
-//		_fileWriter.writeEndElement();
-//
-//		// T4
-//		_fileWriter.writeStartElement("triangle");
-//		_fileWriter.writeAttribute("p0", "-100 0 -49");
-//		_fileWriter.writeAttribute("p1", "0 -100 -49");
-//		_fileWriter.writeAttribute("p2", "-100 -100 -49");
-//		_fileWriter.writeAttribute("emmission", "50 178 211");
-//		_fileWriter.writeAttribute("material", "0.3 0.1 11");
-//		_fileWriter.writeEndElement();
+		_fileWriter.writeStartElement("triangle");
+		_fileWriter.writeAttribute("p0", "10 0 -49");
+		_fileWriter.writeAttribute("p1", "0 -10 -49");
+		_fileWriter.writeAttribute("p2", "10 -10 -49");
+		_fileWriter.writeAttribute("emmission", "50 130 176");
+		_fileWriter.writeAttribute("material", "0.3 0.1 11");
+		_fileWriter.writeEndElement();
+
+		// T4
+		_fileWriter.writeStartElement("triangle");
+		_fileWriter.writeAttribute("p0", "-100 0 -49");
+		_fileWriter.writeAttribute("p1", "0 -100 -49");
+		_fileWriter.writeAttribute("p2", "-100 -100 -49");
+		_fileWriter.writeAttribute("emmission", "50 134 211");
+		_fileWriter.writeAttribute("material", "0.3 0.1 11");
+		_fileWriter.writeEndElement();
 
 		_fileWriter.writeEndElement();
 		_fileWriter.writeEndElement();

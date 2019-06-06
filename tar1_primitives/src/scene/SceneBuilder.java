@@ -124,12 +124,10 @@ public class SceneBuilder {
 				}
 				case "kL": {
 					kLTmp = Double.parseDouble(entry.getValue());
-					spotLight = true;
 					break;
 				}
 				case "kQ": {
 					kQTmp = Double.parseDouble(entry.getValue());
-					spotLight = true;
 					break;
 				}
 				case "light-color": {
