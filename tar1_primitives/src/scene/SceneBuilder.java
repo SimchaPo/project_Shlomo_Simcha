@@ -110,38 +110,40 @@ public class SceneBuilder {
 			double kCTmp = 0.0, kLTmp = 0.0, kQTmp = 0.0;
 
 			for (Map.Entry<String, String> entry : map.entrySet()) {
-				switch (entry.getKey()) {
-				case "direction": {
-					rgb = stringSplitter(entry.getValue());
-					_VTo = new Vector(rgb[0], rgb[1], rgb[2]);
-					directLight = true;
-					break;
-				}
-				case "kC": {
-					kCTmp = Double.parseDouble(entry.getValue());
-					spotLight = true;
-					break;
-				}
-				case "kL": {
-					kLTmp = Double.parseDouble(entry.getValue());
-					break;
-				}
-				case "kQ": {
-					kQTmp = Double.parseDouble(entry.getValue());
-					break;
-				}
-				case "light-color": {
-					rgb = stringSplitter(entry.getValue());
-					C2.setColor(rgb[0], rgb[1], rgb[2]);
-					break;
-				}
-				case "point": {
-					rgb = stringSplitter(entry.getValue());
-					_P0 = new Point3D(rgb[0], rgb[1], rgb[2]);
-					break;
-				}
-				default:
-					break;
+				if (entry.getValue() != null) {
+					switch (entry.getKey()) {
+					case "direction": {
+						rgb = stringSplitter(entry.getValue());
+						_VTo = new Vector(rgb[0], rgb[1], rgb[2]);
+						directLight = true;
+						break;
+					}
+					case "kC": {
+						kCTmp = Double.parseDouble(entry.getValue());
+						spotLight = true;
+						break;
+					}
+					case "kL": {
+						kLTmp = Double.parseDouble(entry.getValue());
+						break;
+					}
+					case "kQ": {
+						kQTmp = Double.parseDouble(entry.getValue());
+						break;
+					}
+					case "light-color": {
+						rgb = stringSplitter(entry.getValue());
+						C2.setColor(rgb[0], rgb[1], rgb[2]);
+						break;
+					}
+					case "point": {
+						rgb = stringSplitter(entry.getValue());
+						_P0 = new Point3D(rgb[0], rgb[1], rgb[2]);
+						break;
+					}
+					default:
+						break;
+					}
 				}
 			}
 			if (directLight) {
