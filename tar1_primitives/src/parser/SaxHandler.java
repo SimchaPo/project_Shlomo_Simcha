@@ -47,15 +47,15 @@ public class SaxHandler extends DefaultHandler {
 	static final String P0 = "p0";
 	static final String P1 = "p1";
 	static final String P2 = "p2";
-	private Map<String, String> _sphereMap = new HashMap<String, String>(SceneDescriptor.EMPTY_MAP);
-	private Map<String, String> _triangleMap = new HashMap<String, String>(SceneDescriptor.EMPTY_MAP);
-	private Map<String, String> _sceneMap = new HashMap<String, String>(SceneDescriptor.EMPTY_MAP);
-	private Map<String, String> _lightMap = new HashMap<String, String>(SceneDescriptor.EMPTY_MAP);
-	private Map<String, String> _cameraMap = new HashMap<String, String>(SceneDescriptor.EMPTY_MAP);
-	private Map<String, String> _ambientLightMap = new HashMap<String, String>(SceneDescriptor.EMPTY_MAP);
-	private List<Map<String, String>> _sphereLst = new ArrayList<Map<String, String>>(SceneDescriptor.EMPTY_LIST);
-	private List<Map<String, String>> _triangleLst = new ArrayList<Map<String, String>>(SceneDescriptor.EMPTY_LIST);
-	private List<Map<String, String>> _lightLst = new ArrayList<Map<String, String>>(SceneDescriptor.EMPTY_LIST);
+	private Map<String, String> _sphereMap = new HashMap<String, String>();
+	private Map<String, String> _triangleMap = new HashMap<String, String>();
+	private Map<String, String> _sceneMap = new HashMap<String, String>();
+	private Map<String, String> _lightMap = new HashMap<String, String>();
+	private Map<String, String> _cameraMap = new HashMap<String, String>();
+	private Map<String, String> _ambientLightMap = new HashMap<String, String>();
+	private List<Map<String, String>> _sphereLst = new ArrayList<Map<String, String>>();
+	private List<Map<String, String>> _triangleLst = new ArrayList<Map<String, String>>();
+	private List<Map<String, String>> _lightLst = new ArrayList<Map<String, String>>();
 	private String currentElm = "";
 	SceneDescriptor tmp = SceneDescriptor.EMPTY_Descriptor;
 
@@ -113,15 +113,17 @@ public class SaxHandler extends DefaultHandler {
 		switch (_qName) {
 		case SCENE:
 			tmp = new SceneDescriptor(_sceneMap, _cameraMap, _ambientLightMap, _sphereLst, _triangleLst, _lightLst);
+			break;
 		case CAMERA:
+			break;
 		case SPHERE:
-			_sphereLst.add(_sphereMap);
+			_sphereLst.add(new HashMap<String, String>(_sphereMap));
 			break;
 		case TRIANGLE:
-			_triangleLst.add(_triangleMap);
+			_triangleLst.add(new HashMap<String, String>(_triangleMap));
 			break;
 		case LIGHT:
-			_lightLst.add(_lightMap);
+			_lightLst.add(new HashMap<String, String>(_lightMap));
 			break;
 		default:
 			break;

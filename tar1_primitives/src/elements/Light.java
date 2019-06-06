@@ -9,7 +9,7 @@ import primitives.Color;
  *
  */
 public abstract class Light {
-	protected Color _color;
+	private Color _color;
 
 	/******* constructor *****/
 	public Light(Color color) {
@@ -17,10 +17,6 @@ public abstract class Light {
 	}
 
 	/******** getters/setters *********/
-	public Color getColor() {
-		return _color;
-	}
-
 	public Color getIntensity() {
 		return _color;
 	}
