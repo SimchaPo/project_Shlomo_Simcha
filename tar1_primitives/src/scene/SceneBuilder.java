@@ -45,7 +45,7 @@ public class SceneBuilder {
 
 	public SceneBuilder() {
 		_sceneDesc = new SceneDescriptor();
-		_scene = new Scene();
+		_scene = new Scene("abc");
 		_imageWriter = new ImageWriter("pic1", 500, 500, 500, 500);
 	}
 
@@ -79,15 +79,13 @@ public class SceneBuilder {
 	public Scene loadSceneFromFile(File _file) throws IOException, SAXException, ParserConfigurationException {
 		_sceneDesc.InitializeFromXMLstring(_file);
 		double imWid = 0.0, imhig = 0.0, screenDist = 0.0, k = 0.0, tmp = 0.0;
-		
+
 		AmbientLight _ambColor;
 		Color C1 = new Color();
 		Color C2 = new Color();
 		Point3D[] trianglePnts = new Point3D[3];
 		Point3D _P0 = new Point3D(0, 0, 0);
 		Vector _VTo = new Vector(0, 0, -1), _VUp = new Vector(0, 1, 0);
-		Sphere spheres = new Sphere(new Point3D(0, 0, 0), 1);
-		Triangle triangles = new Triangle(new Point3D(1, 0, 0), new Point3D(0, 1, 0), new Point3D(0, 0, 1));
 		double[] rgb = new double[3];
 		double[] mat = new double[5];
 		for (Map.Entry<String, String> entry : _sceneDesc.getSceneAttributes().entrySet()) {
@@ -195,18 +193,19 @@ public class SceneBuilder {
 				if ("emmission" == entry.getKey()) {
 					rgb = stringSplitter(entry.getValue());
 					C1.setColor(rgb[0], rgb[1], rgb[2]);
-					istrue = true;
-				} else if ("material" == entry.getKey()) {
+				}
+				if ("material" == entry.getKey()) {
 					mat = stringSplitter(entry.getValue());
-				} else if ("radius" == entry.getKey()) {
+				}
+				if ("radius" == entry.getKey()) {
 					tmp = Double.parseDouble(entry.getValue());
 				}
-				if (istrue) {
-					spheres = new Sphere(_P0, tmp, C1, new Material(mat));
-				} else
-					spheres = new Sphere(_P0, tmp);
 			}
-			_scene.addGeometries(spheres);
+			if (istrue) {
+				_scene.addGeometries(new Sphere(_P0, tmp, C1, new Material(mat)));
+			} else {
+				_scene.addGeometries(new Sphere(_P0, tmp));
+			}
 
 		}
 		ListIterator<Map<String, String>> triangleIterator = _sceneDesc.getTriangles().listIterator();
@@ -218,30 +217,33 @@ public class SceneBuilder {
 				if ("p0" == entry.getKey()) {
 					rgb = stringSplitter(entry.getValue());
 					trianglePnts[0] = new Point3D(rgb[0], rgb[1], rgb[2]);
-				} else if ("p1" == entry.getKey()) {
+				}
+				if ("p1" == entry.getKey()) {
 					rgb = stringSplitter(entry.getValue());
 					trianglePnts[1] = new Point3D(rgb[0], rgb[1], rgb[2]);
-				} else if ("p2" == entry.getKey()) {
+				}
+				if ("p2" == entry.getKey()) {
 					rgb = stringSplitter(entry.getValue());
 					trianglePnts[2] = new Point3D(rgb[0], rgb[1], rgb[2]);
-
 				}
 				if ("emmission" == entry.getKey()) {
 					rgb = stringSplitter(entry.getValue());
 					C1.setColor(rgb[0], rgb[1], rgb[2]);
 					istrue = true;
-				} else if ("material" == entry.getKey()) {
+				}
+				if ("material" == entry.getKey()) {
 					mat = stringSplitter(entry.getValue());
 				}
-				if (istrue) {
-					triangles = new Triangle(trianglePnts[0], trianglePnts[1], trianglePnts[2], C1, new Material(mat));
-				}
-				_scene.addGeometries(triangles);
-				_imageWriter = new ImageWriter(_filePath, imWid, imhig, 500, 500);
+			}
+			if (istrue) {
+				_scene.addGeometries(
+						new Triangle(trianglePnts[0], trianglePnts[1], trianglePnts[2], C1, new Material(mat)));
+			} else {
+				_scene.addGeometries(new Triangle(trianglePnts[0], trianglePnts[1], trianglePnts[2]));
 			}
 
-			return _scene;
 		}
+		_imageWriter = new ImageWriter(_filePath, imWid, imhig, 500, 500);
 		return _scene;
 	}
 

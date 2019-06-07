@@ -23,23 +23,19 @@ public class SpotLight extends PointLight {
 	/******** getters/setters ********/
 	@Override
 	public Color getIntensity(Point3D pnt) {
-		double sc = Math.max(0, pnt.equals(_position) ? 0 : _direction.vectorsDotProduct(getL(pnt)));
-		return super.getIntensity(pnt).scale(sc);
+		try {
+			double sc = _direction.vectorsDotProduct(getL(pnt));
+			if (sc <= 0)
+				return Color.BLACK;
+			return super.getIntensity(pnt).scale(sc);
+		} catch (Exception e) {
+			return Color.BLACK;
+		}
 	}
-
-	@Override
-	public Vector getL(Point3D pnt) {
-		return super.getL(pnt);
-	}
-
-	@Override
-	public Vector getD(Point3D pnt) {
-		return _direction;
-	}
-
+	
 	@Override
 	public String toString() {
-		return "SpotLight: " + _direction + " positin: " + _position + " color: " + _color + " kc: " + _kC + " kl: "
+		return "SpotLight: " + _direction + " positin: " + _position + " color: " + super.toString() + " kc: " + _kC + " kl: "
 				+ _kL + " kq: " + _kQ;
 	}
 }

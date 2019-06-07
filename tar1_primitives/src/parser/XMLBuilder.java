@@ -79,7 +79,7 @@ public class XMLBuilder {
 		_fileWriter.writeEndElement();
 
 		_fileWriter.writeStartElement("light");
-		_fileWriter.writeAttribute("light-color", "255 100 100");
+		_fileWriter.writeAttribute("light-color", "254 99 99");
 		// _fileWriter.writeAttribute("point", "-50 50 20");
 		_fileWriter.writeAttribute("direction", "-2 -2 -3");
 //		_fileWriter.writeAttribute("kC", "1");
@@ -96,12 +96,12 @@ public class XMLBuilder {
 		_fileWriter.writeAttribute("material", "0.5 1.5 40");
 		_fileWriter.writeEndElement();
 
-//		_fileWriter.writeStartElement("sphere");
-//		_fileWriter.writeAttribute("center", "2 0 700");
-//		_fileWriter.writeAttribute("radius", "500");
-//		_fileWriter.writeAttribute("emmission", "0 0 108");
-//		_fileWriter.writeAttribute("material", "0.5 1.5 40");
-//		_fileWriter.writeEndElement();
+		_fileWriter.writeStartElement("sphere");
+		_fileWriter.writeAttribute("center", "0 0 -300");
+		_fileWriter.writeAttribute("radius", "100");
+		_fileWriter.writeAttribute("emmission", "0 0 0");
+		_fileWriter.writeAttribute("material", "0.5 1.5 20");
+		_fileWriter.writeEndElement();
 
 		// T1
 //		_fileWriter.writeStartElement("triangle");

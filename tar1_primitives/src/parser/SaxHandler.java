@@ -113,8 +113,9 @@ public class SaxHandler extends DefaultHandler {
 		switch (_qName) {
 		case SCENE:
 			tmp = new SceneDescriptor(_sceneMap, _cameraMap, _ambientLightMap, _sphereLst, _triangleLst, _lightLst);
-
+			break;
 		case CAMERA:
+			break;
 		case SPHERE:
 			_sphereLst.add(new HashMap<String, String>(_sphereMap));
 			break;
@@ -123,8 +124,6 @@ public class SaxHandler extends DefaultHandler {
 			break;
 		case LIGHT:
 			_lightLst.add(new HashMap<String, String>(_lightMap));
-//			System.out.println(_lightMap);
-//			System.out.println(_lightLst);
 			break;
 		default:
 			break;

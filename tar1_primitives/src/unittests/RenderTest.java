@@ -197,7 +197,7 @@ public class RenderTest extends TestCase {
 			throws IOException, SAXException, ParserConfigurationException, TransformerException, XMLStreamException {
 		XMLBuilder xmlBuilder = new XMLBuilder("spotLihet");
 		xmlBuilder.WriteToFile();
-		Scene sc = new Scene();
+		Scene sc = new Scene("abc");
 		SceneBuilder scene = new SceneBuilder();
 		File _file = new File(xmlBuilder.getFileName());
 		sc = scene.loadSceneFromFile(_file);
@@ -211,8 +211,12 @@ public class RenderTest extends TestCase {
 	 * test shadow under sphere
 	 */
 	public void testRenderImage9() {
-		Scene scene = new Scene();
-		scene.setCamera(new Camera(), 100);
+		Scene scene = new Scene("abc");
+		scene.setBackground(new Color());
+		scene.setAmbientLight(new AmbientLight(Color.BLACK, 1.0));
+		scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, -1)), 100);
+		Geometries geometries = new Geometries();
+		scene.addGeometries(geometries);
 		Sphere sphere = new Sphere(new Point3D(0.0, 0.0, -1000), 500, new Color(0, 0, 100), new Material(1, 1, 40));
 		scene.addGeometries(sphere);
 		Triangle triangle1 = new Triangle(new Point3D(3500, 3500, -2000), new Point3D(-3500, -3500, -1000),
@@ -233,8 +237,10 @@ public class RenderTest extends TestCase {
 	 * test 1 recursive function
 	 */
 	public void testRenderImage10() {
-		Scene scene = new Scene();
-		scene.setCamera(new Camera(), 300);
+		Scene scene = new Scene("abc");
+		scene.setBackground(new Color());
+		scene.setAmbientLight(new AmbientLight(Color.BLACK, 1.0));
+		scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, -1)), 300);
 		Sphere sphere = new Sphere(new Point3D(0.0, 0.0, -1000), 500, new Color(0, 0, 100),
 				new Material(1, 1, 40, 0, 0.7));
 		scene.addGeometries(sphere);
@@ -253,8 +259,12 @@ public class RenderTest extends TestCase {
 	 * test 1 recursive function
 	 */
 	public void testRenderImage11() {
-		Scene scene = new Scene();
-		scene.setCamera(new Camera(), 300);
+		Scene scene = new Scene("abc");
+		scene.setBackground(new Color());
+		scene.setAmbientLight(new AmbientLight(Color.BLACK, 1.0));
+		scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, -1)), 300);
+		Geometries geometries = new Geometries();
+		scene.addGeometries(geometries);
 		Sphere sphere = new Sphere(new Point3D(-550, -500, -1000), 300, new Color(0, 0, 100),
 				new Material(1, 1, 40, 0, 0.7));
 		scene.addGeometries(sphere);
@@ -279,8 +289,12 @@ public class RenderTest extends TestCase {
 	 * test 3 recursive function
 	 */
 	public void testRenderImage12() {
-		Scene scene = new Scene();
-		scene.setCamera(new Camera(), 300);
+		Scene scene = new Scene("abc");
+		scene.setBackground(new Color());
+		scene.setAmbientLight(new AmbientLight(Color.BLACK, 1.0));
+		scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, -1)), 300);
+		Geometries geometries = new Geometries();
+		scene.addGeometries(geometries);
 		Sphere sphere = new Sphere(new Point3D(0, 0, -1000), 300, new Color(0, 0, 100),
 				new Material(0.5, 0.5, 20, 0, 0.5));
 		scene.addGeometries(sphere);
@@ -305,9 +319,12 @@ public class RenderTest extends TestCase {
 	 * draw flag
 	 */
 	public void testRenderImage13() {
-		Scene scene = new Scene();
+		Scene scene = new Scene("abc");
+		scene.setAmbientLight(new AmbientLight(Color.BLACK, 1.0));
+		scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, -1)), 100);
+		Geometries geometries = new Geometries();
+		scene.addGeometries(geometries);
 		scene.setBackground(new Color(java.awt.Color.white));
-		scene.setCamera(new Camera(), 100);
 		Triangle triangle1 = new Triangle(new Point3D(-750, -500, -1000), new Point3D(750, -500, -1000),
 				new Point3D(0, 1000, -1000), new Color(java.awt.Color.blue), new Material(0.5, 0.5, 20, 0, 0));
 		Triangle triangle2 = new Triangle(new Point3D(-750, 500, -1000), new Point3D(750, 500, -1000),
@@ -333,8 +350,12 @@ public class RenderTest extends TestCase {
 	 * test shadow with triangle and sphere
 	 */
 	public void testRenderImage14() {
-		Scene scene = new Scene();
-		scene.setCamera(new Camera(), 200);
+		Scene scene = new Scene("abc");
+		scene.setBackground(new Color());
+		scene.setAmbientLight(new AmbientLight(Color.BLACK, 1.0));
+		scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, -1)), 200);
+		Geometries geometries = new Geometries();
+		scene.addGeometries(geometries);
 		Sphere sphere = new Sphere(new Point3D(0, 0, -1000), 500, new Color(0, 0, 100), new Material());
 		scene.addGeometries(sphere);
 		Triangle triangle = new Triangle(new Point3D(-125, -225, -260), new Point3D(-225, -125, -260),
@@ -343,6 +364,29 @@ public class RenderTest extends TestCase {
 		scene.setLights(new SpotLight(new Point3D(-200, -200, -150), 0.1, 0.00001, 0.000005, new Color(255, 100, 100),
 				new Vector(2, 2, -3)));
 		ImageWriter imageWriter = new ImageWriter("shadow with triangle and sphere", 500, 500, 500, 500);
+		Render render = new Render(scene, imageWriter);
+		render.renderImage();
+		render.getImageWriter().writeToImage();
+	}
+	
+	public void testRenderImage15() {
+		Scene scene = new Scene("abc");
+		scene.setBackground(new Color());
+		scene.setAmbientLight(new AmbientLight(Color.BLACK, 1.0));
+		scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, -1)), 200);
+		Geometries geometries = new Geometries();
+		scene.addGeometries(geometries);
+		Sphere sphere = new Sphere(new Point3D(0, 0, -1000), 500, new Color(0, 0, 100), new Material());
+		scene.addGeometries(sphere);
+		Triangle triangle = new Triangle(new Point3D(-125, -225, -260), new Point3D(-225, -125, -260),
+				new Point3D(-225, -225, -270), new Color(0, 0, 100), new Material());
+		scene.addGeometries(triangle);
+		scene.setLights(new SpotLight(new Point3D(-200, -200, -150), 0.1, 0.00001, 0.000005, new Color(255, 100, 100),
+				new Vector(2, 2, -3)));
+		scene.setLights(new DirectionalLight(new Color(255, 100, 100),
+				new Vector(2, 2, -3)));
+		System.out.println(scene);
+		ImageWriter imageWriter = new ImageWriter("15", 500, 500, 500, 500);
 		Render render = new Render(scene, imageWriter);
 		render.renderImage();
 		render.getImageWriter().writeToImage();

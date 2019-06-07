@@ -9,8 +9,7 @@ import elements.LightSource;
 import geometries.Geometries;
 import geometries.Intersectable;
 import primitives.Color;
-import primitives.Point3D;
-import primitives.Vector;
+
 
 /**
  * Scene class has all information for for a image scene
@@ -28,25 +27,18 @@ public class Scene {
 	private double screenDistance;
 	private List<LightSource> _lights;
 
-	/******** Constructors **********/
+	/* ******* Constructors ********* */
 	public Scene(String name) {
 		_scene = name;
 		_geometries = new Geometries();
 		_lights = new ArrayList<LightSource>();
 	}
 
-	public Scene() {
-		_background = new Color();
-		_ambientLight = new AmbientLight(new Color(), 1);
-		_geometries = new Geometries();
-		_camera = new Camera(new Point3D(0, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, -1));
-		_lights = new ArrayList<LightSource>();
-	}
-
-	/****** Getters/Setters *******/
+	/* ***** Getters/Setters ****** */
 	public void setLights(LightSource... lights) {
-		for (LightSource light : lights)
+		for (LightSource light : lights) {
 			_lights.add(light);
+		}
 	}
 
 	public void setBackground(Color _background) {
@@ -103,6 +95,6 @@ public class Scene {
 	@Override
 	public String toString() {
 		return "name: " + _scene + "\ncamera: " + _camera + " " + screenDistance + "\nback: " + _background
-				+ "\nambient: " + _ambientLight.getColor() + "\n" + _geometries + "\n" + _lights;
+				+ "\nambient: " + _ambientLight.getIntensity() + "\n" + _geometries + "\n" + _lights;
 	}
 }

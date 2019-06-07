@@ -60,9 +60,15 @@ public class SceneDescriptor {
 			_sceneAttributes.putAll(get_sceneMap);
 			_cameraAttributes.putAll(get_cameraMap);
 			_ambientLightAttributes.putAll(get_ambientLightMap);
-			_spheres.addAll(get_sphereLst);
-			_triangles.addAll(get_triangleLst);
-			_lightLst.addAll(get_lightLst);
+			for (Map<String, String> sphere : get_sphereLst) {
+				_spheres.add(new HashMap<String, String>(sphere));
+			}
+			for (Map<String, String> triangle : get_triangleLst) {
+				_triangles.add(new HashMap<String, String>(triangle));
+			}
+			for (Map<String, String> light : get_lightLst) {
+				_lightLst.add(new HashMap<String, String>(light));
+			}
 		}
 	}
 
