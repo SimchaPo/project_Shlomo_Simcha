@@ -356,10 +356,10 @@ public class RenderTest extends TestCase {
 		scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, -1)), 200);
 		Geometries geometries = new Geometries();
 		scene.addGeometries(geometries);
-		Sphere sphere = new Sphere(new Point3D(0, 0, -1000), 500, new Color(0, 0, 100), new Material());
+		Sphere sphere = new Sphere(new Point3D(0, 0, -1000), 500, new Color(0, 0, 100), new Material(1.5,0.5,40));
 		scene.addGeometries(sphere);
 		Triangle triangle = new Triangle(new Point3D(-125, -225, -260), new Point3D(-225, -125, -260),
-				new Point3D(-225, -225, -270), new Color(0, 0, 100), new Material());
+				new Point3D(-225, -225, -270), new Color(0, 0, 100), new Material(1.5,0.5,40));
 		scene.addGeometries(triangle);
 		scene.setLights(new SpotLight(new Point3D(-200, -200, -150), 1, 0.00001, 0.000005, new Color(255, 100, 100),
 				new Vector(2, 2, -3)));
