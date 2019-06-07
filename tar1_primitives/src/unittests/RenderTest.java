@@ -241,8 +241,6 @@ public class RenderTest extends TestCase {
 		scene.setBackground(new Color());
 		scene.setAmbientLight(new AmbientLight(Color.BLACK, 1.0));
 		scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, -1)), 300);
-		Geometries geometries = new Geometries();
-		scene.addGeometries(geometries);
 		Sphere sphere = new Sphere(new Point3D(0.0, 0.0, -1000), 500, new Color(0, 0, 100),
 				new Material(1, 1, 40, 0, 0.7));
 		scene.addGeometries(sphere);

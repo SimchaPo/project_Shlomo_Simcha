@@ -24,7 +24,6 @@ public class DirectionalLight extends Light implements LightSource {
 		direction = dir.normalize();
 	}
 
-	/********* getters ******/
 	@Override
 	public Color getIntensity(Point3D pnt) {
 		return getIntensity();

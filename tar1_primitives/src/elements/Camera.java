@@ -16,7 +16,13 @@ public class Camera {
 	private Vector _vTo;
 	private Vector _vRight;
 
-	// Constractor
+	/**
+	 * Constructor
+	 * 
+	 * @param _pnt0
+	 * @param _vecUp
+	 * @param _vecTo
+	 */
 	public Camera(Point3D _pnt0, Vector _vecUp, Vector _vecTo) {
 		_p0 = new Point3D(_pnt0);
 		_vUp = _vecUp.normalize();
@@ -32,11 +38,20 @@ public class Camera {
 		this(new Point3D(0, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, -1));
 	}
 
-	// getters
+	/**
+	 * get P0
+	 * 
+	 * @return
+	 */
 	public Point3D getP0() {
 		return this._p0;
 	}
 
+	/**
+	 * get vUp
+	 * 
+	 * @return
+	 */
 	public Vector getVUp() {
 		return this._vUp;
 	}
@@ -77,7 +92,7 @@ public class Camera {
 		if (yj != 0)
 			pij = pij.addVec(this._vUp.scale(-yj));
 		// }
-		Vector _Vij = pij.subtract(this._p0).normalize();// _Vij vector from camera to pixel on the screen
+		Vector _Vij = pij.subtract(this._p0);// _Vij vector from camera to pixel on the screen
 		return new Ray(this._p0, _Vij);
 	}
 

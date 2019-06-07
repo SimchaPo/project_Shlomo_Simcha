@@ -31,11 +31,20 @@ public class Render {
 		_imageWriter = im;
 	}
 
-	/********* getters/setters *********/
+	/**
+	 * get scene
+	 * 
+	 * @return
+	 */
 	public Scene getScene() {
 		return _scene;
 	}
 
+	/**
+	 * get Imege writer
+	 * 
+	 * @return
+	 */
 	public ImageWriter getImageWriter() {
 		return _imageWriter;
 	}
@@ -49,9 +58,8 @@ public class Render {
 				Ray ray = _scene.getCamera().constructRayThroughPixel(_imageWriter.getNx(), _imageWriter.getNy(), i, j,
 						_scene.getScreenDistance(), _imageWriter.getWidth(), _imageWriter.getHeight());
 				GeoPoint closestPoint = findClosestIntersection(ray);
-				_imageWriter.writePixel(i, j,
-						closestPoint == null ? _scene.getBackground().getColor()
-							: calcColor(closestPoint, ray).getColor());
+				_imageWriter.writePixel(i, j, closestPoint == null ? _scene.getBackground().getColor()
+						: calcColor(closestPoint, ray).getColor());
 			}
 		}
 	}
