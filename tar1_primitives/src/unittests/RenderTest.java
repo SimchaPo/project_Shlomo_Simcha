@@ -217,15 +217,15 @@ public class RenderTest extends TestCase {
 		scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, -1)), 100);
 		Geometries geometries = new Geometries();
 		scene.addGeometries(geometries);
-		Sphere sphere = new Sphere(new Point3D(0.0, 0.0, -1000), 500, new Color(0, 0, 100), new Material(1, 1, 40));
+		Sphere sphere = new Sphere(new Point3D(0.0, 0.0, -1000), 500, new Color(0, 0, 100), new Material(1.5, 0.5, 40));
 		scene.addGeometries(sphere);
 		Triangle triangle1 = new Triangle(new Point3D(3500, 3500, -2000), new Point3D(-3500, -3500, -1000),
-				new Point3D(3500, -3500, -2000), new Color(), new Material(1, 1, 40));
+				new Point3D(3500, -3500, -2000), new Color(), new Material(1.5, 0.5, 40));
 		Triangle triangle2 = new Triangle(new Point3D(3500, 3500, -2000), new Point3D(-3500, 3500, -1000),
-				new Point3D(-3500, -3500, -1000), new Color(), new Material(1, 1, 40));
+				new Point3D(-3500, -3500, -1000), new Color(), new Material(1.5, 0.5, 40));
 		scene.addGeometries(triangle1);
 		scene.addGeometries(triangle2);
-		scene.setLights(new SpotLight(new Point3D(200, 200, -100), 0, 0.000001, 0.0000005, new Color(255, 100, 100),
+		scene.setLights(new SpotLight(new Point3D(200, 200, -100), 1, 0.000001, 0.0000005, new Color(255, 100, 100),
 				new Vector(-2, -2, -3)));
 		ImageWriter imageWriter = new ImageWriter("shadow under sphere", 500, 500, 500, 500);
 		Render render = new Render(scene, imageWriter);
@@ -242,12 +242,12 @@ public class RenderTest extends TestCase {
 		scene.setAmbientLight(new AmbientLight(Color.BLACK, 1.0));
 		scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, -1)), 300);
 		Sphere sphere = new Sphere(new Point3D(0.0, 0.0, -1000), 500, new Color(0, 0, 100),
-				new Material(1, 1, 40, 0, 0.7));
+				new Material(1.5, 0.5, 40, 0, 0.8));
 		scene.addGeometries(sphere);
 		Sphere sphere2 = new Sphere(new Point3D(0.0, 0.0, -1000), 250, new Color(100, 20, 20),
-				new Material(1, 1, 40, 0, 0.2));
+				new Material(0.5, 0.5, 40, 0, 0));
 		scene.addGeometries(sphere2);
-		scene.setLights(new SpotLight(new Point3D(-200, -200, -150), 0.1, 0.00001, 0.000005, new Color(255, 100, 100),
+		scene.setLights(new SpotLight(new Point3D(-200, -200, -150), 1, 0.00001, 0.000005, new Color(255, 100, 100),
 				new Vector(2, 2, -3)));
 		ImageWriter imageWriter = new ImageWriter("Recursive Test 1", 500, 500, 500, 500);
 		Render render = new Render(scene, imageWriter);
@@ -277,7 +277,7 @@ public class RenderTest extends TestCase {
 				new Point3D(-1500, -1500, -1500), new Color(20, 20, 20), new Material(1, 1, 40, 1, 0));
 		scene.addGeometries(triangle);
 		scene.addGeometries(triangle2);
-		scene.setLights(new SpotLight(new Point3D(200, 200, -150), 0, 0.00001, 0.000005, new Color(255, 100, 100),
+		scene.setLights(new SpotLight(new Point3D(200, 200, -150), 1, 0.00001, 0.000005, new Color(255, 100, 100),
 				new Vector(-2, -2, -3)));
 		ImageWriter imageWriter = new ImageWriter("Recursive Test 2", 500, 500, 500, 500);
 		Render render = new Render(scene, imageWriter);
@@ -307,7 +307,7 @@ public class RenderTest extends TestCase {
 				new Point3D(-1000, -1000, -1500), new Color(20, 20, 20), new Material(0.5, 0.5, 20, 0.5, 0));
 		scene.addGeometries(triangle);
 		scene.addGeometries(triangle2);
-		scene.setLights(new SpotLight(new Point3D(200, 200, -150), 0, 0.00001, 0.000005, new Color(255, 100, 100),
+		scene.setLights(new SpotLight(new Point3D(200, 200, -150), 1, 0.00001, 0.000005, new Color(255, 100, 100),
 				new Vector(-2, -2, -3)));
 		ImageWriter imageWriter = new ImageWriter("Recursive Test 3", 500, 500, 500, 500);
 		Render render = new Render(scene, imageWriter);
@@ -338,7 +338,7 @@ public class RenderTest extends TestCase {
 		Triangle triangle6 = new Triangle(new Point3D(-3500, 1800, -1000), new Point3D(3500, 1800, -1000),
 				new Point3D(3500, 1500, -1000), new Color(java.awt.Color.blue), new Material(0.5, 0.5, 20, 0, 0));
 		scene.addGeometries(triangle1, triangle2, triangle3, triangle4, triangle5, triangle6);
-		scene.setLights(new SpotLight(new Point3D(200, 200, -150), 0, 0.00001, 0.000005, new Color(255, 100, 100),
+		scene.setLights(new SpotLight(new Point3D(200, 200, -150), 1, 0.00001, 0.000005, new Color(255, 100, 100),
 				new Vector(-2, -2, -3)));
 		ImageWriter imageWriter = new ImageWriter("star", 500, 500, 500, 500);
 		Render render = new Render(scene, imageWriter);
@@ -361,7 +361,7 @@ public class RenderTest extends TestCase {
 		Triangle triangle = new Triangle(new Point3D(-125, -225, -260), new Point3D(-225, -125, -260),
 				new Point3D(-225, -225, -270), new Color(0, 0, 100), new Material());
 		scene.addGeometries(triangle);
-		scene.setLights(new SpotLight(new Point3D(-200, -200, -150), 0.1, 0.00001, 0.000005, new Color(255, 100, 100),
+		scene.setLights(new SpotLight(new Point3D(-200, -200, -150), 1, 0.00001, 0.000005, new Color(255, 100, 100),
 				new Vector(2, 2, -3)));
 		ImageWriter imageWriter = new ImageWriter("shadow with triangle and sphere", 500, 500, 500, 500);
 		Render render = new Render(scene, imageWriter);
@@ -381,7 +381,7 @@ public class RenderTest extends TestCase {
 		Triangle triangle = new Triangle(new Point3D(-125, -225, -260), new Point3D(-225, -125, -260),
 				new Point3D(-225, -225, -270), new Color(0, 0, 100), new Material());
 		scene.addGeometries(triangle);
-		scene.setLights(new SpotLight(new Point3D(-200, -200, -150), 0.1, 0.00001, 0.000005, new Color(255, 100, 100),
+		scene.setLights(new SpotLight(new Point3D(-200, -200, -150), 1, 0.00001, 0.000005, new Color(255, 100, 100),
 				new Vector(2, 2, -3)));
 		scene.setLights(new DirectionalLight(new Color(255, 100, 100),
 				new Vector(2, 2, -3)));
