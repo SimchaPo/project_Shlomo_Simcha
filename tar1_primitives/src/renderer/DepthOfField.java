@@ -4,11 +4,9 @@ import static primitives.Util.alignZero;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import elements.Camera;
 import geometries.Plane;
-import primitives.Color;
 import primitives.Point3D;
 import primitives.Ray;
 import primitives.Vector;
@@ -46,6 +44,7 @@ public class DepthOfField {
 				List<Point3D> points = getPointsInPixel(i, j);
 				Point3D focusPoint = _focusPlane.findIntersections(new Ray(_p0, points.get(0).subtract(_p0)))
 						.get(0).point;
+				//System.out.println(focusPoint);
 				_imageWriter.writePixel(i, j, calcColor(points, focusPoint));
 			}
 		}
@@ -56,11 +55,13 @@ public class DepthOfField {
 		int len = points.size();
 		java.awt.Color col = new java.awt.Color(0, 0, 0);
 		for (Point3D pnt : points) {
-			col = _render.getPointColor(new Ray(pnt, new Vector(pnt.subtract(focusPoint))));
+			//System.out.println(new Ray(pnt, new Vector(pnt.subtract(focusPoint))));
+			col = _render.getPointColor(new Ray(pnt, new Vector(focusPoint.subtract(pnt))));
 			r += col.getRed();
 			g += col.getGreen();
 			b += col.getBlue();
 		}
+		//System.out.println(r + " " +  g + " " + b);
 		return new java.awt.Color(r / len, g / len, b / len);
 	}
 
