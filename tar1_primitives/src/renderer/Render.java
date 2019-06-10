@@ -53,15 +53,24 @@ public class Render {
 	 * function colors each point in the image according to the intersections
 	 */
 	public void renderImage() {
-		for (int i = 0; i < _imageWriter.getNx(); ++i) {
-			for (int j = 0; j < _imageWriter.getNy(); ++j) {
-				Ray ray = _scene.getCamera().constructRayThroughPixel(_imageWriter.getNx(), _imageWriter.getNy(), i, j,
-						_scene.getScreenDistance(), _imageWriter.getWidth(), _imageWriter.getHeight());
-				GeoPoint closestPoint = findClosestIntersection(ray);
-				_imageWriter.writePixel(i, j, closestPoint == null ? _scene.getBackground().getColor()
-						: calcColor(closestPoint, ray).getColor());
+		int nX = _imageWriter.getNx(), nY = _imageWriter.getNy();
+		for (int i = 0; i < nX; ++i) {
+			for (int j = 0; j < nY; ++j) {
+				Ray ray = _scene.getCamera().constructRayThroughPixel(nX, nY, i, j, _scene.getScreenDistance(),
+						_imageWriter.getWidth(), _imageWriter.getHeight());
+				_imageWriter.writePixel(i, j, getPointColor(ray));
 			}
 		}
+	}
+
+	/**
+	 * gets color of point
+	 * @param ray
+	 * @return
+	 */
+	public java.awt.Color getPointColor(Ray ray) {
+		GeoPoint closestPoint = findClosestIntersection(ray);
+		return closestPoint == null ? _scene.getBackground().getColor() : calcColor(closestPoint, ray).getColor();
 	}
 
 	/**

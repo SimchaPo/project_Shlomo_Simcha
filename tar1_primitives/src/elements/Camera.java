@@ -78,6 +78,13 @@ public class Camera {
 	 */
 	public Ray constructRayThroughPixel(int Nx, int Ny, int i, int j, double screenDistance, double screenWidth,
 			double screenHeight) {
+		Point3D pij = getPixelCenter(Nx, Ny, i, j, screenDistance, screenWidth, screenHeight);
+		Vector _Vij = pij.subtract(this._p0);// _Vij vector from camera to pixel on the screen
+		return new Ray(this._p0, _Vij);
+	}
+	
+	public Point3D getPixelCenter(int Nx, int Ny, int i, int j, double screenDistance, double screenWidth,
+			double screenHeight) {
 		Point3D pc = this._p0.addVec(_vTo.scale(screenDistance));// _Pc => center of the screen
 		double ry = alignZero(screenHeight / Ny);//
 		double rx = alignZero(screenWidth / Nx); // _Ry*_Rx the pixel area
@@ -92,8 +99,7 @@ public class Camera {
 		if (yj != 0)
 			pij = pij.addVec(this._vUp.scale(-yj));
 		// }
-		Vector _Vij = pij.subtract(this._p0);// _Vij vector from camera to pixel on the screen
-		return new Ray(this._p0, _Vij);
+		return pij;		
 	}
 
 	@Override
