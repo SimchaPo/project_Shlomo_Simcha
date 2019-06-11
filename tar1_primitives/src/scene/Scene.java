@@ -10,7 +10,6 @@ import geometries.Geometries;
 import geometries.Intersectable;
 import primitives.Color;
 
-
 /**
  * Scene class has all information for for a image scene
  * 
@@ -24,8 +23,10 @@ public class Scene {
 	private AmbientLight _ambientLight;
 	private Geometries _geometries;
 	private Camera _camera;
-	private double screenDistance;
+	private double _screenDistance;
 	private List<LightSource> _lights;
+	private boolean _focus;
+	private double _focusDistance;
 
 	/* ******* Constructors ********* */
 	public Scene(String name) {
@@ -41,17 +42,28 @@ public class Scene {
 		}
 	}
 
-	public void setBackground(Color _background) {
-		this._background = _background;
+	public void setBackground(Color background) {
+		this._background = background;
 	}
 
-	public void setAmbientLight(AmbientLight _ambientLight) {
-		this._ambientLight = _ambientLight;
+	public void setAmbientLight(AmbientLight ambientLight) {
+		this._ambientLight = ambientLight;
 	}
 
-	public void setCamera(Camera _camera, double _screenDistance) {
-		this._camera = _camera;
-		this.screenDistance = _screenDistance;
+	public void setCamera(Camera camera, double screenDistance) {
+		this._camera = camera;
+		this._screenDistance = screenDistance;
+		this._focus = false;
+	}
+	
+	public void setCamera(Camera camera, double screenDistance, double focusDistance) {
+		this._camera = camera;
+		/*if(screenDistance > focusDistance) {
+			throw new IllegalArgumentException("screen distance must be smaller then focus distance ! ! !");
+		}*/
+		this._screenDistance = screenDistance;
+		this._focusDistance = focusDistance;
+		this._focus = true;
 	}
 
 	public String getScene() {
@@ -75,11 +87,19 @@ public class Scene {
 	}
 
 	public double getScreenDistance() {
-		return screenDistance;
+		return _screenDistance;
 	}
 
 	public List<LightSource> getLights() {
 		return _lights;
+	}
+	
+	public boolean isFocus() {
+		return _focus;
+	}
+
+	public double getFocusDistance() {
+		return _focusDistance;
 	}
 
 	/******* Functions *******/
@@ -94,7 +114,7 @@ public class Scene {
 
 	@Override
 	public String toString() {
-		return "name: " + _scene + "\ncamera: " + _camera + " " + screenDistance + "\nback: " + _background
+		return "name: " + _scene + "\ncamera: " + _camera + " " + _screenDistance + (isFocus() ? _focusDistance : " without focus") + "\nback: " + _background
 				+ "\nambient: " + _ambientLight.getIntensity() + "\n" + _geometries + "\n" + _lights;
 	}
 }

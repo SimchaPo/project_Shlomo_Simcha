@@ -1,8 +1,12 @@
 package renderer;
 
+import static primitives.Util.alignZero;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import elements.LightSource;
+import geometries.Plane;
 import geometries.Intersectable.GeoPoint;
 import primitives.Color;
 import primitives.Point3D;
@@ -54,17 +58,21 @@ public class Render {
 	 */
 	public void renderImage() {
 		int nX = _imageWriter.getNx(), nY = _imageWriter.getNy();
+		boolean focus = _scene.isFocus();
 		for (int i = 0; i < nX; ++i) {
 			for (int j = 0; j < nY; ++j) {
-				Ray ray = _scene.getCamera().constructRayThroughPixel(nX, nY, i, j, _scene.getScreenDistance(),
-						_imageWriter.getWidth(), _imageWriter.getHeight());
-				_imageWriter.writePixel(i, j, getPointColor(ray));
+				_imageWriter.writePixel(i, j,
+						focus ? calcColorFocus(i, j)
+								: getPointColor(_scene.getCamera().constructRayThroughPixel(nX, nY, i, j,
+										_scene.getScreenDistance(), _imageWriter.getWidth(),
+										_imageWriter.getHeight())));
 			}
 		}
 	}
 
 	/**
 	 * gets color of point
+	 * 
 	 * @param ray
 	 * @return
 	 */
@@ -154,6 +162,34 @@ public class Render {
 			}
 		}
 		return color;
+	}
+
+	/**
+	 * calc color with focus
+	 * 
+	 * @param points
+	 * @param focusPoint
+	 * @return
+	 */
+	private java.awt.Color calcColorFocus(int i, int j) {
+		int r = 0, g = 0, b = 0;
+		java.awt.Color col = new java.awt.Color(0, 0, 0);
+		Point3D p0 = _scene.getCamera().getP0();
+		Vector vTo = _scene.getCamera().getVTo();
+		Plane focusPlane = new Plane(p0.addVec(vTo.scale(_scene.getFocusDistance())), vTo);
+		List<Point3D> points = getPointsInPixel(i, j);
+		int len = points.size();
+		Point3D focusPoint = focusPlane.findIntersections(new Ray(p0, points.get(0).subtract(p0))).get(0).point;
+
+		for (Point3D pnt : points) {
+			col = _scene.getFocusDistance() < _scene.getScreenDistance()
+					? getPointColor(new Ray(pnt, new Vector(pnt.subtract(focusPoint))))
+					: getPointColor(new Ray(pnt, new Vector(focusPoint.subtract(pnt))));
+			r += col.getRed();
+			g += col.getGreen();
+			b += col.getBlue();
+		}
+		return new java.awt.Color(r / len, g / len, b / len);
 	}
 
 	/**
@@ -258,4 +294,49 @@ public class Render {
 		Vector r = l.vectorSub(n.scale(2 * (l.vectorsDotProduct(n)))).normalize();
 		return new Color(lightIntensity.scale(ks * Math.pow(Math.max(0, -1 * v.vectorsDotProduct(r)), nShininess)));
 	}
+
+	/**
+	 * get list of randomize points in pixel
+	 * 
+	 * @param i
+	 * @param j
+	 * @return
+	 */
+	public List<Point3D> getPointsInPixel(int i, int j) {
+		int nX = _imageWriter.getNx(), nY = _imageWriter.getNy();
+		double screenDistance = _scene.getScreenDistance(), screenHeight = _imageWriter.getHeight(),
+				screenWidth = _imageWriter.getWidth();
+		double ry = alignZero(screenHeight / nY) / 2;
+		double rx = alignZero(screenWidth / nX) / 2;
+		List<Point3D> points = new ArrayList<Point3D>();
+		Point3D pij = _scene.getCamera().getPixelCenter(nX, nY, i, j, screenDistance, screenWidth, screenHeight);
+		points.add(pij);
+		double r1, r2;
+		Vector vUp = _scene.getCamera().getVUp(), vRight = _scene.getCamera().getVRight();
+		Point3D pntToAdd;
+		for (int t = 0; t < 5; ++t) {
+			r1 = Math.random() * ry;
+			r2 = Math.random() * rx;
+			pntToAdd = r1 == 0 ? new Point3D(pij) : pij.addVec(vUp.scale(r1));
+			pntToAdd = r2 == 0 ? pntToAdd : pij.addVec(vRight.scale(r2));
+			points.add(pntToAdd);
+			r1 = Math.random() * ry;
+			r2 = Math.random() * rx;
+			pntToAdd = r1 == 0 ? new Point3D(pij) : pij.addVec(vUp.scale(-r1));
+			pntToAdd = r2 == 0 ? pntToAdd : pij.addVec(vRight.scale(-r2));
+			points.add(pntToAdd);
+			r1 = Math.random() * ry;
+			r2 = Math.random() * rx;
+			pntToAdd = r1 == 0 ? new Point3D(pij) : pij.addVec(vUp.scale(r1));
+			pntToAdd = r2 == 0 ? pntToAdd : pij.addVec(vRight.scale(-r2));
+			points.add(pntToAdd);
+			r1 = Math.random() * ry;
+			r2 = Math.random() * rx;
+			pntToAdd = r1 == 0 ? new Point3D(pij) : pij.addVec(vUp.scale(-r1));
+			pntToAdd = r2 == 0 ? pntToAdd : pij.addVec(vRight.scale(r2));
+			points.add(pntToAdd);
+		}
+		return points;
+	}
+
 }
