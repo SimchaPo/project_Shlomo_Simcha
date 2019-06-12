@@ -132,9 +132,10 @@ public class Render {
 		int nShininess = intersection.geometry.getMaterial().getNShininess();
 		double kd = intersection.geometry.getMaterial().getKD();
 		double ks = intersection.geometry.getMaterial().getKS();
+		double nDotV = n.vectorsDotProduct(v);
 		for (LightSource lightSource : _scene.getLights()) {
 			Vector l = lightSource.getL(intersection.point);
-			if (n.vectorsDotProduct(l) * n.vectorsDotProduct(v) > 0) {
+			if (n.vectorsDotProduct(l) * nDotV > 0) {
 				double ktr = transparency(l, n, intersection);
 				if (ktr * k > MIN_CALC_COLOR_K) {
 					Color lightIntensity = lightSource.getIntensity(intersection.point).scale(ktr);
@@ -180,10 +181,9 @@ public class Render {
 		List<Point3D> points = getPointsInPixel(i, j);
 		int len = points.size();
 		Point3D focusPoint = focusPlane.findIntersections(new Ray(p0, points.get(0).subtract(p0))).get(0).point;
-
+		boolean closer = _scene.getFocusDistance() < _scene.getScreenDistance();
 		for (Point3D pnt : points) {
-			col = _scene.getFocusDistance() < _scene.getScreenDistance()
-					? getPointColor(new Ray(pnt, new Vector(pnt.subtract(focusPoint))))
+			col = closer ? getPointColor(new Ray(focusPoint, new Vector(pnt.subtract(focusPoint))))
 					: getPointColor(new Ray(pnt, new Vector(focusPoint.subtract(pnt))));
 			r += col.getRed();
 			g += col.getGreen();
