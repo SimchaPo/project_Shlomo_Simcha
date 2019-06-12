@@ -28,11 +28,23 @@ public class Render {
 	private static final double EPS = 0.1;
 	private Scene _scene;
 	private ImageWriter _imageWriter;
+	private Plane focalPlane;
+	private Point3D p0;
+	private Vector vTo;
+	private Vector vUp;
+	private Vector vRight;
 
 	/********** constructor **********/
 	public Render(Scene s, ImageWriter im) {
 		_scene = s;
 		_imageWriter = im;
+		p0 = _scene.getCamera().getP0();
+		vTo = _scene.getCamera().getVTo();
+		vUp = _scene.getCamera().getVUp();
+		vRight = _scene.getCamera().getVRight();
+		if (_scene.isFocus()) {
+			focalPlane = new Plane(p0.addVec(vTo.scale(_scene.getFocusDistance())), vTo);
+		}
 	}
 
 	/**
@@ -175,16 +187,15 @@ public class Render {
 	private java.awt.Color calcColorFocus(int i, int j) {
 		int r = 0, g = 0, b = 0;
 		java.awt.Color col = new java.awt.Color(0, 0, 0);
-		Point3D p0 = _scene.getCamera().getP0();
-		Vector vTo = _scene.getCamera().getVTo();
-		Plane focusPlane = new Plane(p0.addVec(vTo.scale(_scene.getFocusDistance())), vTo);
-		List<Point3D> points = getPointsInPixel(i, j);
+		List<Point3D> points = getPointsInAperture(p0, i, j);
 		int len = points.size();
-		Point3D focusPoint = focusPlane.findIntersections(new Ray(p0, points.get(0).subtract(p0))).get(0).point;
-		boolean closer = _scene.getFocusDistance() < _scene.getScreenDistance();
+		int nX = _imageWriter.getNx(), nY = _imageWriter.getNy();
+		double screenDistance = _scene.getScreenDistance(), screenHeight = _imageWriter.getHeight(),
+				screenWidth = _imageWriter.getWidth();
+		Point3D pij = _scene.getCamera().getPixelCenter(nX, nY, i, j, screenDistance, screenWidth, screenHeight);
+		Point3D focalPoint = focalPlane.findIntersections(new Ray(p0, pij.subtract(p0))).get(0).point;
 		for (Point3D pnt : points) {
-			col = closer ? getPointColor(new Ray(focusPoint, new Vector(pnt.subtract(focusPoint))))
-					: getPointColor(new Ray(pnt, new Vector(focusPoint.subtract(pnt))));
+			col = getPointColor(new Ray(pnt, new Vector(focalPoint.subtract(pnt))));
 			r += col.getRed();
 			g += col.getGreen();
 			b += col.getBlue();
@@ -334,6 +345,44 @@ public class Render {
 			r2 = Math.random() * rx;
 			pntToAdd = r1 == 0 ? new Point3D(pij) : pij.addVec(vUp.scale(-r1));
 			pntToAdd = r2 == 0 ? pntToAdd : pij.addVec(vRight.scale(r2));
+			points.add(pntToAdd);
+		}
+		return points;
+	}
+
+	/**
+	 * get list of randomize points around eye
+	 * 
+	 * @param i
+	 * @param j
+	 * @return
+	 */
+	public List<Point3D> getPointsInAperture(Point3D pnt, int i, int j) {
+		List<Point3D> points = new ArrayList<Point3D>();
+		points.add(pnt);
+		double r1, r2;
+		double apertureRad = _scene.getApertureRadius();
+		Point3D pntToAdd;
+		for (int t = 0; t < 5; ++t) {
+			r1 = Math.random() * apertureRad;
+			r2 = Math.random() * apertureRad;
+			pntToAdd = r1 == 0 ? new Point3D(pnt) : pnt.addVec(vUp.scale(r1));
+			pntToAdd = r2 == 0 ? pntToAdd : pnt.addVec(vRight.scale(r2));
+			points.add(pntToAdd);
+			r1 = Math.random() * apertureRad;
+			r2 = Math.random() * apertureRad;
+			pntToAdd = r1 == 0 ? new Point3D(pnt) : pnt.addVec(vUp.scale(-r1));
+			pntToAdd = r2 == 0 ? pntToAdd : pnt.addVec(vRight.scale(-r2));
+			points.add(pntToAdd);
+			r1 = Math.random() * apertureRad;
+			r2 = Math.random() * apertureRad;
+			pntToAdd = r1 == 0 ? new Point3D(pnt) : pnt.addVec(vUp.scale(r1));
+			pntToAdd = r2 == 0 ? pntToAdd : pnt.addVec(vRight.scale(-r2));
+			points.add(pntToAdd);
+			r1 = Math.random() * apertureRad;
+			r2 = Math.random() * apertureRad;
+			pntToAdd = r1 == 0 ? new Point3D(pnt) : pnt.addVec(vUp.scale(-r1));
+			pntToAdd = r2 == 0 ? pntToAdd : pnt.addVec(vRight.scale(r2));
 			points.add(pntToAdd);
 		}
 		return points;

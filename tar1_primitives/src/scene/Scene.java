@@ -27,6 +27,7 @@ public class Scene {
 	private List<LightSource> _lights;
 	private boolean _focus;
 	private double _focusDistance;
+	private double _apertureRadius;
 
 	/* ******* Constructors ********* */
 	public Scene(String name) {
@@ -56,13 +57,11 @@ public class Scene {
 		this._focus = false;
 	}
 	
-	public void setCamera(Camera camera, double screenDistance, double focusDistance) {
+	public void setCamera(Camera camera, double screenDistance, double focusDistance, double apertureRadius) {
 		this._camera = camera;
-		/*if(screenDistance > focusDistance) {
-			throw new IllegalArgumentException("screen distance must be smaller then focus distance ! ! !");
-		}*/
 		this._screenDistance = screenDistance;
 		this._focusDistance = focusDistance;
+		this._apertureRadius = apertureRadius;
 		this._focus = true;
 	}
 
@@ -100,6 +99,10 @@ public class Scene {
 
 	public double getFocusDistance() {
 		return _focusDistance;
+	}
+
+	public double getApertureRadius() {
+		return _apertureRadius;
 	}
 
 	/******* Functions *******/
