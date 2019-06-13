@@ -1,13 +1,11 @@
 package renderer;
 
-import static primitives.Util.alignZero;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import elements.LightSource;
-import geometries.Plane;
 import geometries.Intersectable.GeoPoint;
+import geometries.Plane;
 import primitives.Color;
 import primitives.Point3D;
 import primitives.Ray;
@@ -182,7 +180,7 @@ public class Render {
 	 * @param focusPoint
 	 * @return
 	 */
-	private java.awt.Color calcColorFocus(Ray ray) {
+	protected java.awt.Color calcColorFocus(Ray ray) {
 		int r = 0, g = 0, b = 0;
 		java.awt.Color col = new java.awt.Color(0, 0, 0);
 		List<Point3D> points = getPointsInAperture(p0);
@@ -384,4 +382,43 @@ public class Render {
 		return points;
 	}
 
+	public static int getMaxCalcColorLevel() {
+		return MAX_CALC_COLOR_LEVEL;
+	}
+
+	public static double getMinCalcColorK() {
+		return MIN_CALC_COLOR_K;
+	}
+
+	public static double getEps() {
+		return EPS;
+	}
+
+	public Scene get_scene() {
+		return _scene;
+	}
+
+	public ImageWriter get_imageWriter() {
+		return _imageWriter;
+	}
+
+	public Plane getFocalPlane() {
+		return focalPlane;
+	}
+
+	public Point3D getP0() {
+		return p0;
+	}
+
+	public Vector getvTo() {
+		return vTo;
+	}
+
+	public Vector getvUp() {
+		return vUp;
+	}
+
+	public Vector getvRight() {
+		return vRight;
+	}
 }

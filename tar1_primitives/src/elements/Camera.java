@@ -82,7 +82,7 @@ public class Camera {
 		Vector _Vij = pij.subtract(this._p0);// _Vij vector from camera to pixel on the screen
 		return new Ray(this._p0, _Vij);
 	}
-	
+
 	public Point3D getPixelCenter(int Nx, int Ny, int i, int j, double screenDistance, double screenWidth,
 			double screenHeight) {
 		Point3D pc = this._p0.addVec(_vTo.scale(screenDistance));// _Pc => center of the screen
@@ -99,7 +99,7 @@ public class Camera {
 		if (yj != 0)
 			pij = pij.addVec(this._vUp.scale(-yj));
 		// }
-		return pij;		
+		return pij;
 	}
 
 	@Override

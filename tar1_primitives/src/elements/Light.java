@@ -20,7 +20,7 @@ public abstract class Light {
 	public Color getIntensity() {
 		return _color;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "color: " + _color;
