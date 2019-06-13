@@ -73,11 +73,9 @@ public class Render {
 		boolean focus = _scene.isFocus();
 		for (int i = 0; i < nX; ++i) {
 			for (int j = 0; j < nY; ++j) {
-				_imageWriter.writePixel(i, j,
-						focus ? calcColorFocus(i, j)
-								: getPointColor(_scene.getCamera().constructRayThroughPixel(nX, nY, i, j,
-										_scene.getScreenDistance(), _imageWriter.getWidth(),
-										_imageWriter.getHeight())));
+				Ray ray = _scene.getCamera().constructRayThroughPixel(nX, nY, i, j, _scene.getScreenDistance(),
+						_imageWriter.getWidth(), _imageWriter.getHeight());
+				_imageWriter.writePixel(i, j, focus ? calcColorFocus(ray) : getPointColor(ray));
 			}
 		}
 	}
@@ -184,16 +182,12 @@ public class Render {
 	 * @param focusPoint
 	 * @return
 	 */
-	private java.awt.Color calcColorFocus(int i, int j) {
+	private java.awt.Color calcColorFocus(Ray ray) {
 		int r = 0, g = 0, b = 0;
 		java.awt.Color col = new java.awt.Color(0, 0, 0);
-		List<Point3D> points = getPointsInAperture(p0, i, j);
+		List<Point3D> points = getPointsInAperture(p0);
 		int len = points.size();
-		int nX = _imageWriter.getNx(), nY = _imageWriter.getNy();
-		double screenDistance = _scene.getScreenDistance(), screenHeight = _imageWriter.getHeight(),
-				screenWidth = _imageWriter.getWidth();
-		Point3D pij = _scene.getCamera().getPixelCenter(nX, nY, i, j, screenDistance, screenWidth, screenHeight);
-		Point3D focalPoint = focalPlane.findIntersections(new Ray(p0, pij.subtract(p0))).get(0).point;
+		Point3D focalPoint = focalPlane.findIntersections(ray).get(0).point;
 		for (Point3D pnt : points) {
 			col = getPointColor(new Ray(pnt, new Vector(focalPoint.subtract(pnt))));
 			r += col.getRed();
@@ -306,49 +300,49 @@ public class Render {
 		return new Color(lightIntensity.scale(ks * Math.pow(Math.max(0, -1 * v.vectorsDotProduct(r)), nShininess)));
 	}
 
-	/**
-	 * get list of randomize points in pixel
-	 * 
-	 * @param i
-	 * @param j
-	 * @return
-	 */
-	public List<Point3D> getPointsInPixel(int i, int j) {
-		int nX = _imageWriter.getNx(), nY = _imageWriter.getNy();
-		double screenDistance = _scene.getScreenDistance(), screenHeight = _imageWriter.getHeight(),
-				screenWidth = _imageWriter.getWidth();
-		double ry = alignZero(screenHeight / nY) / 2;
-		double rx = alignZero(screenWidth / nX) / 2;
-		List<Point3D> points = new ArrayList<Point3D>();
-		Point3D pij = _scene.getCamera().getPixelCenter(nX, nY, i, j, screenDistance, screenWidth, screenHeight);
-		points.add(pij);
-		double r1, r2;
-		Vector vUp = _scene.getCamera().getVUp(), vRight = _scene.getCamera().getVRight();
-		Point3D pntToAdd;
-		for (int t = 0; t < 5; ++t) {
-			r1 = Math.random() * ry;
-			r2 = Math.random() * rx;
-			pntToAdd = r1 == 0 ? new Point3D(pij) : pij.addVec(vUp.scale(r1));
-			pntToAdd = r2 == 0 ? pntToAdd : pij.addVec(vRight.scale(r2));
-			points.add(pntToAdd);
-			r1 = Math.random() * ry;
-			r2 = Math.random() * rx;
-			pntToAdd = r1 == 0 ? new Point3D(pij) : pij.addVec(vUp.scale(-r1));
-			pntToAdd = r2 == 0 ? pntToAdd : pij.addVec(vRight.scale(-r2));
-			points.add(pntToAdd);
-			r1 = Math.random() * ry;
-			r2 = Math.random() * rx;
-			pntToAdd = r1 == 0 ? new Point3D(pij) : pij.addVec(vUp.scale(r1));
-			pntToAdd = r2 == 0 ? pntToAdd : pij.addVec(vRight.scale(-r2));
-			points.add(pntToAdd);
-			r1 = Math.random() * ry;
-			r2 = Math.random() * rx;
-			pntToAdd = r1 == 0 ? new Point3D(pij) : pij.addVec(vUp.scale(-r1));
-			pntToAdd = r2 == 0 ? pntToAdd : pij.addVec(vRight.scale(r2));
-			points.add(pntToAdd);
-		}
-		return points;
-	}
+//	/**
+//	 * get list of randomize points in pixel
+//	 * 
+//	 * @param i
+//	 * @param j
+//	 * @return
+//	 */
+//	public List<Point3D> getPointsInPixel(int i, int j) {
+//		int nX = _imageWriter.getNx(), nY = _imageWriter.getNy();
+//		double screenDistance = _scene.getScreenDistance(), screenHeight = _imageWriter.getHeight(),
+//				screenWidth = _imageWriter.getWidth();
+//		double ry = alignZero(screenHeight / nY) / 2;
+//		double rx = alignZero(screenWidth / nX) / 2;
+//		List<Point3D> points = new ArrayList<Point3D>();
+//		Point3D pij = _scene.getCamera().getPixelCenter(nX, nY, i, j, screenDistance, screenWidth, screenHeight);
+//		points.add(pij);
+//		double r1, r2;
+//		Vector vUp = _scene.getCamera().getVUp(), vRight = _scene.getCamera().getVRight();
+//		Point3D pntToAdd;
+//		for (int t = 0; t < 5; ++t) {
+//			r1 = Math.random() * ry;
+//			r2 = Math.random() * rx;
+//			pntToAdd = r1 == 0 ? new Point3D(pij) : pij.addVec(vUp.scale(r1));
+//			pntToAdd = r2 == 0 ? pntToAdd : pij.addVec(vRight.scale(r2));
+//			points.add(pntToAdd);
+//			r1 = Math.random() * ry;
+//			r2 = Math.random() * rx;
+//			pntToAdd = r1 == 0 ? new Point3D(pij) : pij.addVec(vUp.scale(-r1));
+//			pntToAdd = r2 == 0 ? pntToAdd : pij.addVec(vRight.scale(-r2));
+//			points.add(pntToAdd);
+//			r1 = Math.random() * ry;
+//			r2 = Math.random() * rx;
+//			pntToAdd = r1 == 0 ? new Point3D(pij) : pij.addVec(vUp.scale(r1));
+//			pntToAdd = r2 == 0 ? pntToAdd : pij.addVec(vRight.scale(-r2));
+//			points.add(pntToAdd);
+//			r1 = Math.random() * ry;
+//			r2 = Math.random() * rx;
+//			pntToAdd = r1 == 0 ? new Point3D(pij) : pij.addVec(vUp.scale(-r1));
+//			pntToAdd = r2 == 0 ? pntToAdd : pij.addVec(vRight.scale(r2));
+//			points.add(pntToAdd);
+//		}
+//		return points;
+//	}
 
 	/**
 	 * get list of randomize points around eye
@@ -357,34 +351,36 @@ public class Render {
 	 * @param j
 	 * @return
 	 */
-	public List<Point3D> getPointsInAperture(Point3D pnt, int i, int j) {
+	public List<Point3D> getPointsInAperture(Point3D pnt) {
 		List<Point3D> points = new ArrayList<Point3D>();
 		points.add(pnt);
 		double r1, r2;
-		double apertureRad = _scene.getApertureRadius();
+		double apertureRadP = _scene.getApertureRadius();
+		double apertureRadM = -apertureRadP;
 		Point3D pntToAdd;
 		for (int t = 0; t < 5; ++t) {
-			r1 = Math.random() * apertureRad;
-			r2 = Math.random() * apertureRad;
+			r1 = Math.random() * apertureRadP;
+			r2 = Math.random() * apertureRadP;
 			pntToAdd = r1 == 0 ? new Point3D(pnt) : pnt.addVec(vUp.scale(r1));
-			pntToAdd = r2 == 0 ? pntToAdd : pnt.addVec(vRight.scale(r2));
+			pntToAdd = r2 == 0 ? pntToAdd : pntToAdd.addVec(vRight.scale(r2));
 			points.add(pntToAdd);
-			r1 = Math.random() * apertureRad;
-			r2 = Math.random() * apertureRad;
-			pntToAdd = r1 == 0 ? new Point3D(pnt) : pnt.addVec(vUp.scale(-r1));
-			pntToAdd = r2 == 0 ? pntToAdd : pnt.addVec(vRight.scale(-r2));
-			points.add(pntToAdd);
-			r1 = Math.random() * apertureRad;
-			r2 = Math.random() * apertureRad;
+			r1 = Math.random() * apertureRadM;
+			r2 = Math.random() * apertureRadM;
 			pntToAdd = r1 == 0 ? new Point3D(pnt) : pnt.addVec(vUp.scale(r1));
-			pntToAdd = r2 == 0 ? pntToAdd : pnt.addVec(vRight.scale(-r2));
+			pntToAdd = r2 == 0 ? pntToAdd : pntToAdd.addVec(vRight.scale(r2));
 			points.add(pntToAdd);
-			r1 = Math.random() * apertureRad;
-			r2 = Math.random() * apertureRad;
-			pntToAdd = r1 == 0 ? new Point3D(pnt) : pnt.addVec(vUp.scale(-r1));
-			pntToAdd = r2 == 0 ? pntToAdd : pnt.addVec(vRight.scale(r2));
+			r1 = Math.random() * apertureRadP;
+			r2 = Math.random() * apertureRadM;
+			pntToAdd = r1 == 0 ? new Point3D(pnt) : pnt.addVec(vUp.scale(r1));
+			pntToAdd = r2 == 0 ? pntToAdd : pntToAdd.addVec(vRight.scale(r2));
+			points.add(pntToAdd);
+			r1 = Math.random() * apertureRadM;
+			r2 = Math.random() * apertureRadP;
+			pntToAdd = r1 == 0 ? new Point3D(pnt) : pnt.addVec(vUp.scale(r1));
+			pntToAdd = r2 == 0 ? pntToAdd : pntToAdd.addVec(vRight.scale(r2));
 			points.add(pntToAdd);
 		}
+		System.out.println(points);
 		return points;
 	}
 
