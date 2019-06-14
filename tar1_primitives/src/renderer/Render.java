@@ -1,7 +1,5 @@
 package renderer;
 
-import static primitives.Util.alignZero;
-
 import java.util.ArrayList;
 import java.util.List;
 
