@@ -56,7 +56,7 @@ public class Scene {
 		this._screenDistance = screenDistance;
 		this._focus = false;
 	}
-	
+
 	public void setCamera(Camera camera, double screenDistance, double focusDistance, double apertureRadius) {
 		this._camera = camera;
 		this._screenDistance = screenDistance;
@@ -92,7 +92,7 @@ public class Scene {
 	public List<LightSource> getLights() {
 		return _lights;
 	}
-	
+
 	public boolean isFocus() {
 		return _focus;
 	}
@@ -117,7 +117,8 @@ public class Scene {
 
 	@Override
 	public String toString() {
-		return "name: " + _scene + "\ncamera: " + _camera + " " + _screenDistance + (isFocus() ? _focusDistance : " without focus") + "\nback: " + _background
-				+ "\nambient: " + _ambientLight.getIntensity() + "\n" + _geometries + "\n" + _lights;
+		return "name: " + _scene + "\ncamera: " + _camera + " " + _screenDistance
+				+ (isFocus() ? _focusDistance : " without focus") + "\nback: " + _background + "\nambient: "
+				+ _ambientLight.getIntensity() + "\n" + _geometries + "\n" + _lights;
 	}
 }

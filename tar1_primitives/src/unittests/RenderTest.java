@@ -640,33 +640,35 @@ public class RenderTest extends TestCase {
 			triangle2 = new Triangle(new Point3D(a, b, c - 2 * a), new Point3D(-a, b, c - 2 * a), new Point3D(-a, b, c),
 					new Color(java.awt.Color.pink), new Material(0.5, 0.5, 40, 0, 0.8));
 			geometries.add(sphere, triangle1, triangle2);
-			
-			triangle1 = new Triangle(new Point3D(a, b + 2*a, c), new Point3D(-a, b + 2*a, c), new Point3D(a, b + 2 * a, c - 2 * a),
-					new Color(java.awt.Color.pink), new Material(0.5, 0.5, 40, 0, 0.8));
-			triangle2 = new Triangle(new Point3D(a, b + 2 * a, c - 2 * a), new Point3D(-a, b + 2 * a, c - 2 * a), new Point3D(-a, b + 2 * a, c),
-					new Color(java.awt.Color.pink), new Material(0.5, 0.5, 40, 0, 0.8));
+
+			triangle1 = new Triangle(new Point3D(a, b + 2 * a, c), new Point3D(-a, b + 2 * a, c),
+					new Point3D(a, b + 2 * a, c - 2 * a), new Color(java.awt.Color.pink),
+					new Material(0.5, 0.5, 40, 0, 0.8));
+			triangle2 = new Triangle(new Point3D(a, b + 2 * a, c - 2 * a), new Point3D(-a, b + 2 * a, c - 2 * a),
+					new Point3D(-a, b + 2 * a, c), new Color(java.awt.Color.pink), new Material(0.5, 0.5, 40, 0, 0.8));
 			geometries.add(triangle1, triangle2);
-			
+
 			triangle1 = new Triangle(new Point3D(a, b, c), new Point3D(a, b + 2 * a, c), new Point3D(a, b, c - 2 * a),
 					new Color(java.awt.Color.pink), new Material(0.5, 0.5, 40, 0, 0.8));
-			triangle2 = new Triangle(new Point3D(a, b + 2 * a, c), new Point3D(a, b + 2 * a, c - 2 * a), new Point3D(a, b, c - 2 * a),
-					new Color(java.awt.Color.pink), new Material(0.5, 0.5, 40, 0, 0.8));
+			triangle2 = new Triangle(new Point3D(a, b + 2 * a, c), new Point3D(a, b + 2 * a, c - 2 * a),
+					new Point3D(a, b, c - 2 * a), new Color(java.awt.Color.pink), new Material(0.5, 0.5, 40, 0, 0.8));
 			geometries.add(triangle1, triangle2);
-			
-			triangle1 = new Triangle(new Point3D(-a, b, c), new Point3D(-a, b + 2 * a, c), new Point3D(-a, b, c - 2 * a),
-					new Color(java.awt.Color.pink), new Material(0.5, 0.5, 40, 0, 0.8));
-			triangle2 = new Triangle(new Point3D(-a, b + 2 * a, c), new Point3D(-a, b + 2 * a, c - 2 * a), new Point3D(-a, b, c - 2 * a),
-					new Color(java.awt.Color.pink), new Material(0.5, 0.5, 40, 0, 0.8));
+
+			triangle1 = new Triangle(new Point3D(-a, b, c), new Point3D(-a, b + 2 * a, c),
+					new Point3D(-a, b, c - 2 * a), new Color(java.awt.Color.pink), new Material(0.5, 0.5, 40, 0, 0.8));
+			triangle2 = new Triangle(new Point3D(-a, b + 2 * a, c), new Point3D(-a, b + 2 * a, c - 2 * a),
+					new Point3D(-a, b, c - 2 * a), new Color(java.awt.Color.pink), new Material(0.5, 0.5, 40, 0, 0.8));
 			geometries.add(triangle1, triangle2);
-			
-			triangle1 = new Triangle(new Point3D(-a, b, c - 2 * a), new Point3D(a, b, c - 2 * a), new Point3D(-a, b + 2 * a, c - 2 * a),
-					new Color(java.awt.Color.pink), new Material(0.5, 0.5, 40, 0, 0.8));
-			triangle2 = new Triangle(new Point3D(-a, b + 2 * a, c - 2 * a), new Point3D(a, b + 2 * a, c - 2 * a), new Point3D(a, b, c - 2 * a),
-					new Color(java.awt.Color.pink), new Material(0.5, 0.5, 40, 0, 0.8));
+
+			triangle1 = new Triangle(new Point3D(-a, b, c - 2 * a), new Point3D(a, b, c - 2 * a),
+					new Point3D(-a, b + 2 * a, c - 2 * a), new Color(java.awt.Color.pink),
+					new Material(0.5, 0.5, 40, 0, 0.8));
+			triangle2 = new Triangle(new Point3D(-a, b + 2 * a, c - 2 * a), new Point3D(a, b + 2 * a, c - 2 * a),
+					new Point3D(a, b, c - 2 * a), new Color(java.awt.Color.pink), new Material(0.5, 0.5, 40, 0, 0.8));
 			geometries.add(triangle1, triangle2);
-		//	geometries.add(sphere);
+			// geometries.add(sphere);
 		}
-		scene.setLights(new DirectionalLight(new Color(255, 100, 100), new Vector(0,0 , -1)));
+		scene.setLights(new DirectionalLight(new Color(255, 100, 100), new Vector(0, 0, -1)));
 		ImageWriter imageWriter = new ImageWriter("depth of field 6", 500, 500, 500, 500);
 		Render render = new Render(scene, imageWriter);
 		render.renderImage();
