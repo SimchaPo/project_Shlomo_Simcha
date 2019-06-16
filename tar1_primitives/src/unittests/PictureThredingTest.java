@@ -35,7 +35,7 @@ public class PictureThredingTest extends TestCase {
 		ImageWriter imageWriter = new ImageWriter("depth of field 4 Thread", 500, 500, 500, 500);
 		PictureThreading renderT = new PictureThreading(scene, imageWriter);
 		renderT.renderImage();
-		renderT.getImageWriter().writeToImage();
+		renderT.get_im().writeToImage();
 	}
 
 }

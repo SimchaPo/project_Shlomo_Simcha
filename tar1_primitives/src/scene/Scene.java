@@ -36,6 +36,20 @@ public class Scene {
 		_lights = new ArrayList<LightSource>();
 	}
 
+	public Scene(Scene sc) {
+		_scene = sc._scene;
+		_ambientLight = sc._ambientLight;
+		_background = sc._background;
+		_camera = sc._camera;
+		_geometries = new Geometries(sc._geometries);
+		_screenDistance = sc._screenDistance;
+		_lights = new ArrayList<LightSource>(sc._lights);
+		_apertureRadius = sc._apertureRadius;
+		_focus = sc._focus;
+		_focusDistance = sc._focusDistance;
+
+	}
+
 	/* ***** Getters/Setters ****** */
 	public void setLights(LightSource... lights) {
 		for (LightSource light : lights) {
