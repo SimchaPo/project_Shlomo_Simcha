@@ -74,7 +74,7 @@ public class Render {
 		for (int i = 0; i < nX; ++i) {
 			for (int j = 0; j < nY; ++j) {
 				pij = _scene.getCamera().getPixelCenter(nX, nY, i, j, screenDis, imageWidth, imageHeigt);
-				_imageWriter.writePixel(i, j, calcColor(pij, ry, rx));
+				_imageWriter.writePixel(i, j, calcColor(pij, ry, rx).getColor());
 			}
 		}
 	}
@@ -85,9 +85,9 @@ public class Render {
 	 * @param ray
 	 * @return
 	 */
-	private java.awt.Color getPointColor(Ray ray) {
+	private Color getPointColor(Ray ray) {
 		GeoPoint closestPoint = findClosestIntersection(ray);
-		return closestPoint == null ? _scene.getBackground().getColor() : calcColor(closestPoint, ray).getColor();
+		return closestPoint == null ? _scene.getBackground() : calcColor(closestPoint, ray);
 	}
 
 	/**
@@ -261,18 +261,18 @@ public class Render {
 	 * @param rx
 	 * @return
 	 */
-	private java.awt.Color calcColor(Point3D pij, double ry, double rx) {
+	private Color calcColor(Point3D pij, double ry, double rx) {
 		int r = 0, g = 0, b = 0;
 		List<Point3D> pixelPoints = getRandomPoints(pij, ry, rx);
-		java.awt.Color col = new java.awt.Color(0, 0, 0);
+		Color col = new Color();
 		int len = pixelPoints.size();
 		for (Point3D pnt : pixelPoints) {
 			col = _scene.isFocus() ? calcColorFocus(pnt) : getPointColor(new Ray(p0, new Vector(pnt.subtract(p0))));
-			r += col.getRed();
-			g += col.getGreen();
-			b += col.getBlue();
+			r += col.getColor().getRed();
+			g += col.getColor().getGreen();
+			b += col.getColor().getBlue();
 		}
-		return new java.awt.Color(r / len, g / len, b / len);
+		return new Color(r / len, g / len, b / len);
 	}
 
 	/**
@@ -282,20 +282,20 @@ public class Render {
 	 * @param focusPoint
 	 * @return
 	 */
-	private java.awt.Color calcColorFocus(Point3D pnt) {
-		int r = 0, g = 0, b = 0;
-		java.awt.Color col = new java.awt.Color(0, 0, 0);
+	private Color calcColorFocus(Point3D pnt) {
+		double r = 0, g = 0, b = 0;
+		Color col = new Color();
 		double apertureRad = _scene.getApertureRadius();
 		List<Point3D> aperturePoints = getRandomPoints(p0, apertureRad, apertureRad);
 		Point3D focalPoint = focalPlane.findIntersections(new Ray(p0, pnt.subtract(p0))).get(0).point;
 		for (Point3D point : aperturePoints) {
 			col = getPointColor(new Ray(point, new Vector(focalPoint.subtract(point))));
-			r += col.getRed();
-			g += col.getGreen();
-			b += col.getBlue();
+			r += col.getColor().getRed();
+			g += col.getColor().getGreen();
+			b += col.getColor().getBlue();
 		}
 		int len = aperturePoints.size();
-		return new java.awt.Color(r / len, g / len, b / len);
+		return new Color(r / len, g / len, b / len);
 	}
 
 	/**
@@ -336,25 +336,25 @@ public class Render {
 	}
 
 	/**
-	 * prints a grid and in image
+	 * prints a grid in image
 	 * 
 	 * @param size
 	 * @param opt
 	 */
-	public void printGrid(int size, java.awt.Color... opt) {
+	public void printGrid(int size, Color... opt) {
 		int nX = _imageWriter.getNx(), nY = _imageWriter.getNy();
 		int sizeX = nX % 2 == 0 ? nX / size : nX / size + 1, sizeY = nY % 2 == 0 ? nY / size : nY / size + 1;
-		java.awt.Color _color = opt.length > 0 ? opt[0] : java.awt.Color.white;
+		Color _color = opt.length > 0 ? opt[0] : new Color(255, 255, 255);
 		for (int i = 0; i < nX; i += sizeX) {
 			for (int j = 0; j < nY; ++j) {
-				_imageWriter.writePixel(i, j, _color);
-				_imageWriter.writePixel(nX - 1, j, _color);
+				_imageWriter.writePixel(i, j, _color.getColor());
+				_imageWriter.writePixel(nX - 1, j, _color.getColor());
 			}
 		}
 		for (int j = 0; j < nY; j += sizeY) {
 			for (int i = 0; i < nX; ++i) {
-				_imageWriter.writePixel(i, j, _color);
-				_imageWriter.writePixel(i, nY - 1, _color);
+				_imageWriter.writePixel(i, j, _color.getColor());
+				_imageWriter.writePixel(i, nY - 1, _color.getColor());
 			}
 		}
 	}

@@ -53,7 +53,7 @@ public class RenderTest extends TestCase {
 		ImageWriter im = new ImageWriter("triangles and a sphere", 500, 500, 500, 500);
 		Render ren = new Render(scene, im);
 		ren.renderImage();
-		ren.printGrid(10, java.awt.Color.red);
+		ren.printGrid(10, new Color(java.awt.Color.red));
 		ren.getImageWriter().writeToImage();
 	}
 
@@ -82,7 +82,7 @@ public class RenderTest extends TestCase {
 		ImageWriter im = new ImageWriter("triangles and a sphere with different colors", 500, 500, 500, 500);
 		Render ren = new Render(scene, im);
 		ren.renderImage();
-		ren.printGrid(10, java.awt.Color.white);
+		ren.printGrid(10, new Color(255,255,255));
 		ren.getImageWriter().writeToImage();
 	}
 
@@ -621,7 +621,7 @@ public class RenderTest extends TestCase {
 	}
 
 	/**
-	 * test for NOT depth of field
+	 * test for depth of field 6
 	 */
 	public void testRenderImage23() {
 		Scene scene = new Scene("abc");
