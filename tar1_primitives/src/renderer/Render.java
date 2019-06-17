@@ -2,10 +2,9 @@ package renderer;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import elements.LightSource;
-import geometries.Intersectable.GeoPoint;
 import geometries.Plane;
+import geometries.Intersectable.GeoPoint;
 import primitives.Color;
 import primitives.Point3D;
 import primitives.Ray;
@@ -68,12 +67,14 @@ public class Render {
 	 */
 	public void renderImage() {
 		int nX = _imageWriter.getNx(), nY = _imageWriter.getNy();
-		boolean focus = _scene.isFocus();
+		double screenDis = _scene.getScreenDistance(), imageWidth = _imageWriter.getWidth(),
+				imageHeigt = _imageWriter.getHeight();
+		double ry = imageHeigt / (2 * nY), rx = imageWidth / (2 * nX);
+		Point3D pij;
 		for (int i = 0; i < nX; ++i) {
 			for (int j = 0; j < nY; ++j) {
-				Ray ray = _scene.getCamera().constructRayThroughPixel(nX, nY, i, j, _scene.getScreenDistance(),
-						_imageWriter.getWidth(), _imageWriter.getHeight());
-				_imageWriter.writePixel(i, j, focus ? calcColorFocus(ray) : getPointColor(ray));
+				pij = _scene.getCamera().getPixelCenter(nX, nY, i, j, screenDis, imageWidth, imageHeigt);
+				_imageWriter.writePixel(i, j, calcColor(pij, ry, rx));
 			}
 		}
 	}
@@ -84,7 +85,7 @@ public class Render {
 	 * @param ray
 	 * @return
 	 */
-	public java.awt.Color getPointColor(Ray ray) {
+	private java.awt.Color getPointColor(Ray ray) {
 		GeoPoint closestPoint = findClosestIntersection(ray);
 		return closestPoint == null ? _scene.getBackground().getColor() : calcColor(closestPoint, ray).getColor();
 	}
@@ -98,30 +99,6 @@ public class Render {
 	 */
 	private Color calcColor(GeoPoint closestPoint, Ray ray) {
 		return calcColor(closestPoint, ray, MAX_CALC_COLOR_LEVEL, 1).add(_scene.getAmbientLight().getIntensity());
-	}
-
-	/**
-	 * prints a grid and in image
-	 * 
-	 * @param size
-	 * @param opt
-	 */
-	public void printGrid(int size, java.awt.Color... opt) {
-		int nX = _imageWriter.getNx(), nY = _imageWriter.getNy();
-		int sizeX = nX % 2 == 0 ? nX / size : nX / size + 1, sizeY = nY % 2 == 0 ? nY / size : nY / size + 1;
-		java.awt.Color _color = opt.length > 0 ? opt[0] : java.awt.Color.white;
-		for (int i = 0; i < nX; i += sizeX) {
-			for (int j = 0; j < nY; ++j) {
-				_imageWriter.writePixel(i, j, _color);
-				_imageWriter.writePixel(nX - 1, j, _color);
-			}
-		}
-		for (int j = 0; j < nY; j += sizeY) {
-			for (int i = 0; i < nX; ++i) {
-				_imageWriter.writePixel(i, j, _color);
-				_imageWriter.writePixel(i, nY - 1, _color);
-			}
-		}
 	}
 
 	/**
@@ -171,28 +148,6 @@ public class Render {
 			}
 		}
 		return color;
-	}
-
-	/**
-	 * calc color with focus
-	 * 
-	 * @param points
-	 * @param focusPoint
-	 * @return
-	 */
-	protected java.awt.Color calcColorFocus(Ray ray) {
-		int r = 0, g = 0, b = 0;
-		java.awt.Color col = new java.awt.Color(0, 0, 0);
-		List<Point3D> points = getPointsInAperture(p0);
-		int len = points.size();
-		Point3D focalPoint = focalPlane.findIntersections(ray).get(0).point;
-		for (Point3D pnt : points) {
-			col = getPointColor(new Ray(pnt, new Vector(focalPoint.subtract(pnt))));
-			r += col.getRed();
-			g += col.getGreen();
-			b += col.getBlue();
-		}
-		return new java.awt.Color(r / len, g / len, b / len);
 	}
 
 	/**
@@ -298,127 +253,109 @@ public class Render {
 		return new Color(lightIntensity.scale(ks * Math.pow(Math.max(0, -1 * v.vectorsDotProduct(r)), nShininess)));
 	}
 
-//	/**
-//	 * get list of randomize points in pixel
-//	 * 
-//	 * @param i
-//	 * @param j
-//	 * @return
-//	 */
-//	public List<Point3D> getPointsInPixel(int i, int j) {
-//		int nX = _imageWriter.getNx(), nY = _imageWriter.getNy();
-//		double screenDistance = _scene.getScreenDistance(), screenHeight = _imageWriter.getHeight(),
-//				screenWidth = _imageWriter.getWidth();
-//		double ry = alignZero(screenHeight / nY) / 2;
-//		double rx = alignZero(screenWidth / nX) / 2;
-//		List<Point3D> points = new ArrayList<Point3D>();
-//		Point3D pij = _scene.getCamera().getPixelCenter(nX, nY, i, j, screenDistance, screenWidth, screenHeight);
-//		points.add(pij);
-//		double r1, r2;
-//		Vector vUp = _scene.getCamera().getVUp(), vRight = _scene.getCamera().getVRight();
-//		Point3D pntToAdd;
-//		for (int t = 0; t < 5; ++t) {
-//			r1 = Math.random() * ry;
-//			r2 = Math.random() * rx;
-//			pntToAdd = r1 == 0 ? new Point3D(pij) : pij.addVec(vUp.scale(r1));
-//			pntToAdd = r2 == 0 ? pntToAdd : pij.addVec(vRight.scale(r2));
-//			points.add(pntToAdd);
-//			r1 = Math.random() * ry;
-//			r2 = Math.random() * rx;
-//			pntToAdd = r1 == 0 ? new Point3D(pij) : pij.addVec(vUp.scale(-r1));
-//			pntToAdd = r2 == 0 ? pntToAdd : pij.addVec(vRight.scale(-r2));
-//			points.add(pntToAdd);
-//			r1 = Math.random() * ry;
-//			r2 = Math.random() * rx;
-//			pntToAdd = r1 == 0 ? new Point3D(pij) : pij.addVec(vUp.scale(r1));
-//			pntToAdd = r2 == 0 ? pntToAdd : pij.addVec(vRight.scale(-r2));
-//			points.add(pntToAdd);
-//			r1 = Math.random() * ry;
-//			r2 = Math.random() * rx;
-//			pntToAdd = r1 == 0 ? new Point3D(pij) : pij.addVec(vUp.scale(-r1));
-//			pntToAdd = r2 == 0 ? pntToAdd : pij.addVec(vRight.scale(r2));
-//			points.add(pntToAdd);
-//		}
-//		return points;
-//	}
+	/**
+	 * calculate color with average of random rays
+	 * 
+	 * @param pij
+	 * @param ry
+	 * @param rx
+	 * @return
+	 */
+	private java.awt.Color calcColor(Point3D pij, double ry, double rx) {
+		int r = 0, g = 0, b = 0;
+		List<Point3D> pixelPoints = getRandomPoints(pij, ry, rx);
+		java.awt.Color col = new java.awt.Color(0, 0, 0);
+		int len = pixelPoints.size();
+		for (Point3D pnt : pixelPoints) {
+			col = _scene.isFocus() ? calcColorFocus(pnt) : getPointColor(new Ray(p0, new Vector(pnt.subtract(p0))));
+			r += col.getRed();
+			g += col.getGreen();
+			b += col.getBlue();
+		}
+		return new java.awt.Color(r / len, g / len, b / len);
+	}
 
 	/**
-	 * get list of randomize points around eye
+	 * calculate color with focus
+	 * 
+	 * @param points
+	 * @param focusPoint
+	 * @return
+	 */
+	private java.awt.Color calcColorFocus(Point3D pnt) {
+		int r = 0, g = 0, b = 0;
+		java.awt.Color col = new java.awt.Color(0, 0, 0);
+		double apertureRad = _scene.getApertureRadius();
+		List<Point3D> aperturePoints = getRandomPoints(p0, apertureRad, apertureRad);
+		Point3D focalPoint = focalPlane.findIntersections(new Ray(p0, pnt.subtract(p0))).get(0).point;
+		for (Point3D point : aperturePoints) {
+			col = getPointColor(new Ray(point, new Vector(focalPoint.subtract(point))));
+			r += col.getRed();
+			g += col.getGreen();
+			b += col.getBlue();
+		}
+		int len = aperturePoints.size();
+		return new java.awt.Color(r / len, g / len, b / len);
+	}
+
+	/**
+	 * get list of randomize points around point
 	 * 
 	 * @param i
 	 * @param j
 	 * @return
 	 */
-	public List<Point3D> getPointsInAperture(Point3D pnt) {
+	private List<Point3D> getRandomPoints(Point3D centerPnt, double yRad, double xRad) {
 		List<Point3D> points = new ArrayList<Point3D>();
-		points.add(pnt);
+		points.add(centerPnt);
 		double r1, r2;
-		double apertureRadP = _scene.getApertureRadius();
-		double apertureRadM = -apertureRadP;
 		Point3D pntToAdd;
 		for (int t = 0; t < 5; ++t) {
-			r1 = Math.random() * apertureRadP;
-			r2 = Math.random() * apertureRadP;
-			pntToAdd = r1 == 0 ? new Point3D(pnt) : pnt.addVec(vUp.scale(r1));
+			r1 = Math.random() * yRad;
+			r2 = Math.random() * xRad;
+			pntToAdd = r1 == 0 ? new Point3D(centerPnt) : centerPnt.addVec(vUp.scale(r1));
 			pntToAdd = r2 == 0 ? pntToAdd : pntToAdd.addVec(vRight.scale(r2));
 			points.add(pntToAdd);
-			r1 = Math.random() * apertureRadM;
-			r2 = Math.random() * apertureRadM;
-			pntToAdd = r1 == 0 ? new Point3D(pnt) : pnt.addVec(vUp.scale(r1));
+			r1 = Math.random() * yRad;
+			r2 = Math.random() * xRad;
+			pntToAdd = r1 == 0 ? new Point3D(centerPnt) : centerPnt.addVec(vUp.scale(-r1));
+			pntToAdd = r2 == 0 ? pntToAdd : pntToAdd.addVec(vRight.scale(-r2));
+			points.add(pntToAdd);
+			r1 = Math.random() * yRad;
+			r2 = Math.random() * xRad;
+			pntToAdd = r1 == 0 ? new Point3D(centerPnt) : centerPnt.addVec(vUp.scale(-r1));
 			pntToAdd = r2 == 0 ? pntToAdd : pntToAdd.addVec(vRight.scale(r2));
 			points.add(pntToAdd);
-			r1 = Math.random() * apertureRadP;
-			r2 = Math.random() * apertureRadM;
-			pntToAdd = r1 == 0 ? new Point3D(pnt) : pnt.addVec(vUp.scale(r1));
-			pntToAdd = r2 == 0 ? pntToAdd : pntToAdd.addVec(vRight.scale(r2));
-			points.add(pntToAdd);
-			r1 = Math.random() * apertureRadM;
-			r2 = Math.random() * apertureRadP;
-			pntToAdd = r1 == 0 ? new Point3D(pnt) : pnt.addVec(vUp.scale(r1));
-			pntToAdd = r2 == 0 ? pntToAdd : pntToAdd.addVec(vRight.scale(r2));
+			r1 = Math.random() * yRad;
+			r2 = Math.random() * xRad;
+			pntToAdd = r1 == 0 ? new Point3D(centerPnt) : centerPnt.addVec(vUp.scale(r1));
+			pntToAdd = r2 == 0 ? pntToAdd : pntToAdd.addVec(vRight.scale(-r2));
 			points.add(pntToAdd);
 		}
-		System.out.println(points);
 		return points;
 	}
 
-	public static int getMaxCalcColorLevel() {
-		return MAX_CALC_COLOR_LEVEL;
-	}
-
-	public static double getMinCalcColorK() {
-		return MIN_CALC_COLOR_K;
-	}
-
-	public static double getEps() {
-		return EPS;
-	}
-
-	public Scene get_scene() {
-		return _scene;
-	}
-
-	public ImageWriter get_imageWriter() {
-		return _imageWriter;
-	}
-
-	public Plane getFocalPlane() {
-		return focalPlane;
-	}
-
-	public Point3D getP0() {
-		return p0;
-	}
-
-	public Vector getvTo() {
-		return vTo;
-	}
-
-	public Vector getvUp() {
-		return vUp;
-	}
-
-	public Vector getvRight() {
-		return vRight;
+	/**
+	 * prints a grid and in image
+	 * 
+	 * @param size
+	 * @param opt
+	 */
+	public void printGrid(int size, java.awt.Color... opt) {
+		int nX = _imageWriter.getNx(), nY = _imageWriter.getNy();
+		int sizeX = nX % 2 == 0 ? nX / size : nX / size + 1, sizeY = nY % 2 == 0 ? nY / size : nY / size + 1;
+		java.awt.Color _color = opt.length > 0 ? opt[0] : java.awt.Color.white;
+		for (int i = 0; i < nX; i += sizeX) {
+			for (int j = 0; j < nY; ++j) {
+				_imageWriter.writePixel(i, j, _color);
+				_imageWriter.writePixel(nX - 1, j, _color);
+			}
+		}
+		for (int j = 0; j < nY; j += sizeY) {
+			for (int i = 0; i < nX; ++i) {
+				_imageWriter.writePixel(i, j, _color);
+				_imageWriter.writePixel(i, nY - 1, _color);
+			}
+		}
 	}
 }
