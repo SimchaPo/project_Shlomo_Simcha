@@ -31,8 +31,9 @@ import scene.SceneBuilder;
 public class RenderTest extends TestCase {
 	/**
 	 * draw in image with 4 triangles and a sphere
+	 * @throws InterruptedException 
 	 */
-	public void testRenderImage1() {
+	public void testRenderImage1() throws InterruptedException {
 		Geometries geometries = new Geometries();
 		Sphere sphere = new Sphere(new Point3D(0, 0, -150), 50);
 		Triangle tr1 = new Triangle(new Point3D(100, 0, -149), new Point3D(0, 100, -149), new Point3D(100, 100, -149));
@@ -59,8 +60,9 @@ public class RenderTest extends TestCase {
 
 	/**
 	 * draw in image with 4 triangles and a sphere with different colors
+	 * @throws InterruptedException 
 	 */
-	public void testRenderImage2() {
+	public void testRenderImage2() throws InterruptedException {
 		Geometries geometries = new Geometries();
 		Sphere sphere = new Sphere(new Point3D(0, 0, -150), 50, new Color(java.awt.Color.darkGray), new Material());
 		Triangle tr1 = new Triangle(new Point3D(100, 0, -149), new Point3D(0, 100, -149), new Point3D(100, 100, -149),
@@ -88,8 +90,9 @@ public class RenderTest extends TestCase {
 
 	/**
 	 * test for directional light, sphere
+	 * @throws InterruptedException 
 	 */
-	public void testRenderImage3() {
+	public void testRenderImage3() throws InterruptedException {
 		Scene scene = new Scene("Test scene");
 		scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, -1, 0), new Vector(0, 0, 1)), 150);
 		scene.setBackground(new Color(0, 0, 0));
@@ -106,8 +109,9 @@ public class RenderTest extends TestCase {
 
 	/**
 	 * test for point light, two triangle
+	 * @throws InterruptedException 
 	 */
-	public void testRenderImage4() {
+	public void testRenderImage4() throws InterruptedException {
 		Scene scene = new Scene("Test scene");
 		scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, -1, 0), new Vector(0, 0, 1)), 150);
 		scene.setBackground(new Color(0, 0, 0));
@@ -127,8 +131,9 @@ public class RenderTest extends TestCase {
 
 	/**
 	 * test for point light, sphere
+	 * @throws InterruptedException 
 	 */
-	public void testRenderImage5() {
+	public void testRenderImage5() throws InterruptedException {
 		Scene scene = new Scene("Test scene");
 		scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, -1, 0), new Vector(0, 0, 1)), 150);
 		scene.setBackground(new Color(0, 0, 0));
@@ -145,8 +150,9 @@ public class RenderTest extends TestCase {
 
 	/**
 	 * test for spot light, two triangle
+	 * @throws InterruptedException 
 	 */
-	public void testRenderImage6() {
+	public void testRenderImage6() throws InterruptedException {
 		Scene scene = new Scene("Test scene");
 		scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, -1, 0), new Vector(0, 0, 1)), 150);
 		scene.setBackground(new Color(0, 0, 0));
@@ -167,8 +173,9 @@ public class RenderTest extends TestCase {
 
 	/**
 	 * test for spot light, sphere
+	 * @throws InterruptedException 
 	 */
-	public void testRenderImage7() {
+	public void testRenderImage7() throws InterruptedException {
 		Scene scene = new Scene("Test scene");
 		scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, -1, 0), new Vector(0, 0, 1)), 150);
 		scene.setBackground(new Color());
@@ -192,9 +199,10 @@ public class RenderTest extends TestCase {
 	 * @throws IOException
 	 * @throws XMLStreamException
 	 * @throws TransformerException
+	 * @throws InterruptedException 
 	 */
 	public void testRenderImage8()
-			throws IOException, SAXException, ParserConfigurationException, TransformerException, XMLStreamException {
+			throws IOException, SAXException, ParserConfigurationException, TransformerException, XMLStreamException, InterruptedException {
 		XMLBuilder xmlBuilder = new XMLBuilder("spotLihet");
 		xmlBuilder.WriteToFile();
 		Scene sc = new Scene("abc");
@@ -208,8 +216,9 @@ public class RenderTest extends TestCase {
 
 	/**
 	 * test shadow under sphere
+	 * @throws InterruptedException 
 	 */
-	public void testRenderImage9() {
+	public void testRenderImage9() throws InterruptedException {
 		Scene scene = new Scene("abc");
 		scene.setBackground(new Color());
 		scene.setAmbientLight(new AmbientLight(Color.BLACK, 1.0));
@@ -234,8 +243,9 @@ public class RenderTest extends TestCase {
 
 	/**
 	 * test 1 recursive function
+	 * @throws InterruptedException 
 	 */
-	public void testRenderImage10() {
+	public void testRenderImage10() throws InterruptedException {
 		Scene scene = new Scene("abc");
 		scene.setBackground(new Color());
 		scene.setAmbientLight(new AmbientLight(Color.BLACK, 1.0));
@@ -256,8 +266,9 @@ public class RenderTest extends TestCase {
 
 	/**
 	 * test 1 recursive function
+	 * @throws InterruptedException 
 	 */
-	public void testRenderImage11() {
+	public void testRenderImage11() throws InterruptedException {
 		Scene scene = new Scene("abc");
 		scene.setBackground(new Color());
 		scene.setAmbientLight(new AmbientLight(Color.BLACK, 1.0));
@@ -286,8 +297,9 @@ public class RenderTest extends TestCase {
 
 	/**
 	 * test 3 recursive function
+	 * @throws InterruptedException 
 	 */
-	public void testRenderImage12() {
+	public void testRenderImage12() throws InterruptedException {
 		Scene scene = new Scene("abc");
 		scene.setBackground(new Color());
 		scene.setAmbientLight(new AmbientLight(Color.BLACK, 1.0));
@@ -316,8 +328,9 @@ public class RenderTest extends TestCase {
 
 	/**
 	 * draw flag
+	 * @throws InterruptedException 
 	 */
-	public void testRenderImage13() {
+	public void testRenderImage13() throws InterruptedException {
 		Scene scene = new Scene("abc");
 		scene.setAmbientLight(new AmbientLight(Color.BLACK, 1.0));
 		scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, -1)), 100);
@@ -347,8 +360,9 @@ public class RenderTest extends TestCase {
 
 	/**
 	 * test shadow with triangle and sphere
+	 * @throws InterruptedException 
 	 */
-	public void testRenderImage14() {
+	public void testRenderImage14() throws InterruptedException {
 		Scene scene = new Scene("abc");
 		scene.setBackground(new Color());
 		scene.setAmbientLight(new AmbientLight(Color.BLACK, 1.0));
@@ -368,7 +382,7 @@ public class RenderTest extends TestCase {
 		render.getImageWriter().writeToImage();
 	}
 
-	public void testRenderImage15() {
+	public void testRenderImage15() throws InterruptedException {
 		Scene scene = new Scene("abc");
 		scene.setBackground(new Color());
 		scene.setAmbientLight(new AmbientLight(Color.BLACK, 1.0));
@@ -402,7 +416,7 @@ public class RenderTest extends TestCase {
 		render.getImageWriter().writeToImage();
 	}
 
-	public void testRenderImage16() {
+	public void testRenderImage16() throws InterruptedException {
 		Scene scene = new Scene("abc");
 		scene.setBackground(new Color());
 		scene.setAmbientLight(new AmbientLight(Color.BLACK, 1.0));
@@ -474,8 +488,9 @@ public class RenderTest extends TestCase {
 
 	/**
 	 * test for depth of field 1
+	 * @throws InterruptedException 
 	 */
-	public void testRenderImage17() {
+	public void testRenderImage17() throws InterruptedException {
 		Scene scene = new Scene("abc");
 		scene.setBackground(new Color());
 		scene.setAmbientLight(new AmbientLight(Color.BLACK, 1.0));
@@ -497,8 +512,9 @@ public class RenderTest extends TestCase {
 
 	/**
 	 * test for depth of field 2
+	 * @throws InterruptedException 
 	 */
-	public void testRenderImage18() {
+	public void testRenderImage18() throws InterruptedException {
 		Scene scene = new Scene("abc");
 		scene.setBackground(new Color());
 		scene.setAmbientLight(new AmbientLight(Color.BLACK, 1.0));
@@ -522,8 +538,9 @@ public class RenderTest extends TestCase {
 
 	/**
 	 * test for depth of field 3
+	 * @throws InterruptedException 
 	 */
-	public void testRenderImage19() {
+	public void testRenderImage19() throws InterruptedException {
 		Scene scene = new Scene("abc");
 		scene.setBackground(new Color());
 		scene.setAmbientLight(new AmbientLight(Color.BLACK, 1.0));
@@ -547,8 +564,9 @@ public class RenderTest extends TestCase {
 
 	/**
 	 * test for depth of field 4
+	 * @throws InterruptedException 
 	 */
-	public void testRenderImage20() {
+	public void testRenderImage20() throws InterruptedException {
 		Scene scene = new Scene("abc");
 		scene.setBackground(new Color());
 		scene.setAmbientLight(new AmbientLight(Color.BLACK, 1.0));
@@ -572,8 +590,9 @@ public class RenderTest extends TestCase {
 
 	/**
 	 * test for depth of field 5
+	 * @throws InterruptedException 
 	 */
-	public void testRenderImage21() {
+	public void testRenderImage21() throws InterruptedException {
 		Scene scene = new Scene("abc");
 		scene.setBackground(new Color());
 		scene.setAmbientLight(new AmbientLight(Color.BLACK, 1.0));
@@ -597,8 +616,9 @@ public class RenderTest extends TestCase {
 
 	/**
 	 * test for NOT depth of field
+	 * @throws InterruptedException 
 	 */
-	public void testRenderImage22() {
+	public void testRenderImage22() throws InterruptedException {
 		Scene scene = new Scene("abc");
 		scene.setBackground(new Color());
 		scene.setAmbientLight(new AmbientLight(Color.BLACK, 1.0));
@@ -622,8 +642,9 @@ public class RenderTest extends TestCase {
 
 	/**
 	 * test for depth of field 6
+	 * @throws InterruptedException 
 	 */
-	public void testRenderImage23() {
+	public void testRenderImage23() throws InterruptedException {
 		Scene scene = new Scene("abc");
 		scene.setBackground(new Color());
 		scene.setAmbientLight(new AmbientLight(Color.BLACK, 1.0));

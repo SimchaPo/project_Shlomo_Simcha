@@ -83,6 +83,18 @@ public class Camera {
 		return new Ray(this._p0, _Vij);
 	}
 
+	/**
+	 * get a center of pixel
+	 * 
+	 * @param Nx
+	 * @param Ny
+	 * @param i
+	 * @param j
+	 * @param screenDistance
+	 * @param screenWidth
+	 * @param screenHeight
+	 * @return
+	 */
 	public Point3D getPixelCenter(int Nx, int Ny, int i, int j, double screenDistance, double screenWidth,
 			double screenHeight) {
 		Point3D pc = this._p0.addVec(_vTo.scale(screenDistance));// _Pc => center of the screen
