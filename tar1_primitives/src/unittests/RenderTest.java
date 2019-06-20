@@ -494,7 +494,7 @@ public class RenderTest extends TestCase {
 		Scene scene = new Scene("abc");
 		scene.setBackground(new Color());
 		scene.setAmbientLight(new AmbientLight(Color.BLACK, 1.0));
-		scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, -1)), 200, 900, 50);
+		scene.setCamera(new Camera(new Point3D(0, 0, 3000), new Vector(0, 1, 0), new Vector(0, 0, -1), 2800, 300), 1000);
 		Geometries geometries = new Geometries();
 		scene.addGeometries(geometries);
 		Sphere sphere1;
@@ -504,8 +504,33 @@ public class RenderTest extends TestCase {
 			geometries.add(sphere1);
 		}
 		scene.setLights(new DirectionalLight(new Color(255, 100, 100), new Vector(0, 0, -1)));
-		ImageWriter imageWriter = new ImageWriter("depth of field 1", 500, 500, 500, 500);
+		ImageWriter imageWriter = new ImageWriter("depth of field 1", 500, 500, 1000, 1000);
 		Render render = new Render(scene, imageWriter);
+		render.renderImage();
+		render.getImageWriter().writeToImage();
+	}
+	
+	/**
+	 * test for depth of field 1
+	 * @throws InterruptedException 
+	 */
+	public void testRenderImage17WithOutThread() throws InterruptedException {
+		Scene scene = new Scene("abc");
+		scene.setBackground(new Color());
+		scene.setAmbientLight(new AmbientLight(Color.BLACK, 1.0));
+		scene.setCamera(new Camera(new Point3D(0, 0, 3000), new Vector(0, 1, 0), new Vector(0, 0, -1), 2800, 300), 1000);
+		Geometries geometries = new Geometries();
+		scene.addGeometries(geometries);
+		Sphere sphere1;
+		for (int a = -500, b = -500; a <= 300; a += 200, b -= 200) {
+			sphere1 = new Sphere(new Point3D(0, a, b), 100, new Color(100, 0, 100),
+					new Material(1.5, 0.5, 40, 0.5, 0.5));
+			geometries.add(sphere1);
+		}
+		scene.setLights(new DirectionalLight(new Color(255, 100, 100), new Vector(0, 0, -1)));
+		ImageWriter imageWriter = new ImageWriter("depth of field 1 without Thread", 500, 500, 1000, 1000);
+		Render render = new Render(scene, imageWriter);
+		render.setThred(false);
 		render.renderImage();
 		render.getImageWriter().writeToImage();
 	}
@@ -518,7 +543,7 @@ public class RenderTest extends TestCase {
 		Scene scene = new Scene("abc");
 		scene.setBackground(new Color());
 		scene.setAmbientLight(new AmbientLight(Color.BLACK, 1.0));
-		scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, -1)), 200, 1500, 50);
+		scene.setCamera(new Camera(new Point3D(0, 0, 1000), new Vector(0, 1, 0), new Vector(0, 0, -1), 1400, 100), 600);
 		Geometries geometries = new Geometries();
 		scene.addGeometries(geometries);
 		Sphere sphere1;
@@ -544,7 +569,7 @@ public class RenderTest extends TestCase {
 		Scene scene = new Scene("abc");
 		scene.setBackground(new Color());
 		scene.setAmbientLight(new AmbientLight(Color.BLACK, 1.0));
-		scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, -1)), 200, 1000, 50);
+		scene.setCamera(new Camera(new Point3D(0, 0, 1000), new Vector(0, 1, 0), new Vector(0, 0, -1), 1900, 100), 600);
 		Geometries geometries = new Geometries();
 		scene.addGeometries(geometries);
 		Sphere sphere1;
@@ -570,7 +595,7 @@ public class RenderTest extends TestCase {
 		Scene scene = new Scene("abc");
 		scene.setBackground(new Color());
 		scene.setAmbientLight(new AmbientLight(Color.BLACK, 1.0));
-		scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, -1)), 200, 200, 50);
+		scene.setCamera(new Camera(new Point3D(0, 0, 1000), new Vector(0, 1, 0), new Vector(0, 0, -1), 8000, 100), 600);
 		Geometries geometries = new Geometries();
 		scene.addGeometries(geometries);
 		Sphere sphere1;
@@ -596,7 +621,7 @@ public class RenderTest extends TestCase {
 		Scene scene = new Scene("abc");
 		scene.setBackground(new Color());
 		scene.setAmbientLight(new AmbientLight(Color.BLACK, 1.0));
-		scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, -1)), 200, 3000, 50);
+		scene.setCamera(new Camera(new Point3D(0, 0, 1000), new Vector(0, 1, 0), new Vector(0, 0, -1), 2400, 100), 600);
 		Geometries geometries = new Geometries();
 		scene.addGeometries(geometries);
 		Sphere sphere1;
@@ -622,7 +647,7 @@ public class RenderTest extends TestCase {
 		Scene scene = new Scene("abc");
 		scene.setBackground(new Color());
 		scene.setAmbientLight(new AmbientLight(Color.BLACK, 1.0));
-		scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, -1)), 200);
+		scene.setCamera(new Camera(new Point3D(0, 0, 1000), new Vector(0, 1, 0), new Vector(0, 0, -1)), 600);
 		Geometries geometries = new Geometries();
 		scene.addGeometries(geometries);
 		Sphere sphere1;
@@ -648,7 +673,7 @@ public class RenderTest extends TestCase {
 		Scene scene = new Scene("abc");
 		scene.setBackground(new Color());
 		scene.setAmbientLight(new AmbientLight(Color.BLACK, 1.0));
-		scene.setCamera(new Camera(new Point3D(0, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, -1)), 200, 1000, 50);
+		scene.setCamera(new Camera(new Point3D(0, 0, 1000), new Vector(0, 1, 0), new Vector(0, 0, -1), 2500, 100), 600);
 		Geometries geometries = new Geometries();
 		scene.addGeometries(geometries);
 		Sphere sphere;

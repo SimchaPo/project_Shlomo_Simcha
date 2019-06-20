@@ -8,6 +8,7 @@ import elements.Camera;
 import elements.LightSource;
 import geometries.Geometries;
 import geometries.Intersectable;
+import geometries.Plane;
 import primitives.Color;
 
 /**
@@ -25,29 +26,13 @@ public class Scene {
 	private Camera _camera;
 	private double _screenDistance;
 	private List<LightSource> _lights;
-	private boolean _focus;
-	private double _focusDistance;
-	private double _apertureRadius;
+	private Plane _focalPlane;
 
 	/* ******* Constructors ********* */
 	public Scene(String name) {
 		_scene = name;
 		_geometries = new Geometries();
 		_lights = new ArrayList<LightSource>();
-	}
-
-	public Scene(Scene sc) {
-		_scene = sc._scene;
-		_ambientLight = sc._ambientLight;
-		_background = sc._background;
-		_camera = sc._camera;
-		_geometries = new Geometries(sc._geometries);
-		_screenDistance = sc._screenDistance;
-		_lights = new ArrayList<LightSource>(sc._lights);
-		_apertureRadius = sc._apertureRadius;
-		_focus = sc._focus;
-		_focusDistance = sc._focusDistance;
-
 	}
 
 	/* ***** Getters/Setters ****** */
@@ -68,15 +53,9 @@ public class Scene {
 	public void setCamera(Camera camera, double screenDistance) {
 		this._camera = camera;
 		this._screenDistance = screenDistance;
-		this._focus = false;
-	}
-
-	public void setCamera(Camera camera, double screenDistance, double focusDistance, double apertureRadius) {
-		this._camera = camera;
-		this._screenDistance = screenDistance;
-		this._focusDistance = focusDistance;
-		this._apertureRadius = apertureRadius;
-		this._focus = true;
+		if(_camera.isFocus()) {
+			_focalPlane = new Plane(_camera.getP0().addVec(_camera.getVTo().scale(screenDistance + _camera.getFocusDistance())), camera.getVTo());
+		}
 	}
 
 	public String getScene() {
@@ -106,17 +85,9 @@ public class Scene {
 	public List<LightSource> getLights() {
 		return _lights;
 	}
-
-	public boolean isFocus() {
-		return _focus;
-	}
-
-	public double getFocusDistance() {
-		return _focusDistance;
-	}
-
-	public double getApertureRadius() {
-		return _apertureRadius;
+	
+	public Plane getFocalPlane() {
+		return _focalPlane;
 	}
 
 	/******* Functions *******/
@@ -132,7 +103,7 @@ public class Scene {
 	@Override
 	public String toString() {
 		return "name: " + _scene + "\ncamera: " + _camera + " " + _screenDistance
-				+ (isFocus() ? _focusDistance : " without focus") + "\nback: " + _background + "\nambient: "
+				+ (_camera.isFocus() ? _camera.getFocusDistance() : " without focus") + "\nback: " + _background + "\nambient: "
 				+ _ambientLight.getIntensity() + "\n" + _geometries + "\n" + _lights;
 	}
 }

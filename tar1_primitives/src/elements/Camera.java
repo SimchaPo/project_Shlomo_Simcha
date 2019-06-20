@@ -1,6 +1,10 @@
 package elements;
 
 import static primitives.Util.alignZero;
+import static primitives.Util.isZero;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import primitives.Point3D;
 import primitives.Ray;
@@ -11,19 +15,28 @@ import primitives.Vector;
  * @author OWNER class for camera, camera sends rays to objects
  */
 public class Camera {
+	private static final int MAX_SUM_OF_RANDOM_POINTS = 20;
 	private Point3D _p0;
 	private Vector _vUp;
 	private Vector _vTo;
 	private Vector _vRight;
+	private boolean _focus = true;
+	private double _focusDistance;
+	private double _apertureSize;
 
 	/**
 	 * Constructor
 	 * 
-	 * @param _pnt0
-	 * @param _vecUp
-	 * @param _vecTo
+	 * @param pnt0
+	 * @param vecUp
+	 * @param vecTo
 	 */
-	public Camera(Point3D _pnt0, Vector _vecUp, Vector _vecTo) {
+	public Camera(Point3D pnt0, Vector vecUp, Vector vecTo) {
+		this(pnt0, vecUp, vecTo, 0, 0);
+		_focus = false;
+	}
+
+	public Camera(Point3D _pnt0, Vector _vecUp, Vector _vecTo, double focalDistance, double apertureSize) {
 		_p0 = new Point3D(_pnt0);
 		_vUp = _vecUp.normalize();
 		_vTo = _vecTo.normalize();
@@ -32,6 +45,8 @@ public class Camera {
 		} else {
 			throw new IllegalArgumentException("Error!!! The vectors vUp vTo is not ortogonal vectors!");
 		}
+		_focusDistance = focalDistance;
+		_apertureSize = apertureSize;
 	}
 
 	public Camera() {
@@ -62,6 +77,18 @@ public class Camera {
 
 	public Vector getVRight() {
 		return this._vRight;
+	}
+
+	public boolean isFocus() {
+		return _focus;
+	}
+
+	public double getFocusDistance() {
+		return _focusDistance;
+	}
+
+	public double getApertureSize() {
+		return _apertureSize;
 	}
 
 	/**
@@ -112,6 +139,32 @@ public class Camera {
 			pij = pij.addVec(this._vUp.scale(-yj));
 		// }
 		return pij;
+	}
+
+	/**
+	 * get list of randomize rays around pixel center
+	 * 
+	 * @param i
+	 * @param j
+	 * @return
+	 */
+	public List<Ray> getApertureRandomRays(Point3D pij, Point3D focalPoint, double aperture) {
+		List<Ray> rays = new ArrayList<Ray>();
+		rays.add(new Ray(pij, focalPoint.subtract(pij)));
+		double rand;
+		Point3D pntToAdd;
+		for (int i = 0; i < MAX_SUM_OF_RANDOM_POINTS; ++i) {
+			rand = Math.random() * aperture - aperture / 2;
+			if (!isZero(rand))
+				pntToAdd = pij.addVec(_vUp.scale(rand));
+			else
+				pntToAdd = pij;
+			rand = Math.random() * aperture - aperture / 2;
+			if (!isZero(rand))
+				pntToAdd = pntToAdd.addVec(_vRight.scale(rand));
+			rays.add(new Ray(pntToAdd, focalPoint.subtract(pntToAdd)));
+		}
+		return rays;
 	}
 
 	@Override
