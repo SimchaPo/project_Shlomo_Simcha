@@ -1,8 +1,6 @@
 package renderer;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -29,15 +27,15 @@ public class Render {
 	private static final int MAX_CALC_COLOR_LEVEL = 15;
 	private static final double MIN_CALC_COLOR_K = 0.001;
 	private static final double EPS = 0.1;
+	private static final int MATRIX_SIZE = 9;
 	private Scene _scene;
 	private ImageWriter _imageWriter;
-	private Point3D p0;
-	private Map<Point3D, Color> _pointsColors;
 	private int _cores;
 	private boolean _thred = true;
-	private boolean _adaptiveSuperSampling = false;
+	private boolean _adaptiveSuperSampling = true;
 	private boolean _superSampling = false;
 	private Color _bg;
+	private boolean _focal;
 
 	/**
 	 * ******** constructor *********
@@ -45,11 +43,11 @@ public class Render {
 	public Render(Scene s, ImageWriter im) {
 		_scene = s;
 		_imageWriter = im;
-		p0 = _scene.getCamera().getP0();
-		_pointsColors = new HashMap<Point3D, Color>();
 		_bg = new Color(_scene.getBackground());
 		_cores = Runtime.getRuntime().availableProcessors();
-		_thred = true;
+		setFocal(true);
+		if(_focal)
+			_adaptiveSuperSampling = false;
 	}
 
 	/**
@@ -84,24 +82,31 @@ public class Render {
 	 * 
 	 * @param _thred
 	 */
-	public void setThred(boolean _thred) {
-		this._thred = _thred;
+	public void setThred(boolean thred) {
+		_thred = thred;
 	}
 
 	/**
 	 * 
 	 * @param _adaptiveSuperSampling
 	 */
-	public void setAdaptiveSuperSampling(boolean _adaptiveSuperSampling) {
-		this._adaptiveSuperSampling = _adaptiveSuperSampling;
+	public void setAdaptiveSuperSampling(boolean adaptiveSuperSampling) {
+		_adaptiveSuperSampling = adaptiveSuperSampling;
 	}
 
 	/**
 	 * 
-	 * @param _superSampling
+	 * @param superSampling
 	 */
-	public void setSuperSampling(boolean _superSampling) {
-		this._superSampling = _superSampling;
+	public void setSuperSampling(boolean superSampling) {
+		_superSampling = superSampling;
+	}
+
+	public void setFocal(boolean focal) {
+		if (focal)
+			_focal = _scene.getCamera().isFocus();
+		else
+			_focal = false;
 	}
 
 	/**
@@ -112,8 +117,7 @@ public class Render {
 	public void renderImage() throws InterruptedException {
 		int nX = _imageWriter.getNx(), nY = _imageWriter.getNy();
 		double screenDis = _scene.getScreenDistance(), imageWidth = _imageWriter.getWidth(),
-				imageHeigt = _imageWriter.getHeight();
-		boolean focal = _scene.getCamera().isFocus();
+				imageHeigt = _imageWriter.getHeight(), rx = imageWidth / nX, ry = imageHeigt / nY;
 		Camera camera = _scene.getCamera();
 		_bg = _scene.getBackground();
 		java.awt.Color bg = _bg.getColor();
@@ -124,21 +128,21 @@ public class Render {
 			for (int j = 0; j < nY; ++j) {
 				final int i2 = i, j2 = j;
 				Runnable worker = () -> {
-//					if (_adaptiveSuperSampling || _superSampling) {
-//						Point3D pij = camera.getPixelCenter(nX, nY, i2, j2, screenDis, imageWidth, imageHeigt);
-//						_imageWriter.writePixel(i2, j2, calcColor(pij, ry, rx).getColor());
-//					} else {
-					if (focal) {
+					if (_adaptiveSuperSampling) {
+						Point3D pij = camera.getPixelCenter(nX, nY, i2, j2, screenDis, imageWidth, imageHeigt);
+						_imageWriter.writePixel(i2, j2, adaptiveSuperSampling(pij, rx, ry).getColor());
+					} else if (_superSampling) {
+						Point3D pij = camera.getPixelCenter(nX, nY, i2, j2, screenDis, imageWidth, imageHeigt);
+						_imageWriter.writePixel(i2, j2, superSampling(pij, rx, ry).getColor());
+					} else if (_focal) {
 						_imageWriter.writePixel(i2, j2, //
-								calcColorFocus(camera.getPixelCenter(nX, nY, i2, j2, screenDis, imageWidth, imageHeigt))
-										.getColor());
+								colorWithFocus(camera.constructRayThroughPixel(nX, nY, i2, j2, screenDis, imageWidth,
+										imageHeigt)).getColor());
 					} else {
 						Ray ray = camera.constructRayThroughPixel(nX, nY, i2, j2, screenDis, imageWidth, imageHeigt);
 						GeoPoint gp = findClosestIntersection(ray);
-						_imageWriter.writePixel(i2, j2, //
-								gp == null ? bg : calcColor(gp, ray).getColor());
+						_imageWriter.writePixel(i2, j2, gp == null ? bg : calcColor(gp, ray).getColor());
 					}
-//					}
 				};
 				if (_thred)
 					pool.execute(worker);
@@ -151,23 +155,6 @@ public class Render {
 				;
 		}
 	}
-
-//	/**
-//	 * calculate color with average of random rays
-//	 * 
-//	 * @param pij
-//	 * @param ry
-//	 * @param rx
-//	 * @return
-//	 */
-//	private Color calcColor(Point3D pij, double ry, double rx) {
-//		List<Point3D> pixelPoints = getRandomPoints(pij, ry, rx);
-//		addRandomPoints(pixelPoints, p0, false, ry / 2, rx / 2);
-//		Color col = Color.BLACK;
-//		for (Point3D pnt : pixelPoints)
-//			col = col.add(_scene.isFocus() ? calcColorFocus(pnt) : getColorOfPoint(new Ray(p0, pnt.subtract(p0))));
-//		return col.reduce(pixelPoints.size());
-//	}
 
 	/**
 	 * calls the calcColor function with default arguments
@@ -236,17 +223,131 @@ public class Render {
 	 * @param focusPoint
 	 * @return
 	 */
-	private Color calcColorFocus(Point3D pij) {
+	private Color colorWithFocus(Ray ray) {
 		Color col = Color.BLACK;
 		double aperture = _scene.getCamera().getApertureSize();
 		Plane focalPlane = _scene.getFocalPlane();
-		Point3D focalPoint = focalPlane.findIntersections(new Ray(p0, pij.subtract(p0))).get(0).point;
-		List<Ray> apertureRays = _scene.getCamera().getApertureRandomRays(pij, focalPoint, aperture);
-		for (Ray ray : apertureRays) {
-			GeoPoint gp = findClosestIntersection(ray);
-			col = col.add(gp == null ? _bg : calcColor(gp, ray));
+		Point3D focalPoint = focalPlane.findIntersections(ray).get(0).point;
+		Plane viewPlane = _scene.getViewPlane();
+		Point3D pCenter = viewPlane.findIntersections(ray).get(0).point;
+		List<Ray> apertureRays = _scene.getCamera().getApertureRandomRays(pCenter, focalPoint, aperture);
+		for (Ray aperRay : apertureRays) {
+			GeoPoint gp = findClosestIntersection(aperRay);
+			col = col.add(gp == null ? _bg : calcColor(gp, aperRay));
 		}
 		return col.reduce(apertureRays.size());
+	}
+
+	/**
+	 * color points with super sampling
+	 * 
+	 * @param pij
+	 * @param rx
+	 * @param ry
+	 * @return
+	 */
+	private Color superSampling(Point3D pij, double rx, double ry) {
+		Color col = Color.BLACK;
+		List<Ray> pixelRays = _scene.getCamera().getPixelRays(pij, MATRIX_SIZE, rx, ry);
+		for (Ray ray : pixelRays) {
+			GeoPoint gp = findClosestIntersection(ray);
+			col = col.add(_focal ? colorWithFocus(ray) : gp == null ? _bg : calcColor(gp, ray));
+		}
+		return col.reduce(pixelRays.size());
+	}
+
+	private Color adaptiveSuperSampling(Point3D pij, double rx, double ry) {
+		List<Ray> pixelRays = _scene.getCamera().getPixelRays(pij, MATRIX_SIZE, rx, ry);
+		Color[] colors = new Color[MATRIX_SIZE * MATRIX_SIZE];
+		setColorsArray(pixelRays, colors, 0, MATRIX_SIZE - 1, MATRIX_SIZE * (MATRIX_SIZE - 1),
+				MATRIX_SIZE * MATRIX_SIZE - 1);
+		Color col = Color.BLACK;
+		for (int i = 0; i < MATRIX_SIZE * MATRIX_SIZE; ++i) {
+			col = col.add(colors[i]);
+		}
+		return col.reduce(MATRIX_SIZE * MATRIX_SIZE);
+	}
+
+	/**
+	 * recursive function to set colors of array with adaptive super sampling
+	 * 
+	 * @param pixelRays
+	 * @param colors
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @param w
+	 */
+	public void setColorsArray(List<Ray> pixelRays, Color[] colors, int x, int y, int z, int w) {
+		Ray ray;
+		GeoPoint gp;
+		if (colors[x] == null) {
+			ray = pixelRays.get(x);
+			gp = findClosestIntersection(pixelRays.get(x));
+			colors[x] = _focal ? colorWithFocus(ray) : gp == null ? _bg : calcColor(gp, ray);
+		}
+		if (colors[y] == null) {
+			ray = pixelRays.get(y);
+			gp = findClosestIntersection(pixelRays.get(y));
+			colors[y] = _focal ? colorWithFocus(ray) : gp == null ? _bg : calcColor(gp, ray);
+		}
+		if (colors[z] == null) {
+			ray = pixelRays.get(z);
+			gp = findClosestIntersection(pixelRays.get(z));
+			colors[z] = _focal ? colorWithFocus(ray) : gp == null ? _bg : calcColor(gp, ray);
+		}
+		if (colors[w] == null) {
+			ray = pixelRays.get(w);
+			gp = findClosestIntersection(pixelRays.get(w));
+			colors[w] = _focal ? colorWithFocus(ray) : gp == null ? _bg : calcColor(gp, ray);
+		}
+		if (y - x == 1)
+			return;
+		if (Color.colorsEqual(colors[x], colors[y], colors[z], colors[w])) {
+			colorSquer(colors, x, y);
+			return;
+		}
+		int newPoints[] = split(x, y, z, w);
+		setColorsArray(pixelRays, colors, newPoints[0], newPoints[1], newPoints[3], newPoints[4]);
+		setColorsArray(pixelRays, colors, newPoints[1], newPoints[2], newPoints[4], newPoints[5]);
+		setColorsArray(pixelRays, colors, newPoints[3], newPoints[4], newPoints[6], newPoints[7]);
+		setColorsArray(pixelRays, colors, newPoints[4], newPoints[5], newPoints[7], newPoints[8]);
+	}
+
+	/**
+	 * colors all points in part of matrix if corners have the same color
+	 * 
+	 * @param colors
+	 * @param startP
+	 * @param endP
+	 */
+	private void colorSquer(Color[] colors, int startP, int endP) {
+		for (int j = startP; j <= startP + (endP - startP) * MATRIX_SIZE; j += MATRIX_SIZE)
+			for (int i = 0; i <= endP - startP; ++i)
+				colors[j + i] = colors[startP];
+	}
+
+	/**
+	 * gets index of square corners and splits it into 4 smaller squares
+	 * 
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @param w
+	 * @return
+	 */
+	private int[] split(int x, int y, int z, int w) {
+		int index[] = new int[9];
+		index[0] = x;
+		index[1] = (x + y) / 2;
+		index[2] = y;
+		index[3] = (x + z) / 2;
+		index[4] = (x + w) / 2;
+		index[5] = (y + w) / 2;
+		index[6] = z;
+		index[7] = (z + w) / 2;
+		index[8] = w;
+		return index;
 	}
 
 	/**
@@ -353,54 +454,6 @@ public class Render {
 		return lightIntensity.scale(ks * Math.pow(Math.max(0, -1 * v.vectorsDotProduct(r)), nShininess));
 	}
 
-//	/**
-//	 * gets a center and adds random points if needed
-//	 * 
-//	 * @param points
-//	 * @param pnt
-//	 * @param focal
-//	 * @param yRad
-//	 * @param xRad
-//	 */
-//	private void addRandomPoints(List<Point3D> points, Point3D pnt, boolean focal, double yRad, double xRad) {
-//		int len = points.size() / 5;
-//		boolean equal;
-//		for (int t = 0; t < len; ++t) {
-//			equal = focal
-//					? colorEquale(getColorOfPoint(new Ray(points.get(1 + 5 * t), pnt.subtract(points.get(1 + 5 * t)))),
-//							getColorOfPoint(new Ray(points.get(2 + 5 * t), pnt.subtract(points.get(2 + 5 * t)))),
-//							getColorOfPoint(new Ray(points.get(3 + 5 * t), pnt.subtract(points.get(3 + 5 * t)))),
-//							getColorOfPoint((new Ray(points.get(4 + 5 * t), pnt.subtract(points.get(4 + 5 * t))))))
-//					: colorEquale(getColorOfPoint(new Ray(pnt, points.get(1 + 5 * t).subtract(pnt))),
-//							getColorOfPoint(new Ray(pnt, points.get(2 + 5 * t).subtract(pnt))),
-//							getColorOfPoint(new Ray(pnt, points.get(3 + 5 * t).subtract(pnt))),
-//							getColorOfPoint(new Ray(pnt, points.get(4 + 5 * t).subtract(pnt))));
-//			if (!equal) {
-//				points.addAll(getRandomPoints(points.get(0 + 5 * t).addVec(vUp.scale(yRad)).addVec(vRight.scale(xRad)),
-//						yRad, xRad));
-//				points.addAll(getRandomPoints(points.get(0 + 5 * t).addVec(vUp.scale(yRad)).addVec(vRight.scale(-xRad)),
-//						yRad, xRad));
-//				points.addAll(getRandomPoints(points.get(0 + 5 * t).addVec(vUp.scale(-yRad)).addVec(vRight.scale(xRad)),
-//						yRad, xRad));
-//				points.addAll(getRandomPoints(
-//						points.get(0 + 5 * t).addVec(vUp.scale(-yRad)).addVec(vRight.scale(-xRad)), yRad, xRad));
-//			}
-//		}
-//	}
-
-//	/**
-//	 * check if different between two colors is small
-//	 * 
-//	 * @param col1
-//	 * @param col2
-//	 * @return
-//	 */
-//	private boolean colorEquale(Color col1, Color col2, Color col3, Color col4) {
-//		return Math.abs(col1.getColor().getRed() - col2.getColor().getRed()) <= 10
-//				&& Math.abs(col2.getColor().getGreen() - col3.getColor().getGreen()) <= 10
-//				&& Math.abs(col3.getColor().getBlue() - col4.getColor().getBlue()) <= 10;
-//	}
-
 	/**
 	 * prints a grid in image
 	 * 
@@ -424,22 +477,4 @@ public class Render {
 			}
 		}
 	}
-
-//	/**
-//	 * calculates color of point and adds color to map
-//	 * 
-//	 * @param rayPnt
-//	 * @param focalPoint
-//	 * @return
-//	 */
-//	private Color getColorOfPoint(Ray ray) {
-//		GeoPoint closestPoint = findClosestIntersection(ray);
-//		if (closestPoint == null) {
-//			return _scene.getBackground();
-//		}
-//		if (!_pointsColors.containsKey(closestPoint.point)) {
-//			_pointsColors.put(closestPoint.point, calcColor(closestPoint, ray));
-//		}
-//		return _pointsColors.get(closestPoint.point);
-//	}
 }

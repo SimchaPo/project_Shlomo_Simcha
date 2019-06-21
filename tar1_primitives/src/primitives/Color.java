@@ -17,6 +17,8 @@ public class Color {
 
 	public final static Color BLACK = new Color();
 
+	private static final double DIFFERENCE_BETWEEN_TWO_COLORS = 10;
+
 	/**
 	 * Default constructor - to generate Black Color
 	 */
@@ -173,6 +175,22 @@ public class Color {
 		double g = _g / k;
 		double b = _b / k;
 		return new Color(r, g, b);
+	}
+
+	/**
+	 * static function gets colors and check if equals
+	 * 
+	 * @param colors
+	 * @return
+	 */
+	public static boolean colorsEqual(Color... colors) {
+		Color col = colors[0];
+		for (Color color : colors)
+			if (Math.abs(col._r - color._r) > DIFFERENCE_BETWEEN_TWO_COLORS
+					|| Math.abs(col._g - color._g) > DIFFERENCE_BETWEEN_TWO_COLORS
+					|| Math.abs(col._b - color._b) > DIFFERENCE_BETWEEN_TWO_COLORS)
+				return false;
+		return true;
 	}
 
 	@Override

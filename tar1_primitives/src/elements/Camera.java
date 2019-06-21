@@ -105,9 +105,8 @@ public class Camera {
 	 */
 	public Ray constructRayThroughPixel(int Nx, int Ny, int i, int j, double screenDistance, double screenWidth,
 			double screenHeight) {
-		Point3D pij = getPixelCenter(Nx, Ny, i, j, screenDistance, screenWidth, screenHeight);
-		Vector _Vij = pij.subtract(this._p0);// _Vij vector from camera to pixel on the screen
-		return new Ray(this._p0, _Vij);
+		return new Ray(_p0,
+				getPixelCenter(Nx, Ny, i, j, screenDistance, screenWidth, screenHeight).subtract(_p0));
 	}
 
 	/**
@@ -163,6 +162,33 @@ public class Camera {
 			if (!isZero(rand))
 				pntToAdd = pntToAdd.addVec(_vRight.scale(rand));
 			rays.add(new Ray(pntToAdd, focalPoint.subtract(pntToAdd)));
+		}
+		return rays;
+	}
+
+	/**
+	 * get list of randomize rays around pixel center
+	 * 
+	 * @param i
+	 * @param j
+	 * @return
+	 */
+	public List<Ray> getPixelRays(Point3D pij, int matrixSize, double rx, double ry) {
+		double x = rx / matrixSize, y = -ry / matrixSize;
+		List<Ray> rays = new ArrayList<Ray>();
+		Point3D pntToAdd = pij.addVec(_vRight.scale(rx)).addVec(_vTo.scale(ry));
+		for (int i = 0; i < matrixSize; ++i) {
+			if (i == 0)
+				rays.add(new Ray(_p0, pntToAdd.subtract(_p0)));
+			else
+				rays.add(new Ray(_p0, pntToAdd.addVec(_vRight).addVec(_vUp.scale(i * y)).subtract(_p0)));
+			for (int j = 1; j < matrixSize; ++j) {
+				if (i == 0)
+					rays.add(new Ray(_p0, pntToAdd.addVec(_vRight.scale(j * x)).subtract(_p0)));
+				else
+					rays.add(new Ray(_p0,
+							pntToAdd.addVec(_vRight.scale(j * x)).addVec(_vUp.scale(i * y)).subtract(_p0)));
+			}
 		}
 		return rays;
 	}
