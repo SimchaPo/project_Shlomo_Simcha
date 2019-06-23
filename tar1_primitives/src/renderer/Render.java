@@ -46,7 +46,7 @@ public class Render {
 		_bg = new Color(_scene.getBackground());
 		_cores = Runtime.getRuntime().availableProcessors();
 		setFocal(true);
-		if(_focal)
+		if (_focal)
 			_adaptiveSuperSampling = false;
 	}
 
@@ -128,20 +128,18 @@ public class Render {
 			for (int j = 0; j < nY; ++j) {
 				final int i2 = i, j2 = j;
 				Runnable worker = () -> {
-					if (_adaptiveSuperSampling) {
+					if (_adaptiveSuperSampling || _superSampling) {
 						Point3D pij = camera.getPixelCenter(nX, nY, i2, j2, screenDis, imageWidth, imageHeigt);
-						_imageWriter.writePixel(i2, j2, adaptiveSuperSampling(pij, rx, ry).getColor());
-					} else if (_superSampling) {
-						Point3D pij = camera.getPixelCenter(nX, nY, i2, j2, screenDis, imageWidth, imageHeigt);
-						_imageWriter.writePixel(i2, j2, superSampling(pij, rx, ry).getColor());
-					} else if (_focal) {
-						_imageWriter.writePixel(i2, j2, //
-								colorWithFocus(camera.constructRayThroughPixel(nX, nY, i2, j2, screenDis, imageWidth,
-										imageHeigt)).getColor());
+						_imageWriter.writePixel(i2, j2, (_adaptiveSuperSampling ? adaptiveSuperSampling(pij, rx, ry)
+								: superSampling(pij, rx, ry)).getColor());
 					} else {
 						Ray ray = camera.constructRayThroughPixel(nX, nY, i2, j2, screenDis, imageWidth, imageHeigt);
-						GeoPoint gp = findClosestIntersection(ray);
-						_imageWriter.writePixel(i2, j2, gp == null ? bg : calcColor(gp, ray).getColor());
+						if (_focal)
+							_imageWriter.writePixel(i2, j2, depthOfField(ray).getColor());
+						else {
+							GeoPoint gp = findClosestIntersection(ray);
+							_imageWriter.writePixel(i2, j2, gp == null ? bg : calcColor(gp, ray).getColor());
+						}
 					}
 				};
 				if (_thred)
@@ -223,7 +221,7 @@ public class Render {
 	 * @param focusPoint
 	 * @return
 	 */
-	private Color colorWithFocus(Ray ray) {
+	private Color depthOfField(Ray ray) {
 		Color col = Color.BLACK;
 		double aperture = _scene.getCamera().getApertureSize();
 		Plane focalPlane = _scene.getFocalPlane();
@@ -251,7 +249,7 @@ public class Render {
 		List<Ray> pixelRays = _scene.getCamera().getPixelRays(pij, MATRIX_SIZE, rx, ry);
 		for (Ray ray : pixelRays) {
 			GeoPoint gp = findClosestIntersection(ray);
-			col = col.add(_focal ? colorWithFocus(ray) : gp == null ? _bg : calcColor(gp, ray));
+			col = col.add(_focal ? depthOfField(ray) : gp == null ? _bg : calcColor(gp, ray));
 		}
 		return col.reduce(pixelRays.size());
 	}
@@ -283,23 +281,23 @@ public class Render {
 		GeoPoint gp;
 		if (colors[x] == null) {
 			ray = pixelRays.get(x);
-			gp = findClosestIntersection(pixelRays.get(x));
-			colors[x] = _focal ? colorWithFocus(ray) : gp == null ? _bg : calcColor(gp, ray);
+			gp = findClosestIntersection(ray);
+			colors[x] = _focal ? depthOfField(ray) : gp == null ? _bg : calcColor(gp, ray);
 		}
 		if (colors[y] == null) {
 			ray = pixelRays.get(y);
-			gp = findClosestIntersection(pixelRays.get(y));
-			colors[y] = _focal ? colorWithFocus(ray) : gp == null ? _bg : calcColor(gp, ray);
+			gp = findClosestIntersection(ray);
+			colors[y] = _focal ? depthOfField(ray) : gp == null ? _bg : calcColor(gp, ray);
 		}
 		if (colors[z] == null) {
 			ray = pixelRays.get(z);
-			gp = findClosestIntersection(pixelRays.get(z));
-			colors[z] = _focal ? colorWithFocus(ray) : gp == null ? _bg : calcColor(gp, ray);
+			gp = findClosestIntersection(ray);
+			colors[z] = _focal ? depthOfField(ray) : gp == null ? _bg : calcColor(gp, ray);
 		}
 		if (colors[w] == null) {
 			ray = pixelRays.get(w);
-			gp = findClosestIntersection(pixelRays.get(w));
-			colors[w] = _focal ? colorWithFocus(ray) : gp == null ? _bg : calcColor(gp, ray);
+			gp = findClosestIntersection(ray);
+			colors[w] = _focal ? depthOfField(ray) : gp == null ? _bg : calcColor(gp, ray);
 		}
 		if (y - x == 1)
 			return;
