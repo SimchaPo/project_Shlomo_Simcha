@@ -51,65 +51,6 @@ public class Render {
 	}
 
 	/**
-	 * get scene
-	 * 
-	 * @return
-	 */
-	public Scene getScene() {
-		return _scene;
-	}
-
-	/**
-	 * get Image writer
-	 * 
-	 * @return
-	 */
-	public ImageWriter getImageWriter() {
-		return _imageWriter;
-	}
-
-	/**
-	 * get number of cores
-	 * 
-	 * @return
-	 */
-	public int getCores() {
-		return _cores;
-	}
-
-	/**
-	 * setter for running with multy thred
-	 * 
-	 * @param _thred
-	 */
-	public void setThred(boolean thred) {
-		_thred = thred;
-	}
-
-	/**
-	 * 
-	 * @param _adaptiveSuperSampling
-	 */
-	public void setAdaptiveSuperSampling(boolean adaptiveSuperSampling) {
-		_adaptiveSuperSampling = adaptiveSuperSampling;
-	}
-
-	/**
-	 * 
-	 * @param superSampling
-	 */
-	public void setSuperSampling(boolean superSampling) {
-		_superSampling = superSampling;
-	}
-
-	public void setFocal(boolean focal) {
-		if (focal)
-			_focal = _scene.getCamera().isFocus();
-		else
-			_focal = false;
-	}
-
-	/**
 	 * function colors each point in the image according to the intersections
 	 * 
 	 * @throws InterruptedException
@@ -118,6 +59,7 @@ public class Render {
 		int nX = _imageWriter.getNx(), nY = _imageWriter.getNy();
 		double screenDis = _scene.getScreenDistance(), imageWidth = _imageWriter.getWidth(),
 				imageHeigt = _imageWriter.getHeight(), rx = imageWidth / nX, ry = imageHeigt / nY;
+		double x = rx / (MATRIX_SIZE - 1), y = -ry / (MATRIX_SIZE - 1);
 		Camera camera = _scene.getCamera();
 		_bg = _scene.getBackground();
 		java.awt.Color bg = _bg.getColor();
@@ -129,9 +71,9 @@ public class Render {
 				final int i2 = i, j2 = j;
 				Runnable worker = () -> {
 					if (_adaptiveSuperSampling || _superSampling) {
-						Point3D pij = camera.getPixelCenter(nX, nY, i2, j2, screenDis, imageWidth, imageHeigt);
-						_imageWriter.writePixel(i2, j2, (_adaptiveSuperSampling ? adaptiveSuperSampling(pij, rx, ry)
-								: superSampling(pij, rx, ry)).getColor());
+						Point3D pijCorner = camera.getPixelCorner(nX, nY, i2, j2, screenDis, imageWidth, imageHeigt);
+						_imageWriter.writePixel(i2, j2, (_adaptiveSuperSampling ? adaptiveSuperSampling(pijCorner, x, y)
+								: superSampling(pijCorner, x, y)).getColor());
 					} else {
 						Ray ray = camera.constructRayThroughPixel(nX, nY, i2, j2, screenDis, imageWidth, imageHeigt);
 						if (_focal)
@@ -239,14 +181,14 @@ public class Render {
 	/**
 	 * color points with super sampling
 	 * 
-	 * @param pij
+	 * @param pijCorner
 	 * @param rx
 	 * @param ry
 	 * @return
 	 */
-	private Color superSampling(Point3D pij, double rx, double ry) {
+	private Color superSampling(Point3D pijCorner, double rx, double ry) {
 		Color col = Color.BLACK;
-		List<Ray> pixelRays = _scene.getCamera().getPixelRays(pij, MATRIX_SIZE, rx, ry);
+		List<Ray> pixelRays = _scene.getCamera().getAllPixelRays(pijCorner, MATRIX_SIZE, rx, ry);
 		for (Ray ray : pixelRays) {
 			GeoPoint gp = findClosestIntersection(ray);
 			col = col.add(_focal ? depthOfField(ray) : gp == null ? _bg : calcColor(gp, ray));
@@ -254,16 +196,37 @@ public class Render {
 		return col.reduce(pixelRays.size());
 	}
 
-	private Color adaptiveSuperSampling(Point3D pij, double rx, double ry) {
-		List<Ray> pixelRays = _scene.getCamera().getPixelRays(pij, MATRIX_SIZE, rx, ry);
-		Color[] colors = new Color[MATRIX_SIZE * MATRIX_SIZE];
-		setColorsArray(pixelRays, colors, 0, MATRIX_SIZE - 1, MATRIX_SIZE * (MATRIX_SIZE - 1),
-				MATRIX_SIZE * MATRIX_SIZE - 1);
+	/**
+	 * color with adaptive super sampling
+	 * 
+	 * @param pijCorner
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	private Color adaptiveSuperSampling(Point3D pijCorner, double x, double y) {
+		int matrixSquare = MATRIX_SIZE * MATRIX_SIZE;
+		Color[] colors = new Color[matrixSquare];
+		int[] corners = new int[4];
+		corners[0] = 0;
+		corners[1] = MATRIX_SIZE - 1;
+		corners[2] = MATRIX_SIZE * (MATRIX_SIZE - 1);
+		corners[3] = matrixSquare - 1;
+		List<Ray> pixelCornersRays = _scene.getCamera().getPointsPixelRays(pijCorner, MATRIX_SIZE, x, y, corners[0],
+				corners[1], corners[2], corners[3]);
+		Ray ray;
+		GeoPoint gp;
+		for (int i = 0; i < 4; ++i) {
+			ray = pixelCornersRays.get(i);
+			gp = findClosestIntersection(ray);
+			colors[corners[i]] = _focal ? depthOfField(ray) : gp == null ? _bg : calcColor(gp, ray);
+		}
+		setColorsArray(colors, corners[0], corners[1], corners[2], corners[3], pijCorner, x, y);
 		Color col = Color.BLACK;
-		for (int i = 0; i < MATRIX_SIZE * MATRIX_SIZE; ++i) {
+		for (int i = 0; i < matrixSquare; ++i) {
 			col = col.add(colors[i]);
 		}
-		return col.reduce(MATRIX_SIZE * MATRIX_SIZE);
+		return col.reduce(matrixSquare);
 	}
 
 	/**
@@ -275,41 +238,31 @@ public class Render {
 	 * @param y
 	 * @param z
 	 * @param w
+	 * @param pijCorner
+	 * @param rx
+	 * @param ry
 	 */
-	public void setColorsArray(List<Ray> pixelRays, Color[] colors, int x, int y, int z, int w) {
-		Ray ray;
-		GeoPoint gp;
-		if (colors[x] == null) {
-			ray = pixelRays.get(x);
-			gp = findClosestIntersection(ray);
-			colors[x] = _focal ? depthOfField(ray) : gp == null ? _bg : calcColor(gp, ray);
-		}
-		if (colors[y] == null) {
-			ray = pixelRays.get(y);
-			gp = findClosestIntersection(ray);
-			colors[y] = _focal ? depthOfField(ray) : gp == null ? _bg : calcColor(gp, ray);
-		}
-		if (colors[z] == null) {
-			ray = pixelRays.get(z);
-			gp = findClosestIntersection(ray);
-			colors[z] = _focal ? depthOfField(ray) : gp == null ? _bg : calcColor(gp, ray);
-		}
-		if (colors[w] == null) {
-			ray = pixelRays.get(w);
-			gp = findClosestIntersection(ray);
-			colors[w] = _focal ? depthOfField(ray) : gp == null ? _bg : calcColor(gp, ray);
-		}
+	public void setColorsArray(Color[] colors, int x, int y, int z, int w, Point3D pijCorner, double rx, double ry) {
 		if (y - x == 1)
 			return;
 		if (Color.colorsEqual(colors[x], colors[y], colors[z], colors[w])) {
 			colorSquer(colors, x, y);
 			return;
 		}
-		int newPoints[] = split(x, y, z, w);
-		setColorsArray(pixelRays, colors, newPoints[0], newPoints[1], newPoints[3], newPoints[4]);
-		setColorsArray(pixelRays, colors, newPoints[1], newPoints[2], newPoints[4], newPoints[5]);
-		setColorsArray(pixelRays, colors, newPoints[3], newPoints[4], newPoints[6], newPoints[7]);
-		setColorsArray(pixelRays, colors, newPoints[4], newPoints[5], newPoints[7], newPoints[8]);
+		int splitedPoints[] = split(x, y, z, w);
+		List<Ray> splitedPixelRays = _scene.getCamera().getPointsPixelRays(pijCorner, MATRIX_SIZE, rx, ry,
+				splitedPoints);
+		Ray ray;
+		GeoPoint gp;
+		for (int i = 0; i < 5; ++i) {
+			ray = splitedPixelRays.get(i);
+			gp = findClosestIntersection(ray);
+			colors[splitedPoints[i]] = _focal ? depthOfField(ray) : gp == null ? _bg : calcColor(gp, ray);
+		}
+		setColorsArray(colors, x, splitedPoints[0], splitedPoints[1], splitedPoints[2], pijCorner, rx, ry);
+		setColorsArray(colors, splitedPoints[0], y, splitedPoints[2], splitedPoints[3], pijCorner, rx, ry);
+		setColorsArray(colors, splitedPoints[1], splitedPoints[2], z, splitedPoints[4], pijCorner, rx, ry);
+		setColorsArray(colors, splitedPoints[2], splitedPoints[3], splitedPoints[4], w, pijCorner, rx, ry);
 	}
 
 	/**
@@ -335,16 +288,12 @@ public class Render {
 	 * @return
 	 */
 	private int[] split(int x, int y, int z, int w) {
-		int index[] = new int[9];
-		index[0] = x;
-		index[1] = (x + y) / 2;
-		index[2] = y;
-		index[3] = (x + z) / 2;
-		index[4] = (x + w) / 2;
-		index[5] = (y + w) / 2;
-		index[6] = z;
-		index[7] = (z + w) / 2;
-		index[8] = w;
+		int index[] = new int[5];
+		index[0] = (x + y) / 2;
+		index[1] = (x + z) / 2;
+		index[2] = (x + w) / 2;
+		index[3] = (y + w) / 2;
+		index[4] = (z + w) / 2;
 		return index;
 	}
 
@@ -474,5 +423,71 @@ public class Render {
 				_imageWriter.writePixel(i, nY - 1, _color.getColor());
 			}
 		}
+	}
+
+	/**
+	 * get scene
+	 * 
+	 * @return
+	 */
+	public Scene getScene() {
+		return _scene;
+	}
+
+	/**
+	 * get Image writer
+	 * 
+	 * @return
+	 */
+	public ImageWriter getImageWriter() {
+		return _imageWriter;
+	}
+
+	/**
+	 * get number of cores
+	 * 
+	 * @return
+	 */
+	public int getCores() {
+		return _cores;
+	}
+
+	/**
+	 * setter for running with multithread
+	 * 
+	 * @param _thred
+	 */
+	public void setThred(boolean thred) {
+		_thred = thred;
+	}
+
+	/**
+	 * setter for adaptive super sampling
+	 * 
+	 * @param _adaptiveSuperSampling
+	 */
+	public void setAdaptiveSuperSampling(boolean adaptiveSuperSampling) {
+		_adaptiveSuperSampling = adaptiveSuperSampling;
+	}
+
+	/**
+	 * setter for super sampling
+	 * 
+	 * @param superSampling
+	 */
+	public void setSuperSampling(boolean superSampling) {
+		_superSampling = superSampling;
+	}
+
+	/**
+	 * setter for focal (if camera has focal)
+	 * 
+	 * @param focal
+	 */
+	public void setFocal(boolean focal) {
+		if (focal)
+			_focal = _scene.getCamera().isFocus();
+		else
+			_focal = false;
 	}
 }
