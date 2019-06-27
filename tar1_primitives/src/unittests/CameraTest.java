@@ -13,24 +13,6 @@ import primitives.Point3D;
 import primitives.Vector;
 
 public class CameraTest extends TestCase {
-	/**
-	 * test for case they are 2 intersections with sphere after view
-	 */
-	public void testConstructRayThroughPixel() {
-		Point3D pnt = new Point3D(0, 0, 0);
-		Vector vecTo = new Vector(0, 0, -1);
-		Vector vecUp = new Vector(0, 1, 0);
-		Camera cam = new Camera(pnt, vecUp, vecTo);
-		int Nx = 3, Ny = 3;
-		double sd = 1, sw = 9, sh = 9;
-		for (int i = 0; i < 3; ++i) {
-			for (int j = 0; j < 3; ++j) {
-				// result.addAll(sp.findIntersections(cam.constructRayThroughPixel(Nx, Ny, i, j,
-				// sd, sw, sh)));
-			}
-		}
-		// assertEquals("problem with camera", exp, result.size());
-	}
 
 	/**
 	 * test for case they are 2 intersections with sphere after view

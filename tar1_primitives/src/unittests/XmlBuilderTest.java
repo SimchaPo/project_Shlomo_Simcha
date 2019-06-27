@@ -26,8 +26,5 @@ public class XmlBuilderTest extends TestCase {
 		File tXMLFile = new File(testXml.getFileName());
 		exp.InitializeFromXMLstring(expFile);
 		res.InitializeFromXMLstring(tXMLFile);
-		String expstr = exp.getSceneAttributes().toString();
-		String resstr = res.getSceneAttributes().toString();
 	}
-
 }
