@@ -720,4 +720,30 @@ public class RenderTest extends TestCase {
 		render.renderImage();
 		render.getImageWriter().writeToImage();
 	}
+	
+	/**
+	 * test for depth of field 243
+	 * @throws InterruptedException 
+	 */
+	public void testRenderImage25() throws InterruptedException {
+		Scene scene = new Scene("abc");
+		scene.setBackground(new Color());
+		scene.setAmbientLight(new AmbientLight(Color.BLACK, 1.0));
+		scene.setCamera(new Camera(new Point3D(0, 0, 1000), new Vector(0, 1, 0), new Vector(0, 0, -1), 1400, 100), 600);
+		Geometries geometries = new Geometries();
+		scene.addGeometries(geometries);
+		Sphere sphere1;
+		for (int c = -700, j = 255; c <= 700; c += 200, j -= 15) {
+			for (int a = -600, b = -1000, i = j - 100; b >= -2000; a += 100, b -= 200, i += 10) {
+				sphere1 = new Sphere(new Point3D(c, a, b), 100, new Color(j, i,i + 15),
+						new Material(1, 0.5, 40, 0.5, 0));
+				geometries.add(sphere1);
+			}
+		}
+		scene.setLights(new DirectionalLight(new Color(255, 100, 100), new Vector(0, 0, -1)));
+		ImageWriter imageWriter = new ImageWriter("depth of field 243", 500, 500, 500, 500);
+		Render render = new Render(scene, imageWriter);
+		render.renderImage();
+		render.getImageWriter().writeToImage();
+	}
 }
