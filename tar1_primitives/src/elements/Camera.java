@@ -192,12 +192,12 @@ public class Camera {
 	 * @param pijCorner
 	 * @param matrixSize
 	 * @param p1
-	 * @param rx
-	 * @param ry
+	 * @param x
+	 * @param y
 	 * @param indexes
 	 * @return
 	 */
-	public List<Ray> getPointsPixelRays(Point3D pijCorner, int matrixSize, double rx, double ry, int... indexes) {
+	public List<Ray> getPointsPixelRays(Point3D pijCorner, int matrixSize, double x, double y, int... indexes) {
 		List<Ray> rays = new ArrayList<Ray>();
 		int i, j;
 		for (int index : indexes) {
@@ -206,12 +206,12 @@ public class Camera {
 			if (i == 0 && j == 0)
 				rays.add(new Ray(_p0, pijCorner.subtract(_p0)));
 			else if (i == 0)
-				rays.add(new Ray(_p0, pijCorner.addVec(_vRight.scale(j * rx)).subtract(_p0)));
+				rays.add(new Ray(_p0, pijCorner.addVec(_vRight.scale(j * x)).subtract(_p0)));
 			else if (j == 0)
-				rays.add(new Ray(_p0, pijCorner.addVec(_vUp.scale(i * ry)).subtract(_p0)));
+				rays.add(new Ray(_p0, pijCorner.addVec(_vUp.scale(i * y)).subtract(_p0)));
 			else
 				rays.add(
-						new Ray(_p0, pijCorner.addVec(_vRight.scale(j * rx)).addVec(_vUp.scale(i * ry)).subtract(_p0)));
+						new Ray(_p0, pijCorner.addVec(_vRight.scale(j * x)).addVec(_vUp.scale(i * y)).subtract(_p0)));
 		}
 		return rays;
 	}

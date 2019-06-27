@@ -31,10 +31,10 @@ public class Render {
 	private Scene _scene;
 	private ImageWriter _imageWriter;
 	private int _cores;
+	private Color _bg;
 	private boolean _thred = true;
 	private boolean _adaptiveSuperSampling = true;
 	private boolean _superSampling = false;
-	private Color _bg;
 	private boolean _focal;
 
 	/**
@@ -89,6 +89,7 @@ public class Render {
 				else
 					worker.run();
 			}
+
 		if (_thred) {
 			pool.shutdown();
 			while (!pool.awaitTermination(1, TimeUnit.MINUTES))
@@ -182,13 +183,13 @@ public class Render {
 	 * color points with super sampling
 	 * 
 	 * @param pijCorner
-	 * @param rx
-	 * @param ry
+	 * @param x
+	 * @param y
 	 * @return
 	 */
-	private Color superSampling(Point3D pijCorner, double rx, double ry) {
+	private Color superSampling(Point3D pijCorner, double x, double y) {
 		Color col = Color.BLACK;
-		List<Ray> pixelRays = _scene.getCamera().getAllPixelRays(pijCorner, MATRIX_SIZE, rx, ry);
+		List<Ray> pixelRays = _scene.getCamera().getAllPixelRays(pijCorner, MATRIX_SIZE, x, y);
 		for (Ray ray : pixelRays) {
 			GeoPoint gp = findClosestIntersection(ray);
 			col = col.add(_focal ? depthOfField(ray) : gp == null ? _bg : calcColor(gp, ray));
