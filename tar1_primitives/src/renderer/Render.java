@@ -1,3 +1,6 @@
+//Simcha Podolsky 311215149
+//Shlomo Meirzon
+
 package renderer;
 
 import java.util.List;
@@ -166,12 +169,11 @@ public class Render {
 	 */
 	private Color depthOfField(Ray ray) {
 		Color col = Color.BLACK;
-		double aperture = _scene.getCamera().getApertureSize();
 		Plane focalPlane = _scene.getFocalPlane();
 		Point3D focalPoint = focalPlane.findIntersections(ray).get(0).point;
 		Plane viewPlane = _scene.getViewPlane();
 		Point3D pCenter = viewPlane.findIntersections(ray).get(0).point;
-		List<Ray> apertureRays = _scene.getCamera().getApertureRandomRays(pCenter, focalPoint, aperture);
+		List<Ray> apertureRays = _scene.getCamera().getApertureRandomRays(pCenter, focalPoint);
 		for (Ray aperRay : apertureRays) {
 			GeoPoint gp = findClosestIntersection(aperRay);
 			col = col.add(gp == null ? _bg : calcColor(gp, aperRay));

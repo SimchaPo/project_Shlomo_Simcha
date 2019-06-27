@@ -1,3 +1,6 @@
+//Simcha Podolsky 311215149
+//Shlomo Meirzon
+
 package renderer;
 
 import java.awt.Color;

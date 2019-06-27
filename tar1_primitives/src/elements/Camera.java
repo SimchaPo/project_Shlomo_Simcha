@@ -1,3 +1,6 @@
+//Simcha Podolsky 311215149
+//Shlomo Meirzon
+
 package elements;
 
 import static primitives.Util.alignZero;
@@ -56,10 +59,6 @@ public class Camera {
 		}
 		_focusDistance = focalDistance;
 		_apertureSize = apertureSize;
-	}
-
-	public Camera() {
-		this(new Point3D(0, 0, 0), new Vector(0, 1, 0), new Vector(0, 0, -1));
 	}
 
 	/**
@@ -141,18 +140,18 @@ public class Camera {
 	 * @param j
 	 * @return
 	 */
-	public List<Ray> getApertureRandomRays(Point3D pij, Point3D focalPoint, double aperture) {
+	public List<Ray> getApertureRandomRays(Point3D pij, Point3D focalPoint) {
 		List<Ray> rays = new ArrayList<Ray>();
 		rays.add(new Ray(pij, focalPoint.subtract(pij)));
 		double rand;
 		Point3D pntToAdd;
 		for (int i = 0; i < MAX_SUM_OF_RANDOM_POINTS; ++i) {
-			rand = Math.random() * aperture - aperture / 2;
+			rand = (Math.random() - 0.5) * _apertureSize;
 			if (!isZero(rand))
 				pntToAdd = pij.addVec(_vUp.scale(rand));
 			else
 				pntToAdd = pij;
-			rand = Math.random() * aperture - aperture / 2;
+			rand = (Math.random() - 0.5) * _apertureSize;
 			if (!isZero(rand))
 				pntToAdd = pntToAdd.addVec(_vRight.scale(rand));
 			rays.add(new Ray(pntToAdd, focalPoint.subtract(pntToAdd)));
